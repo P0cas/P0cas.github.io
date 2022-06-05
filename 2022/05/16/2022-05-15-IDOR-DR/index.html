@@ -8,14 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="DescriptionThe dreamhack.io is a security education program managed by Theori. In dreamhack, Users can solve wargame challenges and write solutions. At this time, the user can write the solution for a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IDOR in dreamhack.io">
+<meta property="og:title" content="Leak all write ups via IDOR in dreamhack.io">
 <meta property="og:url" content="https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/index.html">
 <meta property="og:site_name" content="POCAS">
 <meta property="og:description" content="DescriptionThe dreamhack.io is a security education program managed by Theori. In dreamhack, Users can solve wargame challenges and write solutions. At this time, the user can write the solution for a">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-05-16T12:34:45.000Z">
-<meta property="article:modified_time" content="2022-05-27T10:19:38.831Z">
+<meta property="article:modified_time" content="2022-06-05T16:49:23.419Z">
 <meta property="article:author" content="POCAS">
+<meta property="article:tag" content="Dreamhack">
 <meta name="twitter:card" content="summary">
     
     
@@ -36,7 +37,7 @@
       
     
     <!-- title -->
-    <title>IDOR in dreamhack.io</title>
+    <title>Leak all write ups via IDOR in dreamhack.io</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -83,16 +84,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&text=IDOR in dreamhack.io"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&is_video=false&description=IDOR in dreamhack.io"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=IDOR in dreamhack.io&body=Check out this article: https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&name=IDOR in dreamhack.io&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&t=IDOR in dreamhack.io"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&text=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&is_video=false&description=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Leak all write ups via IDOR in dreamhack.io&body=Check out this article: https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&name=Leak all write ups via IDOR in dreamhack.io&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&t=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -109,7 +110,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        <a href="/">IDOR in dreamhack.io</a>
+        <a href="/">Leak all write ups via IDOR in dreamhack.io</a>
     </h1>
 
 
@@ -130,6 +131,11 @@
       
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Dreamhack/" rel="tag">Dreamhack</a>
+    </div>
+
 
     </div>
   </header>
@@ -152,14 +158,7 @@
 <li><a target="_blank" rel="noopener" href="https://patchday.io/reports/93">Report</a></li>
 </ul>
 <hr>
-<script>
-  link = document.createElement('link');
-  link.setAttribute('rel', 'shortcut icon');
-  link.setAttribute('type','image/x-icon');
-  link.setAttribute('href','https://s3.ap-northeast-2.amazonaws.com/patchday-media/861cb58a-f91a-4f8d-b8a7-b1623c33942f.png');
-  head = document.getElementsByTagName('head');
-  head[0].appendChild(link)
-</script>
+
   </div>
 </article>
 
@@ -182,16 +181,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&text=IDOR in dreamhack.io"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&is_video=false&description=IDOR in dreamhack.io"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=IDOR in dreamhack.io&body=Check out this article: https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=IDOR in dreamhack.io"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&name=IDOR in dreamhack.io&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&t=IDOR in dreamhack.io"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&text=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&is_video=false&description=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Leak all write ups via IDOR in dreamhack.io&body=Check out this article: https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&title=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&name=Leak all write ups via IDOR in dreamhack.io&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://blog.pocas.kr/2022/05/16/2022-05-15-IDOR-DR/&t=Leak all write ups via IDOR in dreamhack.io"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

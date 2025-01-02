@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html><head lang="en">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Dreamhack CTF (ERC1337) - Jeongwon Jo</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="This article is about write-up for the Dreamhack CTF. there is only one challenge, which contain incomplete signature verification logic and possible manipulation of _msgSender() via calldata bug" />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="P0cas.github.io/posts/2024-04-07-erc1337-dh/">
+  <meta property="og:site_name" content="Jeongwon Jo">
+  <meta property="og:title" content="Dreamhack CTF (ERC1337)">
+  <meta property="og:description" content="This article is about write-up for the Dreamhack CTF. there is only one challenge, which contain incomplete signature verification logic and possible manipulation of _msgSender() via calldata bug">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-04-07T02:00:53+00:00">
+    <meta property="article:modified_time" content="2024-04-07T02:00:53+00:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Dreamhack CTF (ERC1337)">
+  <meta name="twitter:description" content="This article is about write-up for the Dreamhack CTF. there is only one challenge, which contain incomplete signature verification logic and possible manipulation of _msgSender() via calldata bug">
+<script src="P0cas.github.io/js/feather.min.js"></script>
+	
+	
+        <link href="P0cas.github.io/css/fonts.11a1877508139eac0b5b4852ceb110c35641b3533321e66e39149e901ed5756b.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="P0cas.github.io/css/main.fa747a9bb099b7bfd5d71b78a6e8ca2e23a425384e48bf533f1d357aeb61d265.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="P0cas.github.io/css/dark.acc27faeb64bfb288fd545d29d5ec804495d962a1c2bee862cc5f8270ee6f6f8.css"   />
+	
+
+	
+	
+
+	
+	
+
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="/">Jeongwon Jo</a>
+	</div>
+	<nav>
+		
+		<a href="P0cas.github.io/">Home</a>
+		
+		<a href="P0cas.github.io/posts">All posts</a>
+		
+		<a href="https://pocas.kr">About</a>
+		
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Dreamhack CTF (ERC1337)</h1>
+			<div class="meta">Posted on Apr 7, 2024</div>
+		</div>
+		
+
+		
+
+		<section class="body">
+			<h2 id="개요">개요</h2>
+<p>ERC1337 문제는 Third Contract 분석을 통해서 에 구조를 파악하여 취약점을 악용하여 Owner가 가지고 있는 토큰을 탈취하는 문제이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>contract Level {
+</span></span><span style="display:flex;"><span>    ERC1337 public token;
+</span></span><span style="display:flex;"><span>    uint256 public solved;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    constructor() {
+</span></span><span style="display:flex;"><span>        token <span style="color:#f92672">=</span> new ERC1337(<span style="color:#e6db74">&#34;DHT&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function solve() external {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (token<span style="color:#f92672">.</span>balanceOf(address(this)) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            solved <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>ERC1337.sol</code> 파일을 보면 Level이라는 컨트랙트 내에 <code>solve()</code> 함수가 있다. 함수를 보면 Level 컨트랙트의 token 잔액이 1이면 문제가 풀리는 것을 확인할 수 있다. 1 ether가 아닌 1이다.</p>
+<hr>
+<h2 id="erc1337sol">ERC1337.sol</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>contract ERC1337 is ERC20, EIP712, Nonces, ERC2771Context {
+</span></span><span style="display:flex;"><span>    bytes32 private constant PERMIT1_TYPEHASH <span style="color:#f92672">=</span> keccak256(<span style="color:#e6db74">&#34;Permit(string note,address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)&#34;</span>);
+</span></span><span style="display:flex;"><span>    bytes32 private constant PERMIT2_TYPEHASH <span style="color:#f92672">=</span> keccak256(<span style="color:#e6db74">&#34;Permit(address origin,address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    error ERC2612ExpiredSignature();
+</span></span><span style="display:flex;"><span>    error ERC2612InvalidSigner();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    constructor(string memory name) ERC20(name, <span style="color:#e6db74">&#34;&#34;</span>) EIP712(name, <span style="color:#e6db74">&#34;1&#34;</span>) ERC2771Context(address(<span style="color:#ae81ff">0</span>)) {
+</span></span><span style="display:flex;"><span>        _mint(_msgSender(), <span style="color:#ae81ff">9999</span> ether);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function permitAndTransfer(
+</span></span><span style="display:flex;"><span>        string memory note,
+</span></span><span style="display:flex;"><span>        address owner,
+</span></span><span style="display:flex;"><span>        address spender,
+</span></span><span style="display:flex;"><span>        uint256 value,
+</span></span><span style="display:flex;"><span>        uint256 deadline,
+</span></span><span style="display:flex;"><span>        uint8 v,
+</span></span><span style="display:flex;"><span>        bytes32 r,
+</span></span><span style="display:flex;"><span>        bytes32 s
+</span></span><span style="display:flex;"><span>    ) public {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (block<span style="color:#f92672">.</span>timestamp <span style="color:#f92672">&gt;</span> deadline) {
+</span></span><span style="display:flex;"><span>            revert ERC2612ExpiredSignature();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>_verifySignatureType1(
+</span></span><span style="display:flex;"><span>            owner, 
+</span></span><span style="display:flex;"><span>            _hashTypedDataV4(keccak256(abi<span style="color:#f92672">.</span>encode(
+</span></span><span style="display:flex;"><span>                PERMIT1_TYPEHASH,
+</span></span><span style="display:flex;"><span>                note,
+</span></span><span style="display:flex;"><span>                owner,
+</span></span><span style="display:flex;"><span>                spender,
+</span></span><span style="display:flex;"><span>                value,
+</span></span><span style="display:flex;"><span>                _useNonce(owner),
+</span></span><span style="display:flex;"><span>                deadline
+</span></span><span style="display:flex;"><span>            ))), 
+</span></span><span style="display:flex;"><span>            v, r, s
+</span></span><span style="display:flex;"><span>        ) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>_verifySignatureType2(
+</span></span><span style="display:flex;"><span>            owner, 
+</span></span><span style="display:flex;"><span>            _hashTypedDataV4(keccak256(abi<span style="color:#f92672">.</span>encode(
+</span></span><span style="display:flex;"><span>                PERMIT2_TYPEHASH,
+</span></span><span style="display:flex;"><span>                tx<span style="color:#f92672">.</span>origin,
+</span></span><span style="display:flex;"><span>                owner,
+</span></span><span style="display:flex;"><span>                spender,
+</span></span><span style="display:flex;"><span>                value,
+</span></span><span style="display:flex;"><span>                _useNonce(owner),
+</span></span><span style="display:flex;"><span>                deadline
+</span></span><span style="display:flex;"><span>            ))), 
+</span></span><span style="display:flex;"><span>            v, r, s
+</span></span><span style="display:flex;"><span>        )) {
+</span></span><span style="display:flex;"><span>            revert ERC2612InvalidSigner();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        _approve(owner, spender, value);
+</span></span><span style="display:flex;"><span>        _transfer(owner, spender, value);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function ecrecover(
+</span></span><span style="display:flex;"><span>        bytes32 hash,
+</span></span><span style="display:flex;"><span>        uint8 v,
+</span></span><span style="display:flex;"><span>        bytes32 r,
+</span></span><span style="display:flex;"><span>        bytes32 s
+</span></span><span style="display:flex;"><span>    ) public pure returns (address) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ECDSA<span style="color:#f92672">.</span>recover(hash, v, r, s);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function _verifySignatureType1(
+</span></span><span style="display:flex;"><span>        address owner,
+</span></span><span style="display:flex;"><span>        bytes32 hash,
+</span></span><span style="display:flex;"><span>        uint8 v,
+</span></span><span style="display:flex;"><span>        bytes32 r,
+</span></span><span style="display:flex;"><span>        bytes32 s
+</span></span><span style="display:flex;"><span>    ) internal view returns (<span style="color:#a6e22e">bool</span>) {
+</span></span><span style="display:flex;"><span>        try this<span style="color:#f92672">.</span>ecrecover(hash, v, r, s) returns (address signer) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> signer <span style="color:#f92672">==</span> owner;
+</span></span><span style="display:flex;"><span>        } catch {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function _verifySignatureType2(
+</span></span><span style="display:flex;"><span>        address owner,
+</span></span><span style="display:flex;"><span>        bytes32 hash,
+</span></span><span style="display:flex;"><span>        uint8 v,
+</span></span><span style="display:flex;"><span>        bytes32 r,
+</span></span><span style="display:flex;"><span>        bytes32 s
+</span></span><span style="display:flex;"><span>    ) internal view returns (<span style="color:#a6e22e">bool</span>) {
+</span></span><span style="display:flex;"><span>        try this<span style="color:#f92672">.</span>ecrecover(hash, v, r, s) returns (address signer) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> signer <span style="color:#f92672">==</span> _msgSender() <span style="color:#f92672">||</span> signer <span style="color:#f92672">==</span> owner;
+</span></span><span style="display:flex;"><span>        } catch {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function nonces(address owner) public view override(Nonces) returns (uint256) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> super<span style="color:#f92672">.</span>nonces(owner);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function DOMAIN_SEPARATOR() external view returns (bytes32) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> _domainSeparatorV4();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function isTrustedForwarder(address forwarder) public view override(ERC2771Context) returns (<span style="color:#a6e22e">bool</span>) {
+</span></span><span style="display:flex;"><span>        uint256 calldataLength <span style="color:#f92672">=</span> msg<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>length;
+</span></span><span style="display:flex;"><span>        uint256 contextSuffixLength <span style="color:#f92672">=</span> _contextSuffixLength() <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (calldataLength <span style="color:#f92672">&gt;=</span> contextSuffixLength <span style="color:#f92672">&amp;&amp;</span> 
+</span></span><span style="display:flex;"><span>            bytes32(msg<span style="color:#f92672">.</span>data[calldataLength <span style="color:#f92672">-</span> contextSuffixLength:calldataLength <span style="color:#f92672">-</span> contextSuffixLength <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>]) <span style="color:#f92672">==</span> keccak256(abi<span style="color:#f92672">.</span>encode(name()))) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> super<span style="color:#f92672">.</span>isTrustedForwarder(forwarder);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>ERC1337.sol</code> 파일에 있는 <code>ERC1337</code> 컨트랙트이다. 보면 <code>EIP712</code>가 사용되고 있는 것을 볼 수 있는데, 이는 <code>Typed Structured Data</code>로 구조화된 데이터에 대한 해싱과 서명 검증을 위한 표준 프로토콜이다.</p>
+<p>토큰을 다른 사용자에게 전송하기 위해서 <code>permitAndTransfer()</code> 함수를 사용할 수 있다. <code>permitAndTransfer()</code> 함수를 보면 조건문 내에 조건이 2개가 있지만 둘 중에 하나만 만족하면 된다. 그러나 <code>_verifySignatureType1()</code> 함수를 보면 서명된 메시지를 통해 복구한 주소와 owner 주소와 비교하는 것을 볼 수 있다. 이는 즉, 메시지를 owner의 개인키로 서명해야 한다는 것인데 이는 불가능하다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    function _verifySignatureType2(
+</span></span><span style="display:flex;"><span>        address owner,
+</span></span><span style="display:flex;"><span>        bytes32 hash,
+</span></span><span style="display:flex;"><span>        uint8 v,
+</span></span><span style="display:flex;"><span>        bytes32 r,
+</span></span><span style="display:flex;"><span>        bytes32 s
+</span></span><span style="display:flex;"><span>    ) internal view returns (bool) {
+</span></span><span style="display:flex;"><span>        try this.ecrecover(hash, v, r, s) returns (address signer) {
+</span></span><span style="display:flex;"><span>            return signer == _msgSender() || signer == owner;
+</span></span><span style="display:flex;"><span>        } catch {
+</span></span><span style="display:flex;"><span>            return false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>그러나 <code>_verifySignatureType2()</code> 함수를 보면 누가봐도 이상한 로직이 있다. 복구한 주소를 그냥 owner 주소만을 가지고 비교하면 되는데 <code>_msgSender()</code> 함수의 반환 값을 복구한 주소와 비교하는 것을 볼 수 있다.</p>
+<hr>
+<h2 id="erc2771contextsol">ERC2771Context.sol</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    function _msgSender() internal view virtual override returns (address) {
+</span></span><span style="display:flex;"><span>        uint256 calldataLength = msg.data.length;
+</span></span><span style="display:flex;"><span>        uint256 contextSuffixLength = _contextSuffixLength();
+</span></span><span style="display:flex;"><span>        if (isTrustedForwarder(msg.sender) &amp;&amp; calldataLength &gt;= contextSuffixLength) {
+</span></span><span style="display:flex;"><span>            return address(bytes20(msg.data[calldataLength - contextSuffixLength:]));
+</span></span><span style="display:flex;"><span>        } else {
+</span></span><span style="display:flex;"><span>            return super._msgSender();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><code>_msgSender()</code> 함수는 <code>ERC2771Context.sol</code> 파일에 정의되어 있다. 코드를 보면 <code>isTrustedForwarder()</code> 함수를 호출하는 것을 볼 수 있는데 이는 <code>ERC1337.sol</code> 파일에 정의되어 있다.그리고 만약 조건이 부합하다면 전달받은 calldata의 마지막 20 바이트 값만 반환하는 것을 확인할 수 있다. 이 말은 위 조건을 맞춰주고, calldata의 마지막 20 바이트의 우리가 원하는 값을 넣는다면 <code>_msgSender()</code>의 반환 값을 조작할 수 있다는 뜻이다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>    function isTrustedForwarder(address forwarder) public view override(ERC2771Context) returns (bool) {
+</span></span><span style="display:flex;"><span>        uint256 calldataLength = msg.data.length;
+</span></span><span style="display:flex;"><span>        uint256 contextSuffixLength = _contextSuffixLength() + 32;
+</span></span><span style="display:flex;"><span>        if (calldataLength &gt;= contextSuffixLength &amp;&amp; 
+</span></span><span style="display:flex;"><span>            bytes32(msg.data[calldataLength - contextSuffixLength:calldataLength - contextSuffixLength + 32]) == keccak256(abi.encode(name()))) {
+</span></span><span style="display:flex;"><span>            return true;
+</span></span><span style="display:flex;"><span>        } else {
+</span></span><span style="display:flex;"><span>            return super.isTrustedForwarder(forwarder);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><code>isTrustedForwarder()</code> 함수를 보면 상위 32바이트의 값을 토큰의 이름을 ABI 인코딩하여 Keccak-256 해시한 값과 비교하는 것을 볼 수 있다. 그러니 calldata의 상위 32 바이트에는 토큰 이름은 DHT라는 값을 포함 시키면 된다.</p>
+<hr>
+<h2 id="eip712sol">EIP712.sol</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>    bytes32 private constant TYPE_HASH <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        keccak256(<span style="color:#e6db74">&#34;EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)&#34;</span>);
+</span></span><span style="display:flex;"><span>    function _domainSeparatorV4() internal view returns (bytes32) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (address(this) <span style="color:#f92672">==</span> _cachedThis <span style="color:#f92672">&amp;&amp;</span> block<span style="color:#f92672">.</span>chainid <span style="color:#f92672">==</span> _cachedChainId) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> _cachedDomainSeparator;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> _buildDomainSeparator();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    function _buildDomainSeparator() private view returns (bytes32) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> keccak256(abi<span style="color:#f92672">.</span>encode(TYPE_HASH, _hashedName, _hashedVersion, block<span style="color:#f92672">.</span>chainid, address(this)));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/**</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> <span style="color:#960050;background-color:#1e0010">@</span>dev Given an already https:<span style="color:#f92672">//</span>eips<span style="color:#f92672">.</span>ethereum<span style="color:#f92672">.</span>org<span style="color:#f92672">/</span>EIPS<span style="color:#f92672">/</span>eip<span style="color:#f92672">-</span><span style="color:#ae81ff">712</span><span style="color:#75715e">#definition-of-hashstruct[hashed struct], this</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> function returns the hash of the fully encoded EIP712 message <span style="color:#66d9ef">for</span> this domain<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> This hash can be used together with {ECDSA<span style="color:#f92672">-</span>recover} to obtain the signer of a message<span style="color:#f92672">.</span> For example:
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> <span style="color:#960050;background-color:#1e0010">```</span>solidity
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> bytes32 digest <span style="color:#f92672">=</span> _hashTypedDataV4(keccak256(abi<span style="color:#f92672">.</span>encode(
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span>     keccak256(<span style="color:#e6db74">&#34;Mail(address to,string contents)&#34;</span>),
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span>     mailTo,
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span>     keccak256(bytes(mailContents))
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> )));
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> address signer <span style="color:#f92672">=</span> ECDSA<span style="color:#f92672">.</span>recover(digest, signature);
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*</span> <span style="color:#960050;background-color:#1e0010">```</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">*/</span>
+</span></span><span style="display:flex;"><span>    function _hashTypedDataV4(bytes32 structHash) internal view virtual returns (bytes32) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> MessageHashUtils<span style="color:#f92672">.</span>toTypedDataHash(_domainSeparatorV4(), structHash);
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>ERC1337 내에서 주소 복구를 할 때, 서명과 함께 사용할 해시를 생성하는 방식은 EIP712.sol 파일 내에 있는 함수로 이루어진다. <code>_buildDomainSeparator()</code> 함수 내에서 해시 이름과 해시 버전은 ERC1337에서 상속되는 생성자를 보면 <code>EIP712(name, &quot;1&quot;)</code> 와 같이 하고 있기 때문에 각 각, DHT, 1로 설정하면 된다.</p>
+<hr>
+<h2 id="step-by-step">Step by Step</h2>
+<ol>
+<li>먼저 ERC1337 내에서 사용하는 동일한 방식으로 해시를 생성한다.</li>
+<li>생성한 해시로 임의의로 유효한 서명 값(v, r, s)를 생성한다. (vm.sign() 함수 이용)</li>
+<li>permitAndTransfer() 함수 호출을 위한 abi.encodeWithSelector를 생성하고, 토큰 이름인 DHT, 그리고 사용자 주소로, 32 + 20 바이트의 calldata를 생성한다.</li>
+<li>call() 함수를 호출해서 토큰 컨트랙트의 permitAndTransfer() 함수를 호출한다.</li>
+</ol>
+<p><img src="https://media.discordapp.net/attachments/962997469757702177/1226735774163271771/2024-04-08_12.29.39.png?ex=6625d9b8&amp;is=661364b8&amp;hm=3839aee09d076cd87e75c5f6fbcfb12e4e61eaa3e0564e9156d576411f6c926d&amp;=&amp;format=webp&amp;quality=lossless&amp;width=2902&amp;height=1204" alt=""></p>
+<p>위 과정을 거치면 <code>_msgSender()</code>의 값으로 공격자의 주소가 반환되어 <code>singer == _msgSender()</code> 조건을 맞춰줄 수 있다.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/P0cas" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a><a class="soc" href="https://t.me/jeongwon7" rel="me" title="Telegram"><i data-feather="telegram"></i></a>
+    <a class="border"></a></div>
+  <div class="footer-info">
+    2025  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+<script>
+  feather.replace()
+</script></div>
+    </body>
+</html>

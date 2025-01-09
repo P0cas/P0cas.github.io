@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Jeongwon Jo</title>
-    <link>https://P0cas.github.io/tags/</link>
+    <link>https://blog.404error.life/tags/</link>
     <description>Recent content in Tags on Jeongwon Jo</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="https://P0cas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.404error.life/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

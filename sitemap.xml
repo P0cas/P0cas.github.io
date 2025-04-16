@@ -2,113 +2,113 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/2025-04-15-css-exfiltration/</loc>
+    <loc>https://blog.404error.life/posts/2025-04-15-css-exfiltration/</loc>
     <lastmod>2025-04-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://blog.404error.life/</loc>
     <lastmod>2025-04-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://blog.404error.life/posts/</loc>
     <lastmod>2025-04-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2023-09-14-xss-in-ml-framework/</loc>
+    <loc>https://blog.404error.life/posts/2023-09-14-xss-in-ml-framework/</loc>
     <lastmod>2023-09-14T02:00:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2023-08-05-redos-in-github/</loc>
+    <loc>https://blog.404error.life/posts/2023-08-05-redos-in-github/</loc>
     <lastmod>2023-08-05T09:00:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2023-03-26-line-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2023-03-26-line-ctf/</loc>
     <lastmod>2023-03-26T09:00:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2023-03-23-htbctf2023/</loc>
+    <loc>https://blog.404error.life/posts/2023-03-23-htbctf2023/</loc>
     <lastmod>2023-03-23T22:13:49+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2023-03-19-b01lers/</loc>
+    <loc>https://blog.404error.life/posts/2023-03-19-b01lers/</loc>
     <lastmod>2023-03-19T22:13:49+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-12-18-rce-express-1/</loc>
+    <loc>https://blog.404error.life/posts/2022-12-18-rce-express-1/</loc>
     <lastmod>2022-12-18T21:41:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-11-19-logic-req.query/</loc>
+    <loc>https://blog.404error.life/posts/2022-11-19-logic-req.query/</loc>
     <lastmod>2022-11-19T21:41:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-09-25-cce/</loc>
+    <loc>https://blog.404error.life/posts/2022-09-25-cce/</loc>
     <lastmod>2022-09-25T04:00:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-08-23-sstf/</loc>
+    <loc>https://blog.404error.life/posts/2022-08-23-sstf/</loc>
     <lastmod>2022-08-23T04:00:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-06-06-msrc-1/</loc>
+    <loc>https://blog.404error.life/posts/2022-06-06-msrc-1/</loc>
     <lastmod>2022-06-06T12:34:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-05-15-idor-dr/</loc>
+    <loc>https://blog.404error.life/posts/2022-05-15-idor-dr/</loc>
     <lastmod>2022-05-16T12:34:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-04-02-xss-vditor/</loc>
+    <loc>https://blog.404error.life/posts/2022-04-02-xss-vditor/</loc>
     <lastmod>2022-04-02T12:34:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-03-27-line-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2022-03-27-line-ctf/</loc>
     <lastmod>2022-03-27T09:00:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-03-21-gon-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2022-03-21-gon-ctf/</loc>
     <lastmod>2022-03-21T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-03-05-xss-total.js/</loc>
+    <loc>https://blog.404error.life/posts/2022-03-05-xss-total.js/</loc>
     <lastmod>2022-03-05T06:51:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-02-28-codegate/</loc>
+    <loc>https://blog.404error.life/posts/2022-02-28-codegate/</loc>
     <lastmod>2022-02-28T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-02-19-rce-in-nasa/</loc>
+    <loc>https://blog.404error.life/posts/2022-02-19-rce-in-nasa/</loc>
     <lastmod>2022-02-19T12:32:45+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-02-13-hayyim-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2022-02-13-hayyim-ctf/</loc>
     <lastmod>2022-02-13T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-01-24-realwrold-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2022-01-24-realwrold-ctf/</loc>
     <lastmod>2022-01-24T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-11-29-cve-2021-3815/</loc>
+    <loc>https://blog.404error.life/posts/2021-11-29-cve-2021-3815/</loc>
     <lastmod>2021-11-29T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-09-26-cce/</loc>
+    <loc>https://blog.404error.life/posts/2021-09-26-cce/</loc>
     <lastmod>2021-09-26T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-09-26-downunder-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-09-26-downunder-ctf/</loc>
     <lastmod>2021-09-26T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-09-12-whitehat-contest/</loc>
+    <loc>https://blog.404error.life/posts/2021-09-12-whitehat-contest/</loc>
     <lastmod>2021-09-12T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-08-16-in-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-08-16-in-ctf/</loc>
     <lastmod>2021-08-16T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-08-04-uiu-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-08-04-uiu-ctf/</loc>
     <lastmod>2021-08-04T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-05-31-pwn2win/</loc>
+    <loc>https://blog.404error.life/posts/2021-05-31-pwn2win/</loc>
     <lastmod>2021-05-31T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-05-17-3k-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-05-17-3k-ctf/</loc>
     <lastmod>2021-05-17T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-03-21-line-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-03-21-line-ctf/</loc>
     <lastmod>2021-03-21T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-03-14-utctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-03-14-utctf/</loc>
     <lastmod>2021-03-14T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-03-08-zer0pts/</loc>
+    <loc>https://blog.404error.life/posts/2021-03-08-zer0pts/</loc>
     <lastmod>2021-03-08T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-02-28-trust-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-02-28-trust-ctf/</loc>
     <lastmod>2021-02-28T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-02-08-dice-ctf/</loc>
+    <loc>https://blog.404error.life/posts/2021-02-08-dice-ctf/</loc>
     <lastmod>2021-02-08T23:29:53+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://blog.404error.life/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://blog.404error.life/tags/</loc>
   </url>
 </urlset>

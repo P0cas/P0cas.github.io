@@ -39,15 +39,16 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
 <meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/page6/" />
+<meta property="og:url" content="http://localhost:4000/page6/" />
 <meta property="og:site_name" content="Web2.0" />
 <meta property="og:type" content="website" />
-<link rel="next" href="http://localhost:4000/page2" />
+<link rel="prev" href="http://localhost:4000/page5" />
+<link rel="next" href="http://localhost:4000/page7" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Web2.0" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","name":"anonymous","sameAs":["https://x.com/l0ptus"],"url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","url":"http://localhost:4000/page6/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -673,14 +674,14 @@
 <div id="post-list" class="flex-grow-1 px-xl-1">
   
     <article class="card-wrapper card">
-      <a href="/posts/Just-CTF-2025/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/In-CTF/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">JustCTF 2025 Positive Players Write Up</h1>
+            <h1 class="card-title my-2 mt-md-0">InCTF 2021 Notepad 1.5 - Arthur's Article Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -690,7 +691,16 @@
 
 
 
-                i joined in justctf 2025 to solve web challs, there were 7 web challs and i aimed to solve Simple Tasks and Positive Players. However Simple Tasks was really difficult that i couldn’t even approach...
+                What is Download Trigger?
+
+
+
+엔드포인트에서 Content-Disposition: attachment 헤더가 설정이 되면 브라우저는 응답을 하는 대신에 다운로드 할 파일을 탐색한다고 합니다. 특정 상황에 따라서 사용자의 계정 상태 및 여러 요소들에 따라서 달라지는 경우를 이용해서 중요 정보를 수집할 수 있습니다.
+
+
+
+
+Downl...
               </p>
             </div>
 
@@ -708,11 +718,11 @@
 
 <time
   
-  data-ts="1754179200"
+  data-ts="1629156593"
   data-df="ll"
   
 >
-  Aug  3, 2025
+  Aug 17, 2021
 </time>
 
 
@@ -730,14 +740,14 @@
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/css-exfiltration/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/UIU-CTF/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">CSS Exfiltration via attr() + image-set() from Chrome 133</h1>
+            <h1 class="card-title my-2 mt-md-0">UIU CTF 2021 yana Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -747,17 +757,11 @@
 
 
 
-                Summary
+                What is cache probing
 
-input[name=flag][value^=a]{
-    background: url(&#39;https://evm.pics/a&#39;);
-}
-input[name=flag][value^=b]{
-    background: url(&#39;https://evm.pics/b&#39;);
-}
-/* ... */
 
-In most cases, when exploiting ...
+
+It is said that the loading speed of the resource file is different from the first time the browser loads the resource file and from the second time. The reason is that the...
               </p>
             </div>
 
@@ -775,11 +779,11 @@ In most cases, when exploiting ...
 
 <time
   
-  data-ts="1744675200"
+  data-ts="1628119793"
   data-df="ll"
   
 >
-  Apr 15, 2025
+  Aug  5, 2021
 </time>
 
 
@@ -797,14 +801,14 @@ In most cases, when exploiting ...
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/XSS-in-ML-Framework/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/Pwn2win/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</h1>
+            <h1 class="card-title my-2 mt-md-0">pwn2win CTF Illusion Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -814,7 +818,11 @@ In most cases, when exploiting ...
 
 
 
-                Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to...
+                Analysis : Introduce
+
+
+
+위 사진을 보면 fast-json-patch 모듈의 applyPatch() 메서드를 이용해서 a라는 메서드를 패치 시켜주는데, 이때 내부 오퍼레이션에 의해서 Prototype Pollution 취약점이 발생한다. 인자로는 2개의 값을 보내주는 것을 볼 수 있다. 첫 번째 인자는 패치할 주체가 들어가고, 두 번...
               </p>
             </div>
 
@@ -832,11 +840,11 @@ In most cases, when exploiting ...
 
 <time
   
-  data-ts="1694656853"
+  data-ts="1622503793"
   data-df="ll"
   
 >
-  Sep 14, 2023
+  Jun  1, 2021
 </time>
 
 
@@ -854,14 +862,14 @@ In most cases, when exploiting ...
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/ReDos-in-Github/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/3K-CTF/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">0-Day, Copy and Paste ReDoS in github.com</h1>
+            <h1 class="card-title my-2 mt-md-0">3k CTF 2021 online_compiler Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -871,14 +879,11 @@ In most cases, when exploiting ...
 
 
 
-                Summary
-In summary, I found a Self-ReDoS vulnerability in the issue feature of github.com and reported it to HackerOne.
+                
+  The online_compiler challenge is bypass the disable_functions and get the flag.
 
 
-Analysis
-
-function onPaste$1(event) {
-    const { currentTarget: el } = eve...
+First at challenge, Given the back-end code and php.ini file. When execute the php code at back-end you just nee...
               </p>
             </div>
 
@@ -896,11 +901,11 @@ function onPaste$1(event) {
 
 <time
   
-  data-ts="1691226053"
+  data-ts="1621294193"
   data-df="ll"
   
 >
-  Aug  5, 2023
+  May 18, 2021
 </time>
 
 
@@ -925,7 +930,7 @@ function onPaste$1(event) {
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Line CTF 2023 Write Up</h1>
+            <h1 class="card-title my-2 mt-md-0">Line CTF 2021 diveinternal Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -936,17 +941,19 @@ function onPaste$1(event) {
 
 
                 
-  (Web) Baby Simple Gocurl 
-  (Web) Adult Simple Gocurl
 
-
-These two challenges require reading flag in the /flag/ path via SSRF.
+I solved one challenge for web
 
 
 
-(Web) Baby Simple Gocurl
+(Web) diveinternal [50 pts]
 
-n.startsWith(&quot;https://&quot;) || n.startsWi...
+
+  The diveinternal challenge is to get a flag using an ssrf vulenrability.
+
+
+var express = require(&#39;express&#39;);
+var request = requir...
               </p>
             </div>
 
@@ -964,11 +971,11 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
 <time
   
-  data-ts="1679821253"
+  data-ts="1616369393"
   data-df="ll"
   
 >
-  Mar 26, 2023
+  Mar 22, 2021
 </time>
 
 
@@ -996,8 +1003,8 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
     <!-- left arrow -->
     
 
-    <li class="page-item disabled">
-      <a class="page-link" href="#" aria-label="previous-page">
+    <li class="page-item ">
+      <a class="page-link" href="/page5" aria-label="previous-page">
         <i class="fas fa-angle-left"></i>
       </a>
     </li>
@@ -1017,47 +1024,11 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
       
         <!-- show number -->
-        <li class="page-item  active">
+        <li class="page-item ">
           <a
             class="page-link"
             href="/"
           >1</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page2"
-          >2</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page3"
-          >3</a>
         </li>
       
     
@@ -1118,6 +1089,42 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
         <li class="page-item ">
           <a
             class="page-link"
+            href="/page5"
+          >5</a>
+        </li>
+      
+    
+      
+      
+      
+      
+      
+
+      
+
+      
+        <!-- show number -->
+        <li class="page-item  active">
+          <a
+            class="page-link"
+            href="/page6"
+          >6</a>
+        </li>
+      
+    
+      
+      
+      
+      
+      
+
+      
+
+      
+        <!-- show number -->
+        <li class="page-item ">
+          <a
+            class="page-link"
             href="/page7"
           >7</a>
         </li>
@@ -1126,7 +1133,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
     <!-- mobile pagination -->
     <li class="page-index align-middle">
-      <span>1</span>
+      <span>6</span>
       <span class="text-muted">/ 7</span>
     </li>
 
@@ -1134,7 +1141,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
     
 
     <li class="page-item ">
-      <a class="page-link" href="/page2" aria-label="next-page">
+      <a class="page-link" href="/page7" aria-label="next-page">
         <i class="fas fa-angle-right"></i>
       </a>
     </li>

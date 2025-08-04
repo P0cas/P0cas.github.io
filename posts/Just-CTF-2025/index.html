@@ -1135,7 +1135,7 @@
 </pre></td></tr></tbody></table></code></div></div>
 <p>However, in /theme, <code class="language-plaintext highlighter-rouge">parseQueryparams()</code> function will be called before the objects are merged via <code class="language-plaintext highlighter-rouge">deepmerge()</code> function then used it in the second arg of <code class="language-plaintext highlighter-rouge">deepMerge()</code> but <code class="language-plaintext highlighter-rouge">parseQueryparams()</code> function sanitizes properties (__proto__, prototype, constructor) that can be exploited for <code class="language-plaintext highlighter-rouge">Prototype Pollution</code></p>
 
-<p><a href="/assets/img/2025/JustCTF/1.png" class="popup img-link  shimmer"><img src="/assets/img/2025/JustCTF/1.png" alt="" loading="lazy"></a></p>
+<p><a href="/assets/img/2025/justCTF/1.png" class="popup img-link  shimmer"><img src="/assets/img/2025/justCTF/1.png" alt="" loading="lazy"></a></p>
 
 <p>anyway, do you think we just should to pollution like <code class="language-plaintext highlighter-rouge">__proto__.isAdmin</code> or <code class="language-plaintext highlighter-rouge">constructor.prototype.isAdmin</code>? actually not, as you can see, Object has a lot of properties. so back to the condition we need to the solve: <code class="language-plaintext highlighter-rouge">users[req.session.userId].isAdmin == true</code></p>
 
@@ -1171,11 +1171,11 @@
 </pre></td></tr></tbody></table></code></div></div>
 <p>and why we can log in with properties of object without registering is cuz the properties used are contained in the user object</p>
 
-<p><a href="/assets/img/2025/JustCTF/2.png" class="popup img-link  shimmer"><img src="/assets/img/2025/JustCTF/2.png" alt="" loading="lazy"></a></p>
+<p><a href="/assets/img/2025/justCTF/2.png" class="popup img-link  shimmer"><img src="/assets/img/2025/justCTF/2.png" alt="" loading="lazy"></a></p>
 
 <p>so just log in with any id then request to /theme?valueOf.isAdmin=1 (valueOf, tostring, toLocaleString, etc, everything is ok)</p>
 
-<p><a href="/assets/img/2025/JustCTF/3.png" class="popup img-link  shimmer"><img src="/assets/img/2025/JustCTF/3.png" alt="" loading="lazy"></a></p>
+<p><a href="/assets/img/2025/justCTF/3.png" class="popup img-link  shimmer"><img src="/assets/img/2025/justCTF/3.png" alt="" loading="lazy"></a></p>
 
 <p>then just log in with valueOf (password field should be deleted) and get a flag</p>
 

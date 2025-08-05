@@ -942,7 +942,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="713 words"
+  title="712 words"
 >
   <em>3 min</em> read</span>
 
@@ -1025,7 +1025,7 @@
   <span class="nx">res</span><span class="p">.</span><span class="nf">redirect</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">);</span>
 <span class="p">});</span>
 </pre></td></tr></tbody></table></code></div></div>
-<p>When we register an account, the account is always set to  <code class="language-plaintext highlighter-rouge">isAdmin: false</code> so we should find a way to pollution the isAdmin property</p>
+<p>When we register an account, the account is always set to  <code class="language-plaintext highlighter-rouge">isAdmin: false</code> so we should find a way to pollute the isAdmin property</p>
 
 <div class="language-javascript highlighter-rouge"><div class="code-header">
         <span data-label-text="JavaScript"><i class="fas fa-code fa-fw small"></i></span>
@@ -1137,7 +1137,7 @@
 
 <p><a href="/assets/img/2025/justCTF/1.png" class="popup img-link  shimmer"><img src="/assets/img/2025/justCTF/1.png" alt="" loading="lazy"></a></p>
 
-<p>anyway, do you think we just should to pollution like <code class="language-plaintext highlighter-rouge">__proto__.isAdmin</code> or <code class="language-plaintext highlighter-rouge">constructor.prototype.isAdmin</code>? actually not, as you can see, Object has a lot of properties. so back to the condition we need to the solve: <code class="language-plaintext highlighter-rouge">users[req.session.userId].isAdmin == true</code></p>
+<p>anyway, do you think we should only pollute like <code class="language-plaintext highlighter-rouge">__proto__.isAdmin</code> or <code class="language-plaintext highlighter-rouge">constructor.prototype.isAdmin</code>? actually not, as you can see, Object has a lot of properties. so back to the condition we need to the solve: <code class="language-plaintext highlighter-rouge">users[req.session.userId].isAdmin == true</code></p>
 
 <div class="language-javascript highlighter-rouge"><div class="code-header">
         <span data-label-text="JavaScript"><i class="fas fa-code fa-fw small"></i></span>
@@ -1173,11 +1173,11 @@
 
 <p><a href="/assets/img/2025/justCTF/2.png" class="popup img-link  shimmer"><img src="/assets/img/2025/justCTF/2.png" alt="" loading="lazy"></a></p>
 
-<p>so just log in with any id then request to /theme?valueOf.isAdmin=1 (valueOf, tostring, toLocaleString, etc, everything is ok)</p>
+<p>so just log in as random id then request to /theme?valueOf.isAdmin=1 (valueOf, tostring, toLocaleString, etc, everything is ok)</p>
 
 <p><a href="/assets/img/2025/justCTF/3.png" class="popup img-link  shimmer"><img src="/assets/img/2025/justCTF/3.png" alt="" loading="lazy"></a></p>
 
-<p>then just log in with valueOf (password field should be deleted) and get a flag</p>
+<p>then just log in as valueOf (password field should be deleted) and get a flag</p>
 
   </div>
 

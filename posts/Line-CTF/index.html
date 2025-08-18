@@ -816,7 +816,7 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="791 words"
+  title="873 words"
 >
   <em>4 min</em> read</span>
 
@@ -828,7 +828,7 @@
 
   <div class="content">
     <ul>
-  <li><a href="#web-baby-simple-gocurl">(Web) Baby Simple Gocurl </a></li>
+  <li><a href="#web-baby-simple-gocurl">(Web) Baby Simple Gocurl</a></li>
   <li><a href="#web-adult-simple-gocurl">(Web) Adult Simple Gocurl</a></li>
 </ul>
 
@@ -843,96 +843,181 @@
 </pre></td><td class="rouge-code"><pre><span class="nx">n</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://</span><span class="dl">"</span><span class="p">)</span> <span class="o">||</span> <span class="nx">n</span><span class="p">.</span><span class="nf">startsWith</span><span class="p">(</span><span class="dl">"</span><span class="s2">http://</span><span class="dl">"</span><span class="p">)</span> <span class="p">?</span> <span class="nb">window</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="dl">"</span><span class="s2">_self</span><span class="dl">"</span><span class="p">)</span> <span class="p">:</span> <span class="nx">r</span><span class="p">.</span><span class="nx">router</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">redirect_link</span> <span class="p">?</span> <span class="nx">n</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">/portal</span><span class="dl">"</span><span class="p">)</span>
 </pre></td></tr></tbody></table></code></div></div>
 
-<pre><code class="language-Go">	r.GET("/flag/", func(c *gin.Context) {
-		reqIP := strings.Split(c.Request.RemoteAddr, ":")[0]
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre>	<span class="n">r</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/flag/"</span><span class="p">,</span> <span class="k">func</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span><span class="n">gin</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">reqIP</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">RemoteAddr</span><span class="p">,</span> <span class="s">":"</span><span class="p">)[</span><span class="m">0</span><span class="p">]</span>
 
-		log.Println("[+] IP : " + reqIP)
-		if reqIP == "127.0.0.1" {
-			c.JSON(http.StatusOK, gin.H{
-				"message": flag,
-			})
-			return
-		}
+		<span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"[+] IP : "</span> <span class="o">+</span> <span class="n">reqIP</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">reqIP</span> <span class="o">==</span> <span class="s">"127.0.0.1"</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span>
+				<span class="s">"message"</span><span class="o">:</span> <span class="n">flag</span><span class="p">,</span>
+			<span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
 
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "You are a Guest, This is only for Host",
-		})
-	})
-</code></pre>
+		<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span>
+			<span class="s">"message"</span><span class="o">:</span> <span class="s">"You are a Guest, This is only for Host"</span><span class="p">,</span>
+		<span class="p">})</span>
+	<span class="p">})</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>first, to read the <code class="language-plaintext highlighter-rouge">Flag</code>, a request must be made using the <code class="language-plaintext highlighter-rouge">127.0.0.1</code> IP.</p>
 
-<pre><code class="language-Go">	r.GET("/curl/", func(c *gin.Context) {
-		client := &amp;http.Client{
-			CheckRedirect: func(req *http.Request, via []*http.Request) error {
-				return redirectChecker(req, via)
-			},
-		}
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+</pre></td><td class="rouge-code"><pre>	<span class="n">r</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s">"/curl/"</span><span class="p">,</span> <span class="k">func</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span><span class="n">gin</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">client</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Client</span><span class="p">{</span>
+			<span class="n">CheckRedirect</span><span class="o">:</span> <span class="k">func</span><span class="p">(</span><span class="n">req</span> <span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">,</span> <span class="n">via</span> <span class="p">[]</span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="n">redirectChecker</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">via</span><span class="p">)</span>
+			<span class="p">},</span>
+		<span class="p">}</span>
 
-		reqUrl := strings.ToLower(c.Query("url"))
-		reqHeaderKey := c.Query("header_key")
-		reqHeaderValue := c.Query("header_value")
-		reqIP := strings.Split(c.Request.RemoteAddr, ":")[0]
-		fmt.Println("[+] " + reqUrl + ", " + reqIP + ", " + reqHeaderKey + ", " + reqHeaderValue)
+		<span class="n">reqUrl</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">ToLower</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="s">"url"</span><span class="p">))</span>
+		<span class="n">reqHeaderKey</span> <span class="o">:=</span> <span class="n">c</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="s">"header_key"</span><span class="p">)</span>
+		<span class="n">reqHeaderValue</span> <span class="o">:=</span> <span class="n">c</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="s">"header_value"</span><span class="p">)</span>
+		<span class="n">reqIP</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">RemoteAddr</span><span class="p">,</span> <span class="s">":"</span><span class="p">)[</span><span class="m">0</span><span class="p">]</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"[+] "</span> <span class="o">+</span> <span class="n">reqUrl</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">reqIP</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">reqHeaderKey</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">reqHeaderValue</span><span class="p">)</span>
 
-		if c.ClientIP() != "127.0.0.1" &amp;&amp; (strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%")) {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
-			return
-		}
+		<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">ClientIP</span><span class="p">()</span> <span class="o">!=</span> <span class="s">"127.0.0.1"</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"flag"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"curl"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"%"</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span><span class="s">"message"</span><span class="o">:</span> <span class="s">"Something wrong"</span><span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
 
-		req, err := http.NewRequest("GET", reqUrl, nil)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
-			return
-		}
+		<span class="n">req</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">reqUrl</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span><span class="s">"message"</span><span class="o">:</span> <span class="s">"Something wrong"</span><span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
 
-		if reqHeaderKey != "" || reqHeaderValue != "" {
-			req.Header.Set(reqHeaderKey, reqHeaderValue)
-		}
+		<span class="k">if</span> <span class="n">reqHeaderKey</span> <span class="o">!=</span> <span class="s">""</span> <span class="o">||</span> <span class="n">reqHeaderValue</span> <span class="o">!=</span> <span class="s">""</span> <span class="p">{</span>
+			<span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">reqHeaderKey</span><span class="p">,</span> <span class="n">reqHeaderValue</span><span class="p">)</span>
+		<span class="p">}</span>
 
-		resp, err := client.Do(req)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
-			return
-		}
+		<span class="n">resp</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">client</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span><span class="s">"message"</span><span class="o">:</span> <span class="s">"Something wrong"</span><span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
 
-		defer resp.Body.Close()
+		<span class="k">defer</span> <span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
 
-		bodyText, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
-			return
-		}
-		statusText := resp.Status
+		<span class="n">bodyText</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span><span class="s">"message"</span><span class="o">:</span> <span class="s">"Something wrong"</span><span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+		<span class="n">statusText</span> <span class="o">:=</span> <span class="n">resp</span><span class="o">.</span><span class="n">Status</span>
 
-		c.JSON(http.StatusOK, gin.H{
-			"body":   string(bodyText),
-			"status": statusText,
-		})
-	})
-</code></pre>
+		<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span>
+			<span class="s">"body"</span><span class="o">:</span>   <span class="kt">string</span><span class="p">(</span><span class="n">bodyText</span><span class="p">),</span>
+			<span class="s">"status"</span><span class="o">:</span> <span class="n">statusText</span><span class="p">,</span>
+		<span class="p">})</span>
+	<span class="p">})</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>in this challenge, we can use the http module to send a request to the desired web service and get the response value.</p>
 
 <p>Get the parameter values of <code class="language-plaintext highlighter-rouge">url</code>, <code class="language-plaintext highlighter-rouge">header_key</code>, and <code class="language-plaintext highlighter-rouge">header_value</code> from the parameters received from the user.</p>
 
-<pre><code class="language-Go">		if c.ClientIP() != "127.0.0.1" &amp;&amp; (strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%")) {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
-			return
-		}
-</code></pre>
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>		<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">ClientIP</span><span class="p">()</span> <span class="o">!=</span> <span class="s">"127.0.0.1"</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"flag"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"curl"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"%"</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span><span class="s">"message"</span><span class="o">:</span> <span class="s">"Something wrong"</span><span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>but this challenge has a validation process as above. The IP of the user we currently delivered must be <code class="language-plaintext highlighter-rouge">127.0.0.1</code>, and the characters <code class="language-plaintext highlighter-rouge">flag</code>, <code class="language-plaintext highlighter-rouge">curl</code>, <code class="language-plaintext highlighter-rouge">%</code> must not be included in the url value we sent.</p>
 
-<pre><code class="language-Go">if c.ClientIP() != "127.0.0.1" &amp;&amp; (strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%"))
-</code></pre>
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">ClientIP</span><span class="p">()</span> <span class="o">!=</span> <span class="s">"127.0.0.1"</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"flag"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"curl"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"%"</span><span class="p">))</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>oops but the conditional statement is a bit weird. we can bypass this by making it operate like false &amp;&amp; true.</p>
 
-<pre><code class="language-Go">// https://github.com/gin-gonic/gin/blob/457fabd7e14f36ca1b5f302f7247efeb4690e49c/context.go#L768
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="c">// https://github.com/gin-gonic/gin/blob/457fabd7e14f36ca1b5f302f7247efeb4690e49c/context.go#L768</span>
 
-// ClientIP implements one best effort algorithm to return the real client IP.
-// It calls c.RemoteIP() under the hood, to check if the remote IP is a trusted proxy or not.
-// If it is it will then try to parse the headers defined in Engine.RemoteIPHeaders (defaulting to [X-Forwarded-For, X-Real-Ip]).
-// If the headers are not syntactically valid OR the remote IP does not correspond to a trusted proxy,
-// the remote IP (coming from Request.RemoteAddr) is returned.
-</code></pre>
+<span class="c">// ClientIP implements one best effort algorithm to return the real client IP.</span>
+<span class="c">// It calls c.RemoteIP() under the hood, to check if the remote IP is a trusted proxy or not.</span>
+<span class="c">// If it is it will then try to parse the headers defined in Engine.RemoteIPHeaders (defaulting to [X-Forwarded-For, X-Real-Ip]).</span>
+<span class="c">// If the headers are not syntactically valid OR the remote IP does not correspond to a trusted proxy,</span>
+<span class="c">// the remote IP (coming from Request.RemoteAddr) is returned.</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>There is a comment as above in the part where the ClientIP() function is defined.</p>
 
 <p><a href="https://cdn.discordapp.com/attachments/1046394803270713456/1089401834793353317/2023-03-26_13.13.50.png" class="popup img-link  shimmer"><img src="https://cdn.discordapp.com/attachments/1046394803270713456/1089401834793353317/2023-03-26_13.13.50.png" alt="" loading="lazy"></a></p>
@@ -940,17 +1025,28 @@
 <hr />
 <h1 id="web-adult-simple-gocurl">(Web) Adult Simple Gocurl</h1>
 
-<pre><code class="language-Go">		if strings.Contains(reqUrl, "flag") || strings.Contains(reqUrl, "curl") || strings.Contains(reqUrl, "%") {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Something wrong"})
-			return
-		}
-</code></pre>
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>		<span class="k">if</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"flag"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"curl"</span><span class="p">)</span> <span class="o">||</span> <span class="n">strings</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reqUrl</span><span class="p">,</span> <span class="s">"%"</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">c</span><span class="o">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">StatusBadRequest</span><span class="p">,</span> <span class="n">gin</span><span class="o">.</span><span class="n">H</span><span class="p">{</span><span class="s">"message"</span><span class="o">:</span> <span class="s">"Something wrong"</span><span class="p">})</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>all the code in this challenge is the same as baby. but the difference is the conditional statement above. we can’t bypass the conditional now</p>
 
-<pre><code class="language-Go">		if reqHeaderKey != "" || reqHeaderValue != "" {
-			req.Header.Set(reqHeaderKey, reqHeaderValue)
-		}
-</code></pre>
+<div class="language-golang highlighter-rouge"><div class="code-header">
+        <span data-label-text="Golang"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>		<span class="k">if</span> <span class="n">reqHeaderKey</span> <span class="o">!=</span> <span class="s">""</span> <span class="o">||</span> <span class="n">reqHeaderValue</span> <span class="o">!=</span> <span class="s">""</span> <span class="p">{</span>
+			<span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Set</span><span class="p">(</span><span class="n">reqHeaderKey</span><span class="p">,</span> <span class="n">reqHeaderValue</span><span class="p">)</span>
+		<span class="p">}</span>
+</pre></td></tr></tbody></table></code></div></div>
 <p>But we can add any HTTP headers we want using header append logic</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="code-header">
@@ -1015,6 +1111,16 @@ Location: http://localhost:8624/test-service/docs/index.html
     
 
     <!-- tags -->
+    
+      <div class="post-tags">
+        <i class="fa fa-tags fa-fw me-1"></i>
+        
+          <a
+            href="/tags/ctf/"
+            class="post-tag no-text-decoration"
+          >CTF</a>
+        
+      </div>
     
 
     <div
@@ -1142,7 +1248,7 @@ Location: http://localhost:8624/test-service/docs/index.html
     <div class="d-flex flex-wrap mt-3 mb-1 me-3">
       
         
-        <a class="post-tag btn btn-outline-primary" href="/tags/microsoft/">Microsoft</a>
+        <a class="post-tag btn btn-outline-primary" href="/tags/ctf/">CTF</a>
       
     </div>
   </section>
@@ -1189,6 +1295,265 @@ Location: http://localhost:8624/test-service/docs/index.html
 
 
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
 
 
@@ -1198,6 +1563,148 @@ Location: http://localhost:8624/test-service/docs/index.html
 
 
 
+
+
+  <aside id="related-posts" aria-labelledby="related-label">
+    <h3 class="mb-4" id="related-label">Further Reading</h3>
+    <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+      
+        <article class="col">
+          <a href="/posts/Hayyim-CTF/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1644794993"
+  data-df="ll"
+  
+>
+  Feb 14, 2022
+</time>
+
+              <h4 class="pt-0 my-2">Hayyim CTF 2022 Write Up</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  Summary
+
+This weekend, Hayyim Security hosted the CTF, and I participated in it for about 3 ~ 4 hours and I was solved Cyberchef, Not E and Cyber Headchef challenges.
+
+
+
+(Web) Cyberchef [100 pts]
+
+...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/GoN-CTF/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1647905393"
+  data-df="ll"
+  
+>
+  Mar 22, 2022
+</time>
+
+              <h4 class="pt-0 my-2">Spring GoN Open Qual CTF 2022 Write Up</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  Summary
+
+This time I did participate in CTF because GoN team of Kaist hosted the CTF. I was hacking to dawn after long time and I solved two challenges:ColorfulMemo, NSS.
+
+
+  Summary
+    
+      (Q)...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/Line-CTF-2022/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1648371653"
+  data-df="ll"
+  
+>
+  Mar 27, 2022
+</time>
+
+              <h4 class="pt-0 my-2">Line CTF 2022 Write Up</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  Summary
+
+
+  Summary
+  (Web) gotm
+  (Web) online-library
+
+
+I participated a Line CTF 2022 this saturday and I only solved the one challenge in this ctf.
+
+So I am very not good. Just get a stress. So...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+    </nav>
+  </aside>
+  <!-- #related-posts -->
 
 
             
@@ -1284,7 +1791,7 @@ style="background-color:#030014"
     <div class="d-flex flex-wrap mt-3 mb-1 me-3">
       
         
-        <a class="post-tag btn btn-outline-primary" href="/tags/microsoft/">Microsoft</a>
+        <a class="post-tag btn btn-outline-primary" href="/tags/ctf/">CTF</a>
       
     </div>
   </section>

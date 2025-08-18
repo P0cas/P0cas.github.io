@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Web2.0</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing.</subtitle>
-  <updated>2025-08-05T16:13:48+09:00</updated>
+  <updated>2025-08-18T12:44:51+09:00</updated>
   <author>
     <name>anonymous</name>
     <uri>http://localhost:4000/</uri>
@@ -17,6 +17,50 @@
   <icon>/assets/img/favicons/favicon.ico</icon>
   <logo>/assets/img/favicons/favicon-96x96.png</logo>
 
+
+  
+  <entry>
+    <title>Sekai 2025 Sekai Bank - Signature</title>
+    <link href="http://localhost:4000/posts/Sekai-CTF-2025/" rel="alternate" type="text/html" title="Sekai 2025 Sekai Bank - Signature" />
+    <published>2025-08-16T09:00:00+09:00</published>
+  
+    <updated>2025-08-16T09:00:00+09:00</updated>
+  
+    <id>http://localhost:4000/posts/Sekai-CTF-2025/</id>
+    <content src="http://localhost:4000/posts/Sekai-CTF-2025/" />
+    <author>
+      <name>anonymous</name>
+    </author>
+
+  
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      SSL Pinning
+
+
+
+before solving this challenge, we have to bypass SSL Pinning, i have bypass via objection
+
+Analysis
+        &amp;lt;activity
+            android:theme="@style/Theme.SekaiBank.NoActionBar"
+            android:name="com.sekai.bank.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"
+            android:preferMinimalPostProcessing="true"&amp;...
+    </summary>
+  
+
+  </entry>
 
   
   <entry>
@@ -169,54 +213,6 @@ function onPaste$1(event) {
     if (!textToPaste)
         return;
    ...
-    </summary>
-  
-
-  </entry>
-
-  
-  <entry>
-    <title>Line CTF 2023 Write Up</title>
-    <link href="http://localhost:4000/posts/Line-CTF/" rel="alternate" type="text/html" title="Line CTF 2023 Write Up" />
-    <published>2023-03-26T18:00:53+09:00</published>
-  
-    <updated>2023-03-26T18:00:53+09:00</updated>
-  
-    <id>http://localhost:4000/posts/Line-CTF/</id>
-    <content src="http://localhost:4000/posts/Line-CTF/" />
-    <author>
-      <name>anonymous</name>
-    </author>
-
-  
-    
-  
-
-  
-    <summary>
-      
-
-
-
-
-
-      
-  (Web) Baby Simple Gocurl 
-  (Web) Adult Simple Gocurl
-
-
-These two challenges require reading flag in the /flag/ path via SSRF.
-
-
-(Web) Baby Simple Gocurl
-
-n.startsWith("https://") || n.startsWith("http://") ? window.open(n, "_self") : r.router.set(a.redirect_link ? n : "/portal")
-
-
-	r.GET("/flag/", func(c *gin.Context) {
-		reqIP := strings.Split(c.Request.RemoteAddr, ":")[0]
-
-		log.Println("...
     </summary>
   
 

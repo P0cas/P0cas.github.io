@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Web2.0</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing.</subtitle>
-  <updated>2025-08-18T17:49:20+09:00</updated>
+  <updated>2025-08-19T17:22:34+09:00</updated>
   <author>
     <name>anonymous</name>
     <uri>http://localhost:4000/</uri>
@@ -20,8 +20,8 @@
 
   
   <entry>
-    <title>Sekai 2025 Sekai Bank - Signature</title>
-    <link href="http://localhost:4000/posts/Sekai-CTF-2025/" rel="alternate" type="text/html" title="Sekai 2025 Sekai Bank - Signature" />
+    <title>Sekai 2025 Sekai Bank - Signature, Transaction</title>
+    <link href="http://localhost:4000/posts/Sekai-CTF-2025/" rel="alternate" type="text/html" title="Sekai 2025 Sekai Bank - Signature, Transaction" />
     <published>2025-08-16T09:00:00+09:00</published>
   
     <updated>2025-08-16T09:00:00+09:00</updated>
@@ -44,7 +44,8 @@
 
 
 
-      SSL Pinning
+      Signature
+SSL Pinning
 
 
 
@@ -56,7 +57,7 @@ Analysis
             android:name="com.sekai.bank.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
-            android:preferMinimalPostProcessing="true"&amp;...
+            android:preferMinimalPostProcessi...
     </summary>
   
 

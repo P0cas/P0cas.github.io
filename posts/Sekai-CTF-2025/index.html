@@ -2150,7 +2150,7 @@
 <hr />
 <h2 id="fancy-web-unsolved"><span class="me-2">Fancy Web (Unsolved)</span><a href="#fancy-web-unsolved" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
 
-<p>the fancy web challenge is built on wordpress, with a custom plugin called fancy.”</p>
+<p>the fancy web challenge is built on wordpress, with a custom plugin called fancy</p>
 
 <h3 id="fancy-plugins"><span class="me-2">fancy plugins</span><a href="#fancy-plugins" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
 <div class="language-php highlighter-rouge"><div class="code-header">
@@ -2224,7 +2224,7 @@
                 <span class="p">}</span>
             <span class="p">}</span> 
 </pre></td></tr></tbody></table></code></div></div>
-<p>when a user sends a reqeust containing the serialized_data in the body, it is passed to the unserialize() function, during this process, if the object being deserialized defines a __wakeup() method, that method will typically be called automatically.”</p>
+<p>when a user sends a reqeust containing the serialized_data in the body, it is passed to the unserialize() function, during this process, if the object being deserialized defines a __wakeup() method, that method will typically be called automatically</p>
 
 <div class="language-php highlighter-rouge"><div class="code-header">
         <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
@@ -2322,7 +2322,7 @@
 <p>the securetablegenerator class defines a __wakeup() method which in turn calls several methods such as validateObjectIntegrity, performComplexValidation and others. so when we send the reqeust containing the serialized_data in the body, the __wakeup() method will be called</p>
 
 <blockquote>
-  <p>btw, hint 1 suggests taking a close look at in_array blah blah…”</p>
+  <p>btw, hint 1 suggests taking a close look at in_array blah blah…</p>
 </blockquote>
 
 <div class="language-php highlighter-rouge"><div class="code-header">
@@ -2360,7 +2360,7 @@
 </pre></td></tr></tbody></table></code></div></div>
 <p>digging deeper, i found the call to in_array() within the resetSecurityProperties() method</p>
 
-<p>in PHP, when an object is used in a string context (such as during comparison or output), its __toString() method is automatically called. According to the official php documentation, if a class is treated as a string, the __toString() method of that class will be called.</p>
+<p>in PHP, when an object is used in a string context (such as during comparison or output), its __toString() method is automatically called. According to the official php documentation, if a class is treated as a string, the __toString() method of that class will be called</p>
 
 <p>in this case, $this-&gt;allowedTags is an object, and whenever it is handled as a string, the __toString() method is called. this behavior allows us to leverage the __toString() method of specific WordPress classes for exploitation</p>
 
@@ -2591,7 +2591,7 @@ No match!
 
 <p><a href="/assets/img/2025/sekaiCTF/8.png" class="popup img-link  shimmer"><img src="/assets/img/2025/sekaiCTF/8.png" alt="" loading="lazy"></a></p>
 
-<p>to understand the next part, it’s important to note that in php, when an object implements the ArrayAccess interface, using array-like syntax to access its elements will automatically invoke the offsetGet() method</p>
+<p>to understand the next part, it’s important to note that in php, when an object implements the ArrayAccess interface, using array-like syntax to access its elements will automatically call the offsetGet() method</p>
 
 <div class="language-php highlighter-rouge"><div class="code-header">
         <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>

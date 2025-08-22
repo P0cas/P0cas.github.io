@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Web2.0</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing.</subtitle>
-  <updated>2025-08-19T17:28:40+09:00</updated>
+  <updated>2025-08-23T07:04:42+09:00</updated>
   <author>
     <name>anonymous</name>
     <uri>http://localhost:4000/</uri>
@@ -20,8 +20,8 @@
 
   
   <entry>
-    <title>Sekai 2025 Sekai Bank - Signature, Transaction</title>
-    <link href="http://localhost:4000/posts/Sekai-CTF-2025/" rel="alternate" type="text/html" title="Sekai 2025 Sekai Bank - Signature, Transaction" />
+    <title>Sekai 2025 Write Up</title>
+    <link href="http://localhost:4000/posts/Sekai-CTF-2025/" rel="alternate" type="text/html" title="Sekai 2025 Write Up" />
     <published>2025-08-16T09:00:00+09:00</published>
   
     <updated>2025-08-16T09:00:00+09:00</updated>

@@ -39,16 +39,15 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
 <meta property="og:description" content="A minimal, responsive and feature-rich Jekyll theme for technical writing." />
-<link rel="canonical" href="http://localhost:4000/page5/" />
-<meta property="og:url" content="http://localhost:4000/page5/" />
+<link rel="canonical" href="http://localhost:4000/page8/" />
+<meta property="og:url" content="http://localhost:4000/page8/" />
 <meta property="og:site_name" content="Web2.0" />
 <meta property="og:type" content="website" />
-<link rel="prev" href="http://localhost:4000/page4" />
-<link rel="next" href="http://localhost:4000/page6" />
+<link rel="prev" href="http://localhost:4000/page7" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Web2.0" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","url":"http://localhost:4000/page5/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A minimal, responsive and feature-rich Jekyll theme for technical writing.","headline":"Web2.0","url":"http://localhost:4000/page8/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -674,14 +673,14 @@
 <div id="post-list" class="flex-grow-1 px-xl-1">
   
     <article class="card-wrapper card">
-      <a href="/posts/RCE-in-NASA/" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="/posts/Dice-CTF/" class="post-preview row g-0 flex-md-row-reverse">
         
 
         
 
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">NASA, Remote Code Excution (0-Day Exploit)</h1>
+            <h1 class="card-title my-2 mt-md-0">Dice CTF 2021 Write Up</h1>
 
             <div class="card-text content mt-0 mb-3">
               <p>
@@ -691,18 +690,17 @@
 
 
 
-                Summary
-
-The psg.gsfc.nasa.gov was very vulnerable to Remote Code Execution.
+                
 
 
 
-Analysis
+(Web) Babier CSP [107 pts]
 
-docker pull nasapsg/psg
-docker run -it -p 3000:3000 nasapsg/psg /bin/sh
+The Babier CSP challenge is a simple CSP Bypass challenge.
 
-If you set as above, you can analy...
+&amp;lt;script nonce=LRGWAXOY98Es0zz0QOVmag==&amp;gt;
+elem.onclick = () =&amp;gt; {
+  location = &quot;/?name=&quot; + encodeUR...
               </p>
             </div>
 
@@ -720,270 +718,11 @@ If you set as above, you can analy...
 
 <time
   
-  data-ts="1645273965"
+  data-ts="1612826993"
   data-df="ll"
   
 >
-  Feb 19, 2022
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/Hayyim-CTF/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Hayyim CTF 2022 Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Summary
-
-This weekend, Hayyim Security hosted the CTF, and I participated in it for about 3 ~ 4 hours and I was solved Cyberchef, Not E and Cyber Headchef challenges.
-
-
-
-(Web) Cyberchef [100 pts]
-
-...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1644794993"
-  data-df="ll"
-  
->
-  Feb 14, 2022
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/RealWrold-CTF/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">Real World CTF 4th Hack into Skynet Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                
-There is no sql injection vulnerability in login logic, and login is generally not possible because there is no user account.
-
-def query_login_attempt():
-    username = flask.request.form.get(&#39;use...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1643066993"
-  data-df="ll"
-  
->
-  Jan 25, 2022
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/CVE-2021-3815/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">0-Day, Prototype Pollution in utils.js</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Summary
-
-
-  The @fabiocaccamo/utils.js is a package that provides methods with multiple functions for the convenience of developers. A vulnerability exists in one method included in this package.
-
-...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1638228593"
-  data-df="ll"
-  
->
-  Nov 30, 2021
-</time>
-
-
-                <!-- categories -->
-                
-              </div>
-
-              
-            </div>
-            <!-- .post-meta -->
-          </div>
-          <!-- .card-body -->
-        </div>
-      </a>
-    </article>
-  
-    <article class="card-wrapper card">
-      <a href="/posts/DownUnder-CTF/" class="post-preview row g-0 flex-md-row-reverse">
-        
-
-        
-
-        <div class="col-md-12">
-          <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0">DownUnderCTF 2021 Write Up</h1>
-
-            <div class="card-text content mt-0 mb-3">
-              <p>
-                
-
-
-
-
-
-                Web Challenge
-
-Inside Out [100 pts]
-
-
-  Inside Out 문제는 SSRF를 이용해 플래그를 획득하는 문제 입니다.
-
-
-
-
-문제로 들어오면 위와 같이 환영 한다고 인사를 해주며 밑에 Proxy Example라는 링크가 있는 것을 볼 수 있습니다.
-
-
-
-위 링크를 클릭 해 접속을 하면 위와 같이 url 파라미터를 이용해서...
-              </p>
-            </div>
-
-            <div class="post-meta flex-grow-1 d-flex align-items-end">
-              <div class="me-auto">
-                <!-- posted date -->
-                <i class="far fa-calendar fa-fw me-1"></i>
-                <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1632698993"
-  data-df="ll"
-  
->
-  Sep 27, 2021
+  Feb  9, 2021
 </time>
 
 
@@ -1012,7 +751,7 @@ Inside Out [100 pts]
     
 
     <li class="page-item ">
-      <a class="page-link" href="/page4" aria-label="previous-page">
+      <a class="page-link" href="/page7" aria-label="previous-page">
         <i class="fas fa-angle-left"></i>
       </a>
     </li>
@@ -1080,13 +819,8 @@ Inside Out [100 pts]
       
 
       
-        <!-- show number -->
-        <li class="page-item ">
-          <a
-            class="page-link"
-            href="/page4"
-          >4</a>
-        </li>
+        <!-- hide number -->
+        
       
     
       
@@ -1098,13 +832,8 @@ Inside Out [100 pts]
       
 
       
-        <!-- show number -->
-        <li class="page-item  active">
-          <a
-            class="page-link"
-            href="/page5"
-          >5</a>
-        </li>
+        <!-- hide number -->
+        
       
     
       
@@ -1134,13 +863,13 @@ Inside Out [100 pts]
       
 
       
-        <!-- hide number -->
-        
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
-          
-        
+        <!-- show number -->
+        <li class="page-item ">
+          <a
+            class="page-link"
+            href="/page7"
+          >7</a>
+        </li>
       
     
       
@@ -1153,7 +882,7 @@ Inside Out [100 pts]
 
       
         <!-- show number -->
-        <li class="page-item ">
+        <li class="page-item  active">
           <a
             class="page-link"
             href="/page8"
@@ -1164,15 +893,15 @@ Inside Out [100 pts]
 
     <!-- mobile pagination -->
     <li class="page-index align-middle">
-      <span>5</span>
+      <span>8</span>
       <span class="text-muted">/ 8</span>
     </li>
 
     <!-- right arrow -->
     
 
-    <li class="page-item ">
-      <a class="page-link" href="/page6" aria-label="next-page">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="next-page">
         <i class="fas fa-angle-right"></i>
       </a>
     </li>

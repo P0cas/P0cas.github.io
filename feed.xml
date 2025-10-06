@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Web2.0</title>
   <subtitle>A minimal, responsive and feature-rich Jekyll theme for technical writing.</subtitle>
-  <updated>2025-09-08T01:38:35+09:00</updated>
+  <updated>2025-10-07T05:57:05+09:00</updated>
   <author>
     <name>anonymous</name>
     <uri>http://localhost:4000/</uri>
@@ -17,6 +17,52 @@
   <icon>/assets/img/favicons/favicon.ico</icon>
   <logo>/assets/img/favicons/favicon-96x96.png</logo>
 
+
+  
+  <entry>
+    <title>Securinets CTF 2025  S3cret5 Write Up</title>
+    <link href="http://localhost:4000/posts/Secure-CTF-2025/" rel="alternate" type="text/html" title="Securinets CTF 2025  S3cret5 Write Up" />
+    <published>2025-10-06T09:03:31+09:00</published>
+  
+    <updated>2025-10-06T09:03:31+09:00</updated>
+  
+    <id>http://localhost:4000/posts/Secure-CTF-2025/</id>
+    <content src="http://localhost:4000/posts/Secure-CTF-2025/" />
+    <author>
+      <name>anonymous</name>
+    </author>
+
+  
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      there were 2 web challs but i just solved one chall which didn’t have many solver (it wasn’t there at first haha but it increased later haha was easy chall..)
+
+Where is the flag
+
+CREATE TABLE IF NOT EXISTS flags (
+  id SERIAL PRIMARY KEY,
+  flag TEXT NOT NULL
+);
+
+// (...)
+
+INSERT INTO flags (flag)
+VALUES ('Securinets{fake}');
+
+the flag was saved in the flags table, and there was no feature that...
+    </summary>
+  
+
+  </entry>
 
   
   <entry>
@@ -182,41 +228,6 @@ Analysis
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
             android:preferMinimalPostProcessi...
-    </summary>
-  
-
-  </entry>
-
-  
-  <entry>
-    <title>JustCTF 2025 Positive Players Write Up</title>
-    <link href="http://localhost:4000/posts/Just-CTF-2025/" rel="alternate" type="text/html" title="JustCTF 2025 Positive Players Write Up" />
-    <published>2025-08-03T09:00:00+09:00</published>
-  
-    <updated>2025-08-03T09:00:00+09:00</updated>
-  
-    <id>http://localhost:4000/posts/Just-CTF-2025/</id>
-    <content src="http://localhost:4000/posts/Just-CTF-2025/" />
-    <author>
-      <name>anonymous</name>
-    </author>
-
-  
-    
-  
-
-  
-    <summary>
-      
-
-
-
-
-
-      i joined in justctf 2025 to solve web challs, there were 7 web challs and i aimed to solve Simple Tasks and Positive Players. However Simple Tasks was really difficult that i couldn’t even approach to solve the chall but Positive Players was easy challs like we breath cuz i have solved a lot of challs ab Prototype Pollution
-
-app.get('/flag', isAuthenticated, (req, res, next)=&amp;gt;{
-  if(users[re...
     </summary>
   
 
